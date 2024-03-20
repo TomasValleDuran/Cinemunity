@@ -15,6 +15,8 @@ public class Main {
         sample1(entityManager);
 
         entityManager.close();
+
+        factory.close();
     }
 
     private static void sample1(EntityManager entityManager) {
