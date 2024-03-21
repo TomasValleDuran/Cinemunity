@@ -4,6 +4,7 @@
              version="2.0">
     <persistence-unit name="cinemunityDB">
         <class>org.example.model.User</class>
+        <class>org.example.model.Review</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>
@@ -13,6 +14,9 @@
 
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
+
+            <!-- Si se quiere actualizar la base de datos, descomentar la siguiente línea -->
+            <!--    <property name="hibernate.hbm2ddl.auto" value="update"/>   -->
         </properties>
 
     </persistence-unit>
