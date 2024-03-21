@@ -5,8 +5,7 @@ import org.example.model.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -14,41 +13,42 @@ public class Main {
 
         final EntityManager entityManager = factory.createEntityManager();
 
-        generateUsers(entityManager);
-        generateReview(entityManager, "user1");
+        testUserFollowsUserAndLikesReview(entityManager);
 
         entityManager.close();
 
         factory.close();
     }
 
-    private static void generateUsers(EntityManager entityManager) {
+    private static void testUserFollowsUserAndLikesReview(EntityManager entityManager) {
+        // Start a new transaction
         entityManager.getTransaction().begin();
 
-        final User user1 = new User("user1", "password1", "user1@gmail.com");
-        final User user2 = new User("user2", "password2", "user2@gmail.com");
+        // Create two new users
+        User user1 = new User("testUser1", "testPassword1", "testEmail1@test.com");
+        User user2 = new User("testUser2", "testPassword2", "testEmail2@test.com");
         entityManager.persist(user1);
         entityManager.persist(user2);
 
-        entityManager.getTransaction().commit();
-    }
+        // Create a new movie
+        Movie movie = new Movie("testMovie", "testDescription");
+        entityManager.persist(movie);
 
-    private static void generateReview(EntityManager entityManager, String username) {
-        entityManager.getTransaction().begin();
-
-
-        final User user = getUserByUsername(entityManager, username);
-        final Review review = new Review(user,"review from user 1", 8);
+        // User1 creates a new review on the movie
+        Review review = new Review(user1, movie, "testReview", 5);
         entityManager.persist(review);
 
-        entityManager.getTransaction().commit();
-    }
+        // User2 likes the review
+        user2.like(review);
 
-    private static User getUserByUsername(EntityManager entityManager, String username) {
-        String queryString = "SELECT u FROM User u WHERE u.user_name = :username";
-        TypedQuery<User> query = entityManager.createQuery(queryString, User.class);
-        query.setParameter("username", username);
-        List<User> users = query.getResultList();
-        return users.isEmpty() ? null : users.getFirst();
+        // User2 adds the movie to their wishlist
+        user2.addToWishlist(movie);
+
+        // User1 follows User2 and User2 follows User1
+        user1.follow(user2);
+        user2.follow(user1);
+
+        // Commit the transaction
+        entityManager.getTransaction().commit();
     }
 }
