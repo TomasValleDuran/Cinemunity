@@ -99,4 +99,8 @@ public class User {
         wishlist.remove(movie);
         movie.getWishlistedBy().remove(this);
     }
+
+    public void setAdmin() {
+        is_admin = true;
+    }
 }

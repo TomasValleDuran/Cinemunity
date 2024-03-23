@@ -20,35 +20,66 @@ public class Main {
         factory.close();
     }
 
-    private static void testUserFollowsUserAndLikesReview(EntityManager entityManager) {
-        // Start a new transaction
+    private static void createAdmin(EntityManager entityManager) {
         entityManager.getTransaction().begin();
 
-        // Create two new users
+        User admin = new User("admin", "admin", "admin@gmail.com");
+        admin.setAdmin();
+        entityManager.persist(admin);
+
+        entityManager.getTransaction().commit();
+    }
+
+    private static boolean checkCredentials(EntityManager entityManager, String username, String password) {
+        User user = entityManager.createQuery(
+        "SELECT u FROM User u WHERE u.user_name = :username AND u.password = :password", User.class)
+        .setParameter("username", username)
+        .setParameter("password", password)
+        .getResultList()
+        .stream()
+        .findFirst()
+        .orElse(null);
+
+        return user != null;
+    }
+
+    private static void logIn(EntityManager entityManager, String username, String password) {
+        if (checkCredentials(entityManager, username, password)) {
+            User user = entityManager.createQuery(
+            "SELECT u FROM User u WHERE u.user_name = :username AND u.password = :password", User.class)
+            .setParameter("username", username)
+            .setParameter("password", password)
+            .getSingleResult();
+
+            Session.setCurrentUser(user);
+        }
+    }
+
+    private static void logOut() {
+        Session.logout();
+    }
+
+    private static void testUserFollowsUserAndLikesReview(EntityManager entityManager) {
+        entityManager.getTransaction().begin();
+
         User user1 = new User("testUser1", "testPassword1", "testEmail1@test.com");
         User user2 = new User("testUser2", "testPassword2", "testEmail2@test.com");
         entityManager.persist(user1);
         entityManager.persist(user2);
 
-        // Create a new movie
         Movie movie = new Movie("testMovie", "testDescription");
         entityManager.persist(movie);
 
-        // User1 creates a new review on the movie
         Review review = new Review(user1, movie, "testReview", 5);
         entityManager.persist(review);
 
-        // User2 likes the review
         user2.like(review);
 
-        // User2 adds the movie to their wishlist
         user2.addToWishlist(movie);
 
-        // User1 follows User2 and User2 follows User1
         user1.follow(user2);
         user2.follow(user1);
 
-        // Commit the transaction
         entityManager.getTransaction().commit();
     }
 }
