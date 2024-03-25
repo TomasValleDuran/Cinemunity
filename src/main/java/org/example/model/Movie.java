@@ -22,6 +22,18 @@ public class Movie {
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "movie_actor",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
+    private Set<Celebrity> actors = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Celebrity director;
+
     public Movie() {}
 
     public Movie(String movie_name, String movie_desc) {
@@ -39,5 +51,17 @@ public class Movie {
 
     public Set<User> getWishlistedBy() {
         return wishlistedBy;
+    }
+
+    public Set<Celebrity> getActors() {
+        return actors;
+    }
+
+    public void setDirector(Celebrity director) {
+        this.director = director;
+    }
+
+    public Celebrity getDirector() {
+        return director;
     }
 }

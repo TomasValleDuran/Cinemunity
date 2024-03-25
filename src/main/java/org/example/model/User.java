@@ -14,7 +14,7 @@ public class User {
     private Long user_id;
 
     @Column(nullable = false, unique = true)
-    private String user_name;
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -60,7 +60,7 @@ public class User {
     public User() {}
 
     public User(String user_name, String password, String email) {
-        this.user_name = user_name;
+        this.username = user_name;
         this.password = password;
         this.email = email;
         this.user_rating = 0;
@@ -71,7 +71,7 @@ public class User {
     }
 
     public String getUser_name() {
-        return user_name;
+        return username;
     }
 
     public void follow(User user) {

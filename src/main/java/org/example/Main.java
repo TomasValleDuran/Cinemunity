@@ -32,7 +32,7 @@ public class Main {
 
     private static boolean checkCredentials(EntityManager entityManager, String username, String password) {
         User user = entityManager.createQuery(
-        "SELECT u FROM User u WHERE u.user_name = :username AND u.password = :password", User.class)
+        "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
         .setParameter("username", username)
         .setParameter("password", password)
         .getResultList()
@@ -46,7 +46,7 @@ public class Main {
     private static void logIn(EntityManager entityManager, String username, String password) {
         if (checkCredentials(entityManager, username, password)) {
             User user = entityManager.createQuery(
-            "SELECT u FROM User u WHERE u.user_name = :username AND u.password = :password", User.class)
+            "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
             .setParameter("username", username)
             .setParameter("password", password)
             .getSingleResult();
@@ -79,6 +79,27 @@ public class Main {
 
         user1.follow(user2);
         user2.follow(user1);
+
+        entityManager.getTransaction().commit();
+    }
+
+    private static void testCelebrityMovieRelation(EntityManager entityManager) {
+        entityManager.getTransaction().begin();
+
+        Celebrity celebrity1 = new Celebrity("Celebrity 1", "Bio 1");
+        Celebrity celebrity2 = new Celebrity("Celebrity 2", "Bio 2");
+        Celebrity celebrity3 = new Celebrity("Celebrity 3", "Bio 3");
+
+        Movie movie1 = new Movie("Movie 1", "Description 1");
+
+        movie1.getActors().add(celebrity1);
+        movie1.getActors().add(celebrity2);
+        movie1.setDirector(celebrity3);
+
+        entityManager.persist(celebrity1);
+        entityManager.persist(celebrity2);
+        entityManager.persist(celebrity3);
+        entityManager.persist(movie1);
 
         entityManager.getTransaction().commit();
     }

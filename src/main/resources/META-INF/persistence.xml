@@ -6,6 +6,7 @@
         <class>org.example.model.User</class>
         <class>org.example.model.Review</class>
         <class>org.example.model.Movie</class>
+        <class>org.example.model.Celebrity</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>
