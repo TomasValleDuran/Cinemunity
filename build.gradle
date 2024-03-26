@@ -14,6 +14,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.hibernate:hibernate-core:5.6.5.Final'
     implementation 'org.hsqldb:hsqldb:2.7.2'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
+    implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
 
     //Implementation of the Spark Java framework
     implementation 'com.sparkjava:spark-core:2.9.3'
