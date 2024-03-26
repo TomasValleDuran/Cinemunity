@@ -10,7 +10,6 @@ import javax.persistence.Persistence;
 public class Main {
     public static void main(String[] args) {
         final EntityManagerFactory factory = Persistence.createEntityManagerFactory("cinemunityDB");
-
         final EntityManager entityManager = factory.createEntityManager();
 
         testShowCreation(entityManager);
@@ -21,6 +20,16 @@ public class Main {
     }
 
     private static void createAdmin(EntityManager entityManager) {
+        entityManager.getTransaction().begin();
+
+        User admin = new User("admin", "admin", "admin@gmail.com");
+        admin.setAdmin();
+        entityManager.persist(admin);
+
+        entityManager.getTransaction().commit();
+    }
+
+    public static void createUser(EntityManager entityManager, String username, String password, String email) {
         entityManager.getTransaction().begin();
 
         User admin = new User("admin", "admin", "admin@gmail.com");
