@@ -17,10 +17,10 @@ public class Celebrity {
     private String bio;
 
     @ManyToMany(mappedBy = "actors")
-    private Set<Movie> actedMovies = new HashSet<>();
+    private Set<Show> actedShows = new HashSet<>();
 
     @OneToMany(mappedBy = "director")
-    private Set<Movie> directedMovies = new HashSet<>();
+    private Set<Show> directedShows = new HashSet<>();
 
     public Celebrity() {}
 
