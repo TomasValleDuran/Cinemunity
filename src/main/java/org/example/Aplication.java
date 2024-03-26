@@ -1,4 +1,5 @@
 package org.example;
+import com.google.gson.Gson;
 import org.example.model.User;
 import spark.Spark;
 import com.google.common.base.Strings;
@@ -13,14 +14,17 @@ import java.time.Instant;
 import static spark.Spark.*;
 
 public class Aplication {
+    private static final Gson gson = new Gson();
     public static void main(String[] args) {
         final EntityManagerFactory factory = Persistence.createEntityManagerFactory("cinemunityDB");
         final EntityManager entityManager = factory.createEntityManager();
 
-        get("/", (req, res) -> "Hello World");
-        get("/hello", (req, res) -> "Hello World");
+        Spark.port(3333);
 
-        get("/web/v1", (req, res) -> {
+        Spark.get("/", (req, res) -> "Hello World");
+        Spark.get("/hello", (req, res) -> "Hello World");
+
+        Spark.get("/web/v1", (req, res) -> {
             final String now = Instant.now().toString();
             return "<!DOCTYPE html>\n" +
                     "<html lang=\"en\">\n" +
@@ -37,7 +41,7 @@ public class Aplication {
                     "</html>";
         });
 
-        get("/users/:name", (req, res) -> {
+        Spark.get("/users/:name", (req, res) -> {
             final String name = capitalized(req.params("name"));
 
             Main.createUser(entityManager,name, "password",name + "@gmail.com");
@@ -63,6 +67,4 @@ public class Aplication {
     private static String capitalized(String name) {
         return Strings.isNullOrEmpty(name) ? name : name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
     }
-
-
 }
