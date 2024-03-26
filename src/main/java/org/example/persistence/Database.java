@@ -1,12 +1,10 @@
-package org.example.persistance;
+package org.example.persistence;
 
 import org.hsqldb.persist.HsqlProperties;
 
-import java.sql.Connection;
-
 public class Database {
 
-    final String dbLocation = "/home/tomasvalle/Downloads/hsqldb-2.7.2/hsqldb/db/";
+    final String dbLocation = "../hsqldb-2.7.2/hsqldb/db/";
     org.hsqldb.server.Server server;
 
     public void startDBServer() {

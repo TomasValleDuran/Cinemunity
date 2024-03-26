@@ -1,4 +1,4 @@
-package org.example.persistance;
+package org.example.persistence;
 
 public class Starter {
     public static void main(String[] args) {
