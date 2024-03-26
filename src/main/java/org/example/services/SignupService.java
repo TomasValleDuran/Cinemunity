@@ -19,7 +19,7 @@ public class SignupService extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            final User user = new User(req.getParameter("email"),req.getParameter("firsntame"), req.getParameter("password"));
+            final User user = new User(req.getParameter("email"),req.getParameter("username"), req.getParameter("password"));
 
             users.persist(user);
 
