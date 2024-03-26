@@ -56,7 +56,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "movie_id")
     )
-    private Set<Movie> wishlist = new HashSet<>();
+    private Set<Show> wishlist = new HashSet<>();
     public User() {}
 
     public User(String user_name, String password, String email) {
@@ -64,6 +64,8 @@ public class User {
         this.password = password;
         this.email = email;
         this.user_rating = 0;
+        this.is_admin = false;
+        this.is_verified = false;
     }
 
     public Long getUser_id() {
@@ -90,12 +92,12 @@ public class User {
         likes.remove(review);
     }
 
-    public void addToWishlist(Movie movie) {
+    public void addToWishlist(Show movie) {
         wishlist.add(movie);
         movie.getWishlistedBy().add(this);
     }
 
-    public void removeFromWishlist(Movie movie) {
+    public void removeFromWishlist(Show movie) {
         wishlist.remove(movie);
         movie.getWishlistedBy().remove(this);
     }
