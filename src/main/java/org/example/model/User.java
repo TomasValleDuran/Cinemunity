@@ -42,6 +42,9 @@ public class User {
     )
     private Set<User> following = new HashSet<>();
 
+    @ManyToMany(mappedBy = "following")
+    private Set<User> followers = new HashSet<>();
+
     @ManyToMany
     @JoinTable(
             name = "user_likes",
@@ -59,7 +62,7 @@ public class User {
     private Set<Show> wishlist = new HashSet<>();
     public User() {}
 
-    public User(String user_name, String password, String email) {
+    public User(String email, String user_name, String password) {
         this.username = user_name;
         this.password = password;
         this.email = email;
@@ -104,5 +107,9 @@ public class User {
 
     public void setAdmin() {
         is_admin = true;
+    }
+
+    public void setIs_verified() {
+        is_verified = true;
     }
 }
