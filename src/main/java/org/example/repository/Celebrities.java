@@ -2,6 +2,7 @@ package org.example.repository;
 
 import org.example.model.Celebrity;
 import org.example.model.Show;
+import org.example.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -58,5 +59,10 @@ public class Celebrities {
         entityManager.getTransaction().begin();
         entityManager.remove(celebrity);
         entityManager.getTransaction().commit();
+    }
+
+    public Celebrity persist(Celebrity celebrity) {
+        entityManager.persist(celebrity);
+        return celebrity;
     }
 }
