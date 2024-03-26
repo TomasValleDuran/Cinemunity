@@ -112,4 +112,5 @@ public class User {
     public void setIs_verified() {
         is_verified = true;
     }
+
 }

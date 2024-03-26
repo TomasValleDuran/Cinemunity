@@ -3,6 +3,7 @@ package org.example.repository;
 import org.example.model.Celebrity;
 import org.example.model.Show;
 import org.example.model.Season;
+import org.example.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -76,5 +77,10 @@ public class Shows {
         entityManager.getTransaction().begin();
         entityManager.remove(show);
         entityManager.getTransaction().commit();
+    }
+
+    public Show persist(Show show) {
+        entityManager.persist(show);
+        return show;
     }
 }
