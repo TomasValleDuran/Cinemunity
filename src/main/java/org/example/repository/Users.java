@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+
 public class Users {
     private EntityManager entityManager;
 
@@ -29,6 +30,23 @@ public class Users {
     public List<User> findAllUsers() {
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
         return query.getResultList();
+    }
+
+    public User signin(String email, String password) {
+        TypedQuery<User> query = entityManager.createQuery("SELECT u " +
+                "FROM User u " +
+                "WHERE u.email LIKE :email AND u.password LIKE :password", User.class);
+        query.setParameter("email", email);
+        query.setParameter("password", password);
+        return query.getSingleResult();
+    }
+
+    public User findUserByUsername(String username) {
+        TypedQuery<User> query = entityManager.createQuery("SELECT u " +
+                "FROM User u " +
+                "WHERE u.username LIKE :username", User.class);
+        query.setParameter("username", username);
+        return query.getSingleResult();
     }
 
     public List<Review> findAllReviewsByUser(User user) {
@@ -70,7 +88,9 @@ public class Users {
     }
 
     public User persist(User user) {
+        entityManager.getTransaction().begin();
         entityManager.persist(user);
+        entityManager.getTransaction().commit();
         return user;
     }
 }

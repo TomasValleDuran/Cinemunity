@@ -62,7 +62,9 @@ public class Celebrities {
     }
 
     public Celebrity persist(Celebrity celebrity) {
+        entityManager.getTransaction().begin();
         entityManager.persist(celebrity);
+        entityManager.getTransaction().commit();
         return celebrity;
     }
 }

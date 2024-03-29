@@ -80,7 +80,9 @@ public class Shows {
     }
 
     public Show persist(Show show) {
+        entityManager.getTransaction().begin();
         entityManager.persist(show);
+        entityManager.getTransaction().commit();
         return show;
     }
 }

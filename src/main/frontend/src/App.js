@@ -25,7 +25,7 @@
 
       async function send() {
           try {
-              const response = await axios.post('/signup.do', {
+              const response = await axios.post('localhost:3333/user/signup', {
                   email: email,
                   username: user,
                   password: password

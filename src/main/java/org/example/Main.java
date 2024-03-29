@@ -32,7 +32,7 @@ public class Main {
     public static void createUser(EntityManager entityManager, String username, String password, String email) {
         entityManager.getTransaction().begin();
 
-        User admin = new User("admin", "admin", "admin@gmail.com");
+        User admin = new User(email, username, password);
         admin.setAdmin();
         entityManager.persist(admin);
 

@@ -1,5 +1,7 @@
 package org.example.model;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -71,11 +73,11 @@ public class User {
         this.is_verified = false;
     }
 
-    public Long getUser_id() {
+    public Long getUserId() {
         return user_id;
     }
 
-    public String getUser_name() {
+    public String getUsername() {
         return username;
     }
 
@@ -113,4 +115,12 @@ public class User {
         is_verified = true;
     }
 
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public String asJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
 }
