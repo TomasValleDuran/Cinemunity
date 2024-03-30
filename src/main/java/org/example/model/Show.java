@@ -1,5 +1,7 @@
 package org.example.model;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -42,10 +44,11 @@ public class Show {
 
     public Show() {}
 
-    public Show(String movie_name, String movie_desc) {
+    public Show(String movie_name, String movie_desc, String show_type) {
         this.title = movie_name;
         this.rating = 0;
         this.show_desc = movie_desc;
+        this.show_type = show_type;
     }
 
     public Long getShow_id() {
@@ -79,5 +82,10 @@ public class Show {
     public void removeSeason(Season season) {
         seasons.remove(season);
         season.setShow(null);
+    }
+
+    public String asJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

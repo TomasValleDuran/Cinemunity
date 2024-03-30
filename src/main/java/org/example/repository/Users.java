@@ -93,4 +93,10 @@ public class Users {
         entityManager.getTransaction().commit();
         return user;
     }
+
+    public void persistFollow(User follower, User user){
+        entityManager.getTransaction().begin();
+        follower.follow(user);
+        entityManager.getTransaction().commit();
+    }
 }

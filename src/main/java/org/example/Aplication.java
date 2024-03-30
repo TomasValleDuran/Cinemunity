@@ -1,5 +1,7 @@
 package org.example;
 import com.google.gson.Gson;
+import org.example.controller.CelebrityController;
+import org.example.controller.ShowController;
 import org.example.controller.UserController;
 import org.example.model.User;
 import org.example.repository.Users;
@@ -22,18 +24,19 @@ public class Aplication {
         final EntityManager entityManager = factory.createEntityManager();
 
         final UserController userController = new UserController(entityManager);
+        final ShowController showController = new ShowController(entityManager);
+        final CelebrityController celebrityController = new CelebrityController(entityManager);
 
         Spark.port(3333);
 
         Spark.post("/user/signup", userController::signup);
         Spark.get("/user/signin", userController::signin);
         Spark.get("/user/signout" , userController::signout);
-        Spark.get("/user/:username", userController::getUser);
-        Spark.post("/user/follow/:username", userController::followUser);
-        Spark.get("/user/:username/followers", userController::getFollowers);
-    }
+        Spark.get("/user/:userid", userController::getUser);
 
-    private static String capitalized(String name) {
-        return Strings.isNullOrEmpty(name) ? name : name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+        Spark.post("/show/addShow", showController::addShow);
+
+        Spark.post("/celebrity/addCelebrity", celebrityController::addCelebrity);
+
     }
 }

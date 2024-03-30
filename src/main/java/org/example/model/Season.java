@@ -11,22 +11,22 @@ public class Season {
     @Column
     private Integer seasonNumber;
 
-    @Column
-    private Integer numberOfEpisodes;
-
     @ManyToOne
     @JoinColumn(name = "show_id")
     private Show show;
 
     public Season() {}
 
-    public Season(Integer seasonNumber, Integer numberOfEpisodes, Show show) {
+    public Season(Integer seasonNumber, Show show) {
         this.seasonNumber = seasonNumber;
-        this.numberOfEpisodes = numberOfEpisodes;
         this.show = show;
     }
 
     public void setShow(Show show) {
         this.show = show;
+    }
+
+    public void setSeasonNumber(Integer seasonNumber) {
+        this.seasonNumber = seasonNumber;
     }
 }

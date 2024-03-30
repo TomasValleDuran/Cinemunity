@@ -1,5 +1,7 @@
 package org.example.model;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,5 +29,10 @@ public class Celebrity {
     public Celebrity(String name, String bio) {
         this.name = name;
         this.bio = bio;
+    }
+
+    public String asJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

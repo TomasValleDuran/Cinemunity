@@ -45,6 +45,11 @@ public class UserController {
 
         User user = users.signin(email, password);
 
+        if (req.session().attribute("user_id") != null){
+            res.status(401); // Unauthorized
+            return "Someone already signed in";
+        }
+
         if (user != null) {
             req.session().attribute("user_id", user.getUserId());
             res.type("application/json");
@@ -65,8 +70,8 @@ public class UserController {
     }
 
     public Object getUser(Request req, Response res) {
-        final String username = req.params(":username");
-        final User user = users.findUserByUsername(username);
+        final Long userid = Long.valueOf(req.params(":userid"));
+        final User user = users.findUserById(userid);
 
         if (user == null) {
             res.status(404); // Not Found
@@ -75,42 +80,5 @@ public class UserController {
 
         res.type("application/json");
         return user.asJson();
-    }
-
-    public Object followUser(Request req, Response res) {
-        final String username = req.params(":username");
-        final User user = users.findUserByUsername(username);
-
-        if (user == null) {
-            res.status(404); // Not Found
-            return "User not found";
-        }
-
-        final Long followerId = req.session().attribute("user_id");
-        final User follower = users.findUserById(followerId);
-
-        if (follower == null) {
-            res.status(401); // Unauthorized
-            return "No one is signed in";
-        }
-
-        follower.follow(user);
-        users.persist(user);
-
-        res.type("application/json");
-        return user.asJson();
-    }
-
-    public Object getFollowers(Request req, Response res) {
-        final String username = req.params(":username");
-        final User user = users.findUserByUsername(username);
-
-        if (user == null) {
-            res.status(404); // Not Found
-            return "User not found";
-        }
-
-        res.type("application/json");
-        return user.getFollowers();
     }
 }
