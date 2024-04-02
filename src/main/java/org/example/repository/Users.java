@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class Users {
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public Users(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -75,28 +75,15 @@ public class Users {
         return query.getResultList();
     }
 
-    public void saveUser(User user) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(user);
-        entityManager.getTransaction().commit();
-    }
-
     public void deleteUser(User user) {
         entityManager.getTransaction().begin();
         entityManager.remove(user);
         entityManager.getTransaction().commit();
     }
 
-    public User persist(User user) {
+    public void persist(User user) {
         entityManager.getTransaction().begin();
         entityManager.persist(user);
-        entityManager.getTransaction().commit();
-        return user;
-    }
-
-    public void persistFollow(User follower, User user){
-        entityManager.getTransaction().begin();
-        follower.follow(user);
         entityManager.getTransaction().commit();
     }
 }

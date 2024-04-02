@@ -70,8 +70,8 @@ public class UserController {
     }
 
     public Object getUser(Request req, Response res) {
-        final Long userid = Long.valueOf(req.params(":userid"));
-        final User user = users.findUserById(userid);
+        final String username = req.params(":username");
+        final User user = users.findUserByUsername(username);
 
         if (user == null) {
             res.status(404); // Not Found

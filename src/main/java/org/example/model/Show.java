@@ -1,6 +1,7 @@
 package org.example.model;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.util.*;
@@ -10,17 +11,22 @@ import java.util.*;
 public class Show {
     @Id
     @GeneratedValue(generator = "userGen", strategy = GenerationType.SEQUENCE)
-    private Long show_id;
+    @Expose
+    private Long showId;
 
+    @Expose
     @Column
     private String title;
 
+    @Expose
     @Column
     private Integer rating;
 
+    @Expose
     @Column
     private String show_desc;
 
+    @Expose
     @Column
     private String show_type;
 
@@ -30,17 +36,20 @@ public class Show {
     @ManyToMany
     @JoinTable(
             name = "show_actor",
-            joinColumns = @JoinColumn(name = "show_id"),
-            inverseJoinColumns = @JoinColumn(name = "actor_id")
+            joinColumns = @JoinColumn(name = "showId"),
+            inverseJoinColumns = @JoinColumn(name = "actorId")
     )
-    private Set<Celebrity> actors = new HashSet<>();
+    private List<Celebrity> actors = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "director_id")
+    @JoinColumn(name = "directorId")
     private Celebrity director;
+    @ManyToMany(mappedBy = "wishlist")
+    private List<User> wishlistedBy = new ArrayList<>();
 
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Season> seasons = new ArrayList<>();
+
 
     public Show() {}
 
@@ -51,18 +60,23 @@ public class Show {
         this.show_type = show_type;
     }
 
-    public Long getShow_id() {
-        return show_id;
+    public Long getShowId() {
+        return showId;
     }
 
-    @ManyToMany(mappedBy = "wishlist")
-    private Set<User> wishlistedBy = new HashSet<>();
-
-    public Set<User> getWishlistedBy() {
-        return wishlistedBy;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Set<Celebrity> getActors() {
+    public void setShow_desc(String show_desc) {
+        this.show_desc = show_desc;
+    }
+
+    public void setActors(List<Celebrity> actors) {
+        this.actors = actors;
+    }
+
+    public List<Celebrity> getActors() {
         return actors;
     }
 
@@ -70,7 +84,7 @@ public class Show {
         this.director = director;
     }
 
-    public Celebrity getDirector() {
+    public Celebrity getDirectorId() {
         return director;
     }
 
@@ -88,4 +102,6 @@ public class Show {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
+
+
 }

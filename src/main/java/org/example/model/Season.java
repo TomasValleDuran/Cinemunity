@@ -1,18 +1,22 @@
 package org.example.model;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 
 @Entity
 public class Season {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Expose
+    private Long seasonId;
 
     @Column
+    @Expose
     private Integer seasonNumber;
 
     @ManyToOne
-    @JoinColumn(name = "show_id")
+    @JoinColumn(name = "showId")
     private Show show;
 
     public Season() {}

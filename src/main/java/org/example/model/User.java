@@ -1,35 +1,40 @@
 package org.example.model;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @SuppressWarnings("ALL")
 @Entity
 public class User {
     @Id
     @GeneratedValue(generator = "userGen", strategy = GenerationType.SEQUENCE)
-    private Long user_id;
+    @Expose
+    private Long userId;
 
+    @Expose
     @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
+    @Expose
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Expose
     @Column()
     private Integer user_rating;
 
+    @Expose
     @Column()
     private Boolean is_admin;
 
+    @Expose
     @Column()
     private Boolean is_verified;
 
@@ -39,29 +44,29 @@ public class User {
     @ManyToMany
     @JoinTable(
             name = "user_follows",
-            joinColumns = @JoinColumn(name = "follower_id"),
-            inverseJoinColumns = @JoinColumn(name = "followee_id")
+            joinColumns = @JoinColumn(name = "followerId"),
+            inverseJoinColumns = @JoinColumn(name = "followeeId")
     )
-    private Set<User> following = new HashSet<>();
+    private List<User> following = new ArrayList<>();
 
     @ManyToMany(mappedBy = "following")
-    private Set<User> followers = new HashSet<>();
+    private List<User> followers = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "user_likes",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "review_id")
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "reviewId")
     )
-    private Set<Review> likes = new HashSet<>();
+    private List<User> likes = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "user_wishlist",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "movie_id")
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "showId")
     )
-    private Set<Show> wishlist = new HashSet<>();
+    private List<Show> wishlist = new ArrayList<>();
     public User() {}
 
     public User(String email, String user_name, String password) {
@@ -74,49 +79,23 @@ public class User {
     }
 
     public Long getUserId() {
-        return user_id;
+        return userId;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void follow(User user) {
-        following.add(user);
-    }
-
-    public void unfollow(User user) {
-        following.remove(user);
-    }
-
-    public void like(Review review) {
-        likes.add(review);
-    }
-
-    public void unlike(Review review) {
-        likes.remove(review);
-    }
-
-    public void addToWishlist(Show movie) {
-        wishlist.add(movie);
-        movie.getWishlistedBy().add(this);
-    }
-
-    public void removeFromWishlist(Show movie) {
-        wishlist.remove(movie);
-        movie.getWishlistedBy().remove(this);
-    }
-
     public void setAdmin() {
         is_admin = true;
     }
 
-    public void setIs_verified() {
-        is_verified = true;
+    public boolean isAdmin() {
+        return is_admin;
     }
 
-    public Set<User> getFollowers() {
-        return followers;
+    public void setIs_verified() {
+        is_verified = true;
     }
 
     public String asJson() {

@@ -32,11 +32,12 @@ public class Aplication {
         Spark.post("/user/signup", userController::signup);
         Spark.get("/user/signin", userController::signin);
         Spark.get("/user/signout" , userController::signout);
-        Spark.get("/user/:userid", userController::getUser);
+        Spark.get("/user/:username", userController::getUser);
 
         Spark.post("/show/addShow", showController::addShow);
+        Spark.get("/show/:showId", showController::getShow);
 
         Spark.post("/celebrity/addCelebrity", celebrityController::addCelebrity);
-
+        Spark.get("/celebrity/:celebrityId", celebrityController::getCelebrity);
     }
 }
