@@ -78,11 +78,4 @@ public class Shows {
         entityManager.remove(show);
         entityManager.getTransaction().commit();
     }
-
-    public Show persist(Show show) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(show);
-        entityManager.getTransaction().commit();
-        return show;
-    }
 }

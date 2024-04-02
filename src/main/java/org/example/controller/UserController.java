@@ -1,84 +1,49 @@
 package org.example.controller;
 
-import org.example.model.User;
-import org.example.repository.Users;
+import com.google.gson.Gson;
+import org.example.dto.SignInDto;
+import org.example.dto.SignUpDto;
+import org.example.service.UserService;
 import spark.Request;
 import spark.Response;
-
 import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class UserController {
-    private final Users users;
+    private final UserService userService;
+    private final Gson gson = new Gson();
 
     public UserController(EntityManager entityManager) {
-        this.users = new Users(entityManager);
+        this.userService = new UserService(entityManager);
     }
 
     public String signup(Request req, Response res) {
-        final String email = req.queryParams("email");
-        final String username = req.queryParams("username");
-        final String password = req.queryParams("password");
-
-        if (!isValidEmail(email)) {
-            res.status(401); // Unauthorized
-            return "Invalid email";
-        }
-
-        final User user = new User(email, username, password);
-        users.persist(user);
+        SignUpDto signUpDto = gson.fromJson(req.body(), SignUpDto.class);
+        String email = signUpDto.getEmail();
+        String username = signUpDto.getUsername();
+        String password = signUpDto.getPassword();
 
         res.type("application/json");
-        return user.asJson();
+        return userService.signup(email, username, password);
     }
 
-    private boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-        Pattern pat = Pattern.compile(emailRegex);
-        return pat.matcher(email).matches();
+    public String signin(Request req, Response res) {
+        SignInDto signInDto = gson.fromJson(req.body(), SignInDto.class);
+        String username = signInDto.getUsername();
+        String password = signInDto.getPassword();
+
+        res.type("application/json");
+        return userService.signin(username, password, req);
     }
 
-    public Object signin(Request req, Response res) {
-        final String email = req.queryParams("email");
-        final String password = req.queryParams("password");
-
-        User user = users.signin(email, password);
-
-        if (req.session().attribute("user_id") != null){
-            res.status(401); // Unauthorized
-            return "Someone already signed in";
-        }
-
-        if (user != null) {
-            req.session().attribute("user_id", user.getUserId());
-            res.type("application/json");
-            return user.asJson();
-        } else {
-            res.status(401); // Unauthorized
-            return "Invalid email or password";
-        }
+    public String signout(Request req, Response res) {
+        res.type("application/json");
+        return userService.signout(req);
     }
 
-    public Object signout(Request req, Response res) {
-        if (req.session().attribute("user_id") == null){
-            res.status(401); // Unauthorized
-            return "No one is signed in";
-        }
-        req.session().invalidate();
-        return "User signed out";
-    }
-
-    public Object getUser(Request req, Response res) {
+    public String getUser(Request req, Response res) {
         final String username = req.params(":username");
-        final User user = users.findUserByUsername(username);
-
-        if (user == null) {
-            res.status(404); // Not Found
-            return "User not found";
-        }
 
         res.type("application/json");
-        return user.asJson();
+        return userService.getUser(username);
     }
 }

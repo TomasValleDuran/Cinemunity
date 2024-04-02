@@ -43,7 +43,7 @@ public class Aplication {
 
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
-        //Spark.post("/user/signup", userController::signup);
+        Spark.post("/user/signup", userController::signup);
         Spark.get("/user/signin", userController::signin);
         Spark.get("/user/signout" , userController::signout);
         Spark.get("/user/:username", userController::getUser);
@@ -53,21 +53,5 @@ public class Aplication {
 
         Spark.post("/celebrity/addCelebrity", celebrityController::addCelebrity);
         Spark.get("/celebrity/:celebrityName", celebrityController::getCelebrity);
-
-        Spark.post("/user/signup", (request, response) -> {
-            // Obtener los datos del cuerpo de la solicitud
-            String requestBody = request.body();
-            User user = gson.fromJson(requestBody, User.class);
-            String email = user.getEmail();
-            String username = user.getUsername();
-            String password = user.getPassword();
-
-            System.out.println(email + username + password);
-
-            Users users = new Users(entityManager);
-            users.persist(user);
-
-            return "Usuario registrado exitosamente";
-        });
     }
 }

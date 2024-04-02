@@ -86,4 +86,17 @@ public class Users {
         entityManager.persist(user);
         entityManager.getTransaction().commit();
     }
+
+    public User findUserByEmailOrUsername(String email, String username) {
+        TypedQuery<User> query = entityManager.createQuery("SELECT u " +
+                "FROM User u " +
+                "WHERE u.email LIKE :email OR u.username LIKE :username", User.class);
+        query.setParameter("email", email);
+        query.setParameter("username", username);
+        List<User> users = query.getResultList();
+        if (users.isEmpty()) {
+            return null;
+        }
+        return users.getFirst();
+    }
 }
