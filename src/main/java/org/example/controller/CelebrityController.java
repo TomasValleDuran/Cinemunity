@@ -40,8 +40,8 @@ public class CelebrityController {
     }
 
     public Object getCelebrity(Request req, Response res) {
-        Long celebrityId = Long.parseLong(req.params(":celebrityId"));
-        Celebrity celebrity = celebrities.findCelebrityById(celebrityId);
+        String name = req.params(":celebrityName");
+        Celebrity celebrity = celebrities.findCelebrityByName(name);
         if (celebrity == null) {
             res.status(404); // Not Found
             return "Celebrity not found";

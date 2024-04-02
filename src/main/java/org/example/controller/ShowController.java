@@ -65,6 +65,11 @@ public class ShowController {
         show.setDirector(director);
         show.setActors(actors);
 
+        director.addDirectedShow(show);
+        for (Celebrity actor : actors) {
+            actor.addActedShow(show);
+        }
+
         if (show_type.equals("tv_show")) {
             final int seasons = Integer.parseInt(req.queryParams("seasons"));
 
@@ -86,8 +91,8 @@ public class ShowController {
     }
 
     public Object getShow(Request req, Response res) {
-        Long id = Long.parseLong(req.params(":showId"));
-        Show show = shows.findShowById(id);
+        String title = req.params(":title");
+        Show show = shows.findShowByTitle(title);
 
         if (show == null) {
             res.status(404); // Not Found

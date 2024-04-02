@@ -8,11 +8,9 @@ import javax.persistence.*;
 public class Season {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Expose
     private Long seasonId;
 
     @Column
-    @Expose
     private Integer seasonNumber;
 
     @ManyToOne
@@ -32,5 +30,9 @@ public class Season {
 
     public void setSeasonNumber(Integer seasonNumber) {
         this.seasonNumber = seasonNumber;
+    }
+
+    public Integer getSeasonNumber() {
+        return seasonNumber;
     }
 }

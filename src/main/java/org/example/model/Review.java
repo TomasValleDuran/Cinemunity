@@ -1,26 +1,22 @@
 package org.example.model;
 
-import com.google.gson.annotations.Expose;
+import com.google.gson.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @SuppressWarnings("ALL")
 @Entity
 public class Review {
     @Id
     @GeneratedValue(generator = "userGen", strategy = GenerationType.SEQUENCE)
-    @Expose
     private Long reviewId;
 
-    @Expose
     @Column()
     private String review_text;
 
-    @Expose
     @Column()
     private Integer review_rating;
 
@@ -44,7 +40,27 @@ public class Review {
         this.review_rating = review_rating;
     }
 
-    public Long getReview_id() {
+    public Long getReviewId() {
         return reviewId;
+    }
+
+    public String asJson() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Review.class, new JsonSerializer<Review>() {
+                    @Override
+                    public JsonElement serialize(Review src, Type typeOfSrc, JsonSerializationContext context) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("reviewId", src.reviewId);
+                        jsonObject.addProperty("review_text", src.review_text);
+                        jsonObject.addProperty("review_rating", src.review_rating);
+                        jsonObject.addProperty("userName", src.user.getUsername());
+                        jsonObject.addProperty("showTitle", src.show.getTitle());
+
+                        return jsonObject;
+                    }
+                })
+                .create();
+
+        return gson.toJson(this);
     }
 }

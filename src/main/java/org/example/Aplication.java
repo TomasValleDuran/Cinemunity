@@ -18,7 +18,6 @@ import java.time.Instant;
 import static spark.Spark.*;
 
 public class Aplication {
-    private static final Gson gson = new Gson();
     public static void main(String[] args) {
         final EntityManagerFactory factory = Persistence.createEntityManagerFactory("cinemunityDB");
         final EntityManager entityManager = factory.createEntityManager();
@@ -35,9 +34,9 @@ public class Aplication {
         Spark.get("/user/:username", userController::getUser);
 
         Spark.post("/show/addShow", showController::addShow);
-        Spark.get("/show/:showId", showController::getShow);
+        Spark.get("/show/:title", showController::getShow);
 
         Spark.post("/celebrity/addCelebrity", celebrityController::addCelebrity);
-        Spark.get("/celebrity/:celebrityId", celebrityController::getCelebrity);
+        Spark.get("/celebrity/:celebrityName", celebrityController::getCelebrity);
     }
 }

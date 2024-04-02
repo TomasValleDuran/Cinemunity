@@ -1,26 +1,21 @@
 package org.example.model;
 
-import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
+import com.google.gson.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Celebrity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Expose
     private Long celebrityId;
 
-    @Expose
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Expose
     @Column()
     private String bio;
 
@@ -37,12 +32,45 @@ public class Celebrity {
         this.bio = bio;
     }
 
-    public String asJson() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void addDirectedShow(Show show) {
+        directedShows.add(show);
+    }
+
+    public void addActedShow(Show show) {
+        actedShows.add(show);
+    }
+
+    public String asJson() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Celebrity.class, new JsonSerializer<Celebrity>() {
+                    @Override
+                    public JsonElement serialize(Celebrity src, Type typeOfSrc, JsonSerializationContext context) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("celebrityId", src.celebrityId);
+                        jsonObject.addProperty("name", src.name);
+                        jsonObject.addProperty("bio", src.bio);
+
+                        JsonArray actedShowsArray = new JsonArray();
+                        for (Show show : src.actedShows) {
+                            actedShowsArray.add(show.getTitle());
+                        }
+                        jsonObject.add("actedShows", actedShowsArray);
+
+                        JsonArray directedShowsArray = new JsonArray();
+                        for (Show show : src.directedShows) {
+                            directedShowsArray.add(show.getTitle());
+                        }
+                        jsonObject.add("directedShows", directedShowsArray);
+
+                        return jsonObject;
+                    }
+                })
+                .create();
+
+        return gson.toJson(this);
     }
 }

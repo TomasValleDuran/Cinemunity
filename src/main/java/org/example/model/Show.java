@@ -1,9 +1,10 @@
 package org.example.model;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
+import java.lang.reflect.Type;
 import java.util.*;
 
 @SuppressWarnings("ALL")
@@ -11,22 +12,17 @@ import java.util.*;
 public class Show {
     @Id
     @GeneratedValue(generator = "userGen", strategy = GenerationType.SEQUENCE)
-    @Expose
     private Long showId;
 
-    @Expose
     @Column
     private String title;
 
-    @Expose
     @Column
     private Integer rating;
 
-    @Expose
     @Column
     private String show_desc;
 
-    @Expose
     @Column
     private String show_type;
 
@@ -68,6 +64,10 @@ public class Show {
         this.title = title;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public void setShow_desc(String show_desc) {
         this.show_desc = show_desc;
     }
@@ -99,9 +99,42 @@ public class Show {
     }
 
     public String asJson() {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Show.class, new JsonSerializer<Show>() {
+                    @Override
+                    public JsonElement serialize(Show src, Type typeOfSrc, JsonSerializationContext context) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("showId", src.showId);
+                        jsonObject.addProperty("title", src.title);
+                        jsonObject.addProperty("rating", src.rating);
+                        jsonObject.addProperty("show_desc", src.show_desc);
+                        jsonObject.addProperty("show_type", src.show_type);
+
+                        JsonArray reviewsArray = new JsonArray();
+                        for (Review review : src.reviews) {
+                            reviewsArray.add(review.getReviewId());
+                        }
+                        jsonObject.add("reviews", reviewsArray);
+
+                        JsonArray actorsArray = new JsonArray();
+                        for (Celebrity actor : src.actors) {
+                            actorsArray.add(actor.getName());
+                        }
+                        jsonObject.add("actors", actorsArray);
+
+                        jsonObject.addProperty("director", src.director.getName());
+
+                        JsonArray seasonsArray = new JsonArray();
+                        for (Season season : src.seasons) {
+                            seasonsArray.add(season.getSeasonNumber());
+                        }
+                        jsonObject.add("seasons", seasonsArray);
+
+                        return jsonObject;
+                    }
+                })
+                .create();
+
         return gson.toJson(this);
     }
-
-
 }
