@@ -143,4 +143,12 @@ public class User {
 
         return gson.toJson(this);
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

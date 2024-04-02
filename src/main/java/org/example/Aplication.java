@@ -1,4 +1,5 @@
 package org.example;
+
 import com.google.gson.Gson;
 import org.example.controller.CelebrityController;
 import org.example.controller.ShowController;
@@ -6,18 +7,16 @@ import org.example.controller.UserController;
 import org.example.model.User;
 import org.example.repository.Users;
 import spark.Spark;
-import com.google.common.base.Strings;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import java.time.Instant;
 
 import static spark.Spark.*;
 
 public class Aplication {
+    static Gson gson = new Gson();
     public static void main(String[] args) {
         final EntityManagerFactory factory = Persistence.createEntityManagerFactory("cinemunityDB");
         final EntityManager entityManager = factory.createEntityManager();
@@ -53,10 +52,7 @@ public class Aplication {
         Spark.get("/show/:title", showController::getShow);
 
         Spark.post("/celebrity/addCelebrity", celebrityController::addCelebrity);
-<<<<<<< HEAD
         Spark.get("/celebrity/:celebrityName", celebrityController::getCelebrity);
-=======
-        Spark.get("/celebrity/:celebrityId", celebrityController::getCelebrity);
 
         Spark.post("/user/signup", (request, response) -> {
             // Obtener los datos del cuerpo de la solicitud
@@ -73,6 +69,5 @@ public class Aplication {
 
             return "Usuario registrado exitosamente";
         });
->>>>>>> 7a79724 (first front back connection)
     }
 }
