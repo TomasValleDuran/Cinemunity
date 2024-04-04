@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importa BrowserRouter como Router
 import axios from 'axios';
 
 function App() {
@@ -28,10 +29,9 @@ function App() {
                 username: user,
                 password: password
             });
-            console.log(email);
+            console.log("res");
             console.log(response);
         } catch (error) {
-            console.log(email);
             console.log("error");
             console.log(error);
         }
@@ -50,6 +50,7 @@ function App() {
                     <input type="text" value={email} onChange={handleChange2} />
                     <button type="submit">Send</button>
                 </form>
+                <Link to="/LogIn">Ya tenes una cuenta?</Link>
             </header>
         </div>
     );
