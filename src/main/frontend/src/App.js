@@ -39,20 +39,24 @@ function App() {
 
     return (
         <div className="App">
-            <header className="App-header">
-                <p>Welcome to cinemunity</p>
-                <form onSubmit={handleSubmit}>
-                    <label>Username</label>
-                    <input type="text" value={user} onChange={handleChange} />
-                    <label>Password</label>
-                    <input type="text" value={password} onChange={handleChange1} />
-                    <label>Email</label>
-                    <input type="text" value={email} onChange={handleChange2} />
-                    <button type="submit">Send</button>
-                </form>
-                <Link to="/LogIn">Ya tenes una cuenta?</Link>
-            </header>
-        </div>
+        <header className="App-header">
+            <h1>Welcome to cinemunity</h1>
+            <p>Register</p>
+            <form onSubmit={handleSubmit}>
+                <label>Username</label>
+                <input type="text" value={user} onChange={handleChange} />
+                <p></p>
+                <label>Password</label>
+                <input type="text" value={password} onChange={handleChange1} />
+                <p></p>
+                <label>Email</label>
+                <input type="text" value={email} onChange={handleChange2} />
+                <p></p>
+                <button type="submit">Send</button>
+            </form>
+            <Link to="/LogIn">Ya tenes una cuenta?</Link>
+        </header>
+    </div>
     );
 }
 
