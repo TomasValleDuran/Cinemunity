@@ -49,8 +49,7 @@ public class UserController {
     }
 
     public String getCurrentUser(Request req, Response res) {
-        Long userId = req.session().attribute("userId");
         res.type("application/json");
-        return userService.getCurrentUser(userId);
+        return userService.getCurrentUser(req);
     }
 }

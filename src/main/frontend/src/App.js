@@ -4,6 +4,8 @@ import {Route, Routes, useNavigate} from 'react-router-dom'; // Importa BrowserR
 import SignIn from "./components/auth/signIn/SignIn";
 import SignUp from "./components/auth/signUp/SignUp";
 import Home from "./components/home/Home";
+import User from "./components/User/User";
+import AddMovie from "./components/addForms/addMovie/AddMovie";
 
 function App() {
     const navigate = useNavigate();
@@ -13,6 +15,8 @@ function App() {
             <Route path="/signin" element={<SignIn/>}/>
             <Route path="/signup" element={<SignUp/>}/>
             <Route path="/home" element={<Home/>}/>
+            <Route path="/user/:username" element={<User/>}/>
+            <Route path="/addMovie" element={<AddMovie/>}/>
         </Routes>
     )
 }

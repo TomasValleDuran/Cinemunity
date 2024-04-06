@@ -41,11 +41,11 @@ public class Aplication {
 
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
+        Spark.get("/user/currentUser", userController::getCurrentUser);
         Spark.post("/user/signup", userController::signup);
         Spark.post("/user/signin", userController::signin);
         Spark.get("/user/signout" , userController::signout);
         Spark.get("/user/:username", userController::getUser);
-        Spark.get("/user/currentUser", userController::getCurrentUser);
 
         Spark.post("/show/addShow", showController::addShow);
         Spark.get("/show/:title", showController::getShow);

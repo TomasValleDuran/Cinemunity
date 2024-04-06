@@ -13,7 +13,7 @@ const SignUp = () => {
 
     const handleSignUp = async () => {
         try {
-            const response = await axios.post('/user/signup', {
+            const response = await axios.post('http://localhost:3333/user/signup', {
                 username: username,
                 email: email,
                 password: password
@@ -29,7 +29,7 @@ const SignUp = () => {
 
     const signIn = async () => {
         try {
-            const response = await axios.post(`/user/signin`, {
+            const response = await axios.post(`http://localhost:3333/user/signin`, {
                 username: username,
                 password: password,
             });

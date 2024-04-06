@@ -11,7 +11,7 @@ const Header = () => {
 
     const fetchUsername = async () => {
         try {
-            const response = await axios.get('/user/currentUser');
+            const response = await axios.get('http://localhost:3333/user/currentUser');
             console.log(response.data);
             return response.data.username;
         } catch (error) {

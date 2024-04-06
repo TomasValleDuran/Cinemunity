@@ -4,11 +4,13 @@ import org.example.model.User;
 import org.example.repository.Users;
 import spark.Request;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.util.regex.Pattern;
 
 public class UserService {
     private final Users users;
+    Long sessionUserId = null;
 
     public UserService(EntityManager entityManager) {
         this.users = new Users(entityManager);
@@ -49,8 +51,8 @@ public class UserService {
         if (req.session().attribute("userId") != null) {
             return "Already signed in";
         }
-
         req.session().attribute("userId", user.getUserId());
+        sessionUserId = req.session().attribute("userId");
         return user.asJson();
     }
 
@@ -59,7 +61,8 @@ public class UserService {
             return "Not signed in";
         }
 
-        req.session().removeAttribute("userId");
+        //req.session().removeAttribute("userId");
+        sessionUserId = null;
         return "Signed out";
     }
 
@@ -72,7 +75,8 @@ public class UserService {
         }
     }
 
-    public String getCurrentUser(Long userId) {
+    public String getCurrentUser(Request req) {
+        Long userId = sessionUserId;
         if (userId == null) {
             return "Not signed in";
         }
