@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.example.controller.CelebrityController;
 import org.example.controller.ShowController;
 import org.example.controller.UserController;
-import spark.Spark;
+import spark.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

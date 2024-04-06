@@ -16,8 +16,10 @@ const SignIn = ()=>{
                 username: username,
                 password: password,
             });
-            console.log("res")
-            console.log(response.data);
+
+            // Store the token in local storage
+            localStorage.setItem('token', response.data.token);
+            console.log("Inicio de sesión exitoso:", response.data.token);
             navigate('/home');
         } catch (error) {
             console.error("Error de inicio de sesión:", error);

@@ -13,11 +13,15 @@ const User = () => {
     const navigate = useNavigate();
 
 
-    const fetchUsername = async () => {
+    const fetchUser = async () => {
         try {
-            const response = await axios.get('http://localhost:3333/user/currentUser');
-            console.log(response.data);
-            return response;
+            const response = await axios.get('http://localhost:3333/user/currentUser', {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("información de user:", response.data)
+            return response.data;
         } catch (error) {
             console.error('Error fetching username:', error);
             return null;
@@ -26,13 +30,10 @@ const User = () => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const username = (await fetchUsername()).data.username;
-            setUsername(username);
-            const usermail= (await fetchUsername()).data.email;
-            setUsermail(usermail);
-            const isAdmin = (await fetchUsername()).data.is_admin;
-            setIsAdmin(isAdmin);
-            setIsAdmin(true)
+            const response = await fetchUser();
+            response && setUsername(response.username);
+            response && setUsermail(response.email);
+            response && setIsAdmin(response.is_admin);
         };
 
         fetchUserData();
@@ -48,6 +49,7 @@ const User = () => {
             <h1>hola {username}</h1>
             <h2>tu mail es: {usermail}</h2>
             {isAdmin && <button onClick={handleMovieClick}>Agregar Peliculas</button>}
+
         </div>
     );
 };

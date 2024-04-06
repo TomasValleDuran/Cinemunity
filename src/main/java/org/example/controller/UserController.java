@@ -3,11 +3,11 @@ package org.example.controller;
 import com.google.gson.Gson;
 import org.example.dto.SignInDto;
 import org.example.dto.SignUpDto;
-import org.example.model.User;
 import org.example.service.UserService;
 import spark.Request;
 import spark.Response;
 import javax.persistence.EntityManager;
+
 
 public class UserController {
     private final UserService userService;
@@ -33,7 +33,7 @@ public class UserController {
         String password = signInDto.getPassword();
 
         res.type("application/json");
-        return userService.signin(username, password, req);
+        return userService.signin(username, password);
     }
 
     public String signout(Request req, Response res) {

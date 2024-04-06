@@ -11,8 +11,12 @@ const Header = () => {
 
     const fetchUsername = async () => {
         try {
-            const response = await axios.get('http://localhost:3333/user/currentUser');
-            console.log(response.data);
+            const response = await axios.get('http://localhost:3333/user/currentUser', {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("respuesta de current user:", response.data)
             return response.data.username;
         } catch (error) {
             console.error('Error fetching username:', error);
@@ -35,6 +39,16 @@ const Header = () => {
 
     const handleProfileClick = () => {
         navigate(`/user/${username}`);
+    };
+
+    // Create a function to handle sign out
+    const handleSignOut = () => {
+        // Remove the token from local storage
+        localStorage.removeItem('token');
+        console.log("Sesión cerrada")
+
+        // Navigate to the sign in page
+        navigate('/signin');
     };
 
     return (
@@ -60,10 +74,11 @@ const Header = () => {
                     <button>Search</button> {/* Add onClick event */}
                 </div>
             </div>
-            <div className={'header-profile'} onClick={handleProfileClick}>
-                <div className={'header-profile-username'}>
+            <div className={'header-profile'}>
+                <div className={'header-profile-username'} onClick={handleProfileClick}>
                     {username}
                 </div>
+                <button className={'header-signout'} onClick={handleSignOut}>Sign Out</button>
             </div>
         </div>
     );
