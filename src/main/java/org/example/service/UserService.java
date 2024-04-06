@@ -73,4 +73,12 @@ public class UserService {
             return "User not found";
         }
     }
+
+    public String getCurrentUser(Long userId) {
+        if (userId == null) {
+            return "Not signed in";
+        }
+        User user = users.findUserById(userId);
+        return user.asJson();
+    }
 }

@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import org.example.controller.CelebrityController;
 import org.example.controller.ShowController;
 import org.example.controller.UserController;
-import org.example.model.User;
-import org.example.repository.Users;
 import spark.Spark;
 
 import javax.persistence.EntityManager;
@@ -44,9 +42,10 @@ public class Aplication {
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
         Spark.post("/user/signup", userController::signup);
-        Spark.get("/user/signin", userController::signin);
+        Spark.post("/user/signin", userController::signin);
         Spark.get("/user/signout" , userController::signout);
         Spark.get("/user/:username", userController::getUser);
+        Spark.get("/user/currentUser", userController::getCurrentUser);
 
         Spark.post("/show/addShow", showController::addShow);
         Spark.get("/show/:title", showController::getShow);

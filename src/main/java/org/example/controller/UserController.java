@@ -3,6 +3,7 @@ package org.example.controller;
 import com.google.gson.Gson;
 import org.example.dto.SignInDto;
 import org.example.dto.SignUpDto;
+import org.example.model.User;
 import org.example.service.UserService;
 import spark.Request;
 import spark.Response;
@@ -45,5 +46,11 @@ public class UserController {
 
         res.type("application/json");
         return userService.getUser(username);
+    }
+
+    public String getCurrentUser(Request req, Response res) {
+        Long userId = req.session().attribute("userId");
+        res.type("application/json");
+        return userService.getCurrentUser(userId);
     }
 }
