@@ -1,0 +1,86 @@
+.header-menu {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+}
+.header-logo {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.header-logo img {
+    height: 40px;
+    width: 150px;
+
+}
+
+.search {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 3;
+}
+
+.header-search-option select{
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px;
+}
+
+.header-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.header-search input[type="text"] {
+    flex-grow: 1; /* Make the input expand to fill available space */
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    height: 30px; /* Match the height of the dropdown and button */
+}
+
+.header-search-button button {
+    padding: 5px 10px;
+    background-color: #23c109;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px;
+    flex-grow: 0;
+}
+
+.header-search-button button:hover {
+    background-color: #178c05;
+}
+
+.header-profile {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.header-profile-username {
+    height: 40px;
+    width: 80px;
+    background-color: #23c109;
+}

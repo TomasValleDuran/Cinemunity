@@ -8,11 +8,9 @@ import javax.persistence.EntityManager;
 import java.util.regex.Pattern;
 
 public class UserService {
-    private final EntityManager entityManager;
     private final Users users;
 
     public UserService(EntityManager entityManager) {
-        this.entityManager = entityManager;
         this.users = new Users(entityManager);
     }
 

@@ -3,6 +3,7 @@ import {useState} from "react";
 import React from "react";
 import './SignIn.css'
 import axios from "axios";
+import FormInput from "../../shared/form-input/FormInput";
 
 const SignIn = ()=>{
     const [username, setUsername] = useState("");
@@ -31,12 +32,8 @@ const SignIn = ()=>{
                 </div>
             </div>
             <div className='signin-inputs'>
-                <div className='signin-input'>
-                    <input type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)}/>
-                </div>
-                <div className='signin-input'>
-                    <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}/>
-                </div>
+                <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
+                <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
             </div>
             <button className='signin-button' onClick={handleSignIn}>Sign In</button>
             <div className='signup'>

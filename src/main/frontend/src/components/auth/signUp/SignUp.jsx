@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './SignUp.css';
 import {Link, useNavigate} from 'react-router-dom';
+import FormInput from "../../shared/form-input/FormInput";
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -48,15 +49,9 @@ const SignUp = () => {
                 </div>
             </div>
             <div className="signup-inputs">
-                <div className="signup-input">
-                    <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-                </div>
-                <div className="signup-input">
-                    <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-                </div>
-                <div className="signup-input">
-                    <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-                </div>
+                <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+                <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
+                <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
             </div>
             <button className="signup-button" onClick={handleSignUp}>Sign Up</button>
             <div className="login">
