@@ -43,12 +43,17 @@ const User = () => {
         navigate(`/addMovie`);
     }
 
+    const handleMovieClick2 = () => {
+        navigate(`/addCelebrity`);
+    }
+
     return (
         <div>
             <Header />
             <h1>hola {username}</h1>
             <h2>tu mail es: {usermail}</h2>
-            {isAdmin && <button onClick={handleMovieClick}>Agregar Peliculas</button>}
+            {isAdmin && <button onClick={handleMovieClick}>Agregar Shows</button>}
+            {isAdmin && <button onClick={handleMovieClick2}>Agregar Celebridades</button>}
 
         </div>
     );

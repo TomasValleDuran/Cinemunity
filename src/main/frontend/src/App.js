@@ -6,6 +6,7 @@ import SignUp from "./components/auth/signUp/SignUp";
 import Home from "./components/home/Home";
 import User from "./components/User/User";
 import AddMovie from "./components/addForms/addMovie/AddMovie";
+import AddCelebrity from "./components/addForms/addCelebrity/AddCelebrity";
 
 function App() {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ function App() {
             <Route path="/home" element={<Home/>}/>
             <Route path="/user/:username" element={<User/>}/>
             <Route path="/addMovie" element={<AddMovie/>}/>
+            <Route path="/addCelebrity" element={<AddCelebrity/>}/>
         </Routes>
     )
 }

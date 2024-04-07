@@ -25,8 +25,8 @@ public class CelebrityController {
     }
 
     public Object addCelebrity(Request req, Response res) {
-        String validation = validateUser(req, res);
-        if (validation != null) return validation;
+        //String validation = validateUser(req, res);
+        //if (validation != null) return validation;
 
         AddCelebrityDto addCelebrityDto = gson.fromJson(req.body(), AddCelebrityDto.class);
         String name = addCelebrityDto.getName();
