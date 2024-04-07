@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import {Route, Routes, useNavigate} from 'react-router-dom'; // Importa BrowserRouter como Router
+import {Route, Routes} from 'react-router-dom'; // Importa BrowserRouter como Router
 import SignIn from "./components/auth/signIn/SignIn";
 import SignUp from "./components/auth/signUp/SignUp";
 import Home from "./components/home/Home";
@@ -9,7 +9,6 @@ import AddMovie from "./components/addForms/addMovie/AddMovie";
 import AddCelebrity from "./components/addForms/addCelebrity/AddCelebrity";
 
 function App() {
-    const navigate = useNavigate();
     return (
         <Routes>
             <Route path="/" element={<SignIn/>}/>
