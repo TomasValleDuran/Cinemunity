@@ -7,6 +7,7 @@ import Home from "./components/home/Home";
 import User from "./components/User/User";
 import AddMovie from "./components/addForms/addMovie/AddMovie";
 import AddCelebrity from "./components/addForms/addCelebrity/AddCelebrity";
+import Show from "./components/Show/Show";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/user/:username" element={<User/>}/>
             <Route path="/addMovie" element={<AddMovie/>}/>
             <Route path="/addCelebrity" element={<AddCelebrity/>}/>
+            <Route path="/show/:title" element={<Show/>}/>
         </Routes>
     )
 }

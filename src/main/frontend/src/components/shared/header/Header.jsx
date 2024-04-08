@@ -8,6 +8,7 @@ const Header = () => {
     const [searchType, setSearchType] = useState('movie'); // Default search type
     const [username, setUsername] = useState(''); // Username of the currently signed-in user
     const navigate = useNavigate();
+    const [search, setSearch] = useState('');
 
     const fetchUsername = async () => {
         try {
@@ -47,9 +48,26 @@ const Header = () => {
         localStorage.removeItem('token');
         console.log("Sesión cerrada")
 
-        // Navigate to the sign in page
+        // Navigate to the sign-in page
         navigate('/signin');
     };
+
+    const searchShow = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/show/${search}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            if (response.data.title){
+                console.log(response.data)
+                navigate(`/show/${search}`)
+            }
+            else console.log(response.data)
+        } catch (error) {
+            console.error('ERROR: Show not found:', error);
+        }
+    }
 
     return (
         <div className={'header-menu'}>
@@ -68,10 +86,10 @@ const Header = () => {
                     </select>
                 </div>
                 <div className={'header-search'}>
-                    <input type="text" placeholder="Search"/>
+                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search"/>
                 </div>
                 <div className={'header-search-button'}>
-                    <button>Search</button> {/* Add onClick event */}
+                    <button onClick={searchShow}>Search</button> {/* Add onClick event */}
                 </div>
             </div>
             <div className={'header-profile'}>
