@@ -23,6 +23,10 @@ const AddMovie = () => {
                 show_type: showType,
                 acors: actorList,
                 seasons: seasons
+            },{
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
             });
             console.log("res")
             console.log(response.data)
@@ -59,6 +63,7 @@ const AddMovie = () => {
                     <option value="Movie">Movie</option>
                     <option value="TVShow">TV Show</option>
                 </select>
+                {showType === 'TVShow' && <FormInput type="number" value={seasons} onChange={(e) => setSeasons(e.target.value)} placeholder="Seasons" />}
             </div>
             <button onClick={handleSaveMovie}>Save</button>
         </div>

@@ -14,6 +14,10 @@ const AddCelebrity = () => {
             const response = await axios.post('http://localhost:3333/celebrity/addCelebrity', {
                 name: celebrityName,
                 biography: celebrityBio,
+            }, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
             });
             console.log("res")
             console.log(response.data)

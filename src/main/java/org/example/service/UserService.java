@@ -2,16 +2,15 @@ package org.example.service;
 
 import org.example.model.User;
 import org.example.repository.Users;
+import org.example.utility.AuthUtility;
 import spark.Request;
 import javax.persistence.EntityManager;
 import java.util.regex.Pattern;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.util.Date;
 import java.util.Calendar;
 
 public class UserService {
@@ -55,7 +54,7 @@ public class UserService {
 
         // Create a Calendar object
         Calendar calendar = Calendar.getInstance();
-        // Add 1 hour to the current time
+        // Add 2 hour to the current time
         calendar.add(Calendar.HOUR, 2);
 
         // Create a new JWT with an expiration time
@@ -89,20 +88,14 @@ public class UserService {
         }
     }
 
-    public String getCurrentUser(Request req) {
-        String token = req.headers("Authorization");
-        if (token == null) {
-            return "Not signed in";
-        }
-
+    public String getCurrentUser(String token) {
         try {
-            // Decode the JWT
-            DecodedJWT jwt = JWT.require(Algorithm.HMAC256("secret"))
-                    .build()
-                    .verify(token);
+            // Use AuthUtility to get the userId from the token
+            Long userId = AuthUtility.getUserIdFromToken(token);
 
-            // Retrieve the user ID from the JWT
-            Long userId = jwt.getClaim("userId").asLong();
+            if (userId == null) {
+                return "Invalid token";
+            }
 
             User user = users.findUserById(userId);
             return user.asJson();

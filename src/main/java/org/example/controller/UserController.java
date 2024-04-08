@@ -49,7 +49,12 @@ public class UserController {
     }
 
     public String getCurrentUser(Request req, Response res) {
+        String token = req.headers("Authorization");
+        if (token == null) {
+            return "Not signed in";
+        }
+
         res.type("application/json");
-        return userService.getCurrentUser(req);
+        return userService.getCurrentUser(token);
     }
 }
