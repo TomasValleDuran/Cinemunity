@@ -7,6 +7,7 @@ import org.example.service.ShowService;
 import spark.Request;
 import spark.Response;
 import javax.persistence.EntityManager;
+import java.util.List;
 
 
 public class ShowController {
@@ -28,9 +29,7 @@ public class ShowController {
         String description = addShowDto.getDescription();
         String show_type = addShowDto.getShow_type();
         String director = addShowDto.getDirector();
-        //String[] actors = addShowDto.getActors();
-        String[] actors = new String[1];
-        actors[0] = "actor1";
+        List<String> actors = addShowDto.getActors();
         Integer seasons = addShowDto.getSeasons();
 
         res.type("application/json");
