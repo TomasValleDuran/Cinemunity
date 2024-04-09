@@ -11,7 +11,7 @@ const AddCelebrity = () => {
 
     const handleSaveCelebrity = async () => {
         try {
-            const response = await axios.post('http://localhost:3333/celebrity/addCelebrity', {
+            const response = await axios.post('http://localhost:3333/api/celebrity/addCelebrity', {
                 name: celebrityName,
                 biography: celebrityBio,
             }, {

@@ -36,11 +36,6 @@ public class UserController {
         return userService.signin(username, password);
     }
 
-    public String signout(Request req, Response res) {
-        res.type("application/json");
-        return userService.signout(req);
-    }
-
     public String getUser(Request req, Response res) {
         final String username = req.params(":username");
 

@@ -16,12 +16,12 @@ const AddMovie = () => {
 
     const handleSaveMovie = async () => {
         try {
-            const response = await axios.post('http://localhost:3333/show/addShow', {
+            const response = await axios.post('http://localhost:3333/api/show/addShow', {
                 title: showName,
                 description: showDescription,
                 director: showDirector,
                 show_type: showType,
-                acors: actorList,
+                actors: actorList,
                 seasons: seasons
             },{
                 headers: {
@@ -50,23 +50,34 @@ const AddMovie = () => {
     };
 
     return (
-        <div>
-            <div className="home-container">
-                <Header />
-                <p>aca agregas movies</p>
-                <FormInput type="text" value={showName} onChange={(e) => setShowName(e.target.value)} placeholder="Title" />
-                <FormInput type="text" value={showDescription} onChange={(e) => setShowDescription(e.target.value)} placeholder="Description" />
-                <FormInput type="text" value={showDirector} onChange={(e) => setShowDirector(e.target.value)} placeholder="Director" />
-                <FormInput type="text" value={actorName} onChange={(e) => setActorName(e.target.value)} placeholder="Actor Name" /> {/* New input for actor name */}
-                <button onClick={handleAddActor}>Add Actor</button>
-                <select value={showType} onChange={handleSelect}>
+        <div className="home-container">
+            <Header/>
+            <h2>Add new Show:</h2>
+            <div className="form-group">
+                <select value={showType} onChange={handleSelect} className="form-control">
                     <option value="Movie">Movie</option>
                     <option value="TVShow">TV Show</option>
                 </select>
-                {showType === 'TVShow' && <FormInput type="number" value={seasons} onChange={(e) => setSeasons(e.target.value)} placeholder="Seasons" />}
+                {showType === 'TVShow' &&
+                    <FormInput type="number" value={seasons} onChange={(e) => setSeasons(e.target.value)}
+                               placeholder="Seasons"/>}
             </div>
-            <button onClick={handleSaveMovie}>Save</button>
+            <FormInput type="text" value={showName} onChange={(e) => setShowName(e.target.value)} placeholder="Title"/>
+            <FormInput type="text" value={showDescription} onChange={(e) => setShowDescription(e.target.value)}
+                       placeholder="Description"/>
+            <FormInput type="text" value={showDirector} onChange={(e) => setShowDirector(e.target.value)}
+                       placeholder="Director"/>
+            <FormInput type="text" value={actorName} onChange={(e) => setActorName(e.target.value)}
+                       placeholder="Actor Name"/>
+            <button onClick={handleAddActor} className="btn btn-primary">Add Actor</button>
+            <ul className="actor-list">
+                {actorList.map((actor, index) => (
+                    <li key={index}>{actor}</li>
+                ))}
+            </ul>
+            <button onClick={handleSaveMovie} className="btn btn-success">Save</button>
         </div>
+
     );
 };
 

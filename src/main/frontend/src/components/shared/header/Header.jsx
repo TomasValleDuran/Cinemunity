@@ -12,7 +12,7 @@ const Header = () => {
 
     const fetchUsername = async () => {
         try {
-            const response = await axios.get('http://localhost:3333/user/currentUser', {
+            const response = await axios.get('http://localhost:3333//api/user/currentUser', {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
@@ -55,7 +55,7 @@ const Header = () => {
     const searchShow = async () => {
         if (searchType === 'celebrity') {
             try {
-                const response = await axios.get(`http://localhost:3333/celebrity/${search}`, {
+                const response = await axios.get(`http://localhost:3333/api/celebrity/${search}`, {
                     headers: {
                         'Authorization': localStorage.getItem('token')
                     }
@@ -69,7 +69,7 @@ const Header = () => {
             }
         } else {
             try {
-                const response = await axios.get(`http://localhost:3333/show/${search}`, {
+                const response = await axios.get(`http://localhost:3333/api/show/${search}`, {
                     headers: {
                         'Authorization': localStorage.getItem('token')
                     }

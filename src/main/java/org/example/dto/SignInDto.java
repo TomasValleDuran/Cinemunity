@@ -1,8 +1,8 @@
 package org.example.dto;
 
 public class SignInDto {
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
 
     public SignInDto(String username, String password) {
         this.username = username;

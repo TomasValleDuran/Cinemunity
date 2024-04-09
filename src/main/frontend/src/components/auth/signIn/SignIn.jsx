@@ -13,7 +13,7 @@ const SignIn = ()=>{
     const navigate = useNavigate();
     const handleSignIn = async () => {
         try {
-            const response = await axios.post(`http://localhost:3333/user/signin`, {
+            const response = await axios.post(`http://localhost:3333/api/user/signin`, {
                 username: username,
                 password: password,
             });
