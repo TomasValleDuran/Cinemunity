@@ -53,19 +53,34 @@ const Header = () => {
     };
 
     const searchShow = async () => {
-        try {
-            const response = await axios.get(`http://localhost:3333/show/${search}`, {
-                headers: {
-                    'Authorization': localStorage.getItem('token')
-                }
-            });
-            if (response.data.title){
-                console.log(response.data)
-                navigate(`/show/${search}`)
+        if (searchType === 'celebrity') {
+            try {
+                const response = await axios.get(`http://localhost:3333/celebrity/${search}`, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                if (response.data.name) {
+                    console.log(response.data)
+                    navigate(`/celebrity/${search}`)
+                } else console.log(response.data)
+            } catch (error) {
+                console.error('ERROR: Celebrity not found:', error);
             }
-            else console.log(response.data)
-        } catch (error) {
-            console.error('ERROR: Show not found:', error);
+        } else {
+            try {
+                const response = await axios.get(`http://localhost:3333/show/${search}`, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                if (response.data.title) {
+                    console.log(response.data)
+                    navigate(`/show/${search}`)
+                } else console.log(response.data)
+            } catch (error) {
+                console.error('ERROR: Show not found:', error);
+            }
         }
     }
 
