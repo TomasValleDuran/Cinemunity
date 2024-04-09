@@ -42,12 +42,12 @@ public class Aplication {
         Spark.get("/api/user/currentUser", userController::getCurrentUser);
         Spark.post("/api/user/signup", userController::signup);
         Spark.post("/api/user/signin", userController::signin);
-        Spark.get("/api/user/:username", userController::getUser);
+        Spark.get("/api/user/get/:username", userController::getUser);
 
         Spark.post("/api/show/addShow", showController::addShow);
-        Spark.get("/api/show/:title", showController::getShow);
+        Spark.get("/api/show/get/:title", showController::getShow);
 
         Spark.post("/api/celebrity/addCelebrity", celebrityController::addCelebrity);
-        Spark.get("/api/celebrity/:celebrityName", celebrityController::getCelebrity);
+        Spark.get("/api/celebrity/get/:celebrityName", celebrityController::getCelebrity);
     }
 }
