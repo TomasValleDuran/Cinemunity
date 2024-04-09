@@ -3,6 +3,7 @@ package org.example;
 import org.example.controller.CelebrityController;
 import org.example.controller.ShowController;
 import org.example.controller.UserController;
+import org.example.controller.ReviewController;
 import spark.*;
 
 import javax.persistence.EntityManager;
@@ -20,6 +21,7 @@ public class Aplication {
         final UserController userController = new UserController(entityManager);
         final ShowController showController = new ShowController(entityManager);
         final CelebrityController celebrityController = new CelebrityController(entityManager);
+        final ReviewController reviewController = new ReviewController(entityManager);
 
         Spark.port(3333);
 
@@ -49,5 +51,7 @@ public class Aplication {
 
         Spark.post("/api/celebrity/addCelebrity", celebrityController::addCelebrity);
         Spark.get("/api/celebrity/get/:celebrityName", celebrityController::getCelebrity);
+
+        Spark.post("/api/review/addReview", reviewController::addReview);
     }
 }
