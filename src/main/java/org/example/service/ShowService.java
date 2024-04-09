@@ -20,7 +20,7 @@ public class ShowService {
         this.celebrities = new Celebrities(entityManager);
     }
 
-    public String addShow(String title, String description, String show_type, String director, String[] actors, Integer seasons) {
+    public String addShow(String title, String description, String show_type, String director, List<String> actors, Integer seasons) {
         if (title == null || title.isEmpty()) {
             return "Title is required";
         }

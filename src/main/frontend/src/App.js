@@ -8,6 +8,7 @@ import User from "./components/User/User";
 import AddMovie from "./components/addForms/addMovie/AddMovie";
 import AddCelebrity from "./components/addForms/addCelebrity/AddCelebrity";
 import Show from "./components/Show/Show";
+import Celebrity from "./components/Celebrity/Celebrity";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/addMovie" element={<AddMovie/>}/>
             <Route path="/addCelebrity" element={<AddCelebrity/>}/>
             <Route path="/show/:title" element={<Show/>}/>
+            <Route path="/celebrity/:celebrityName" element={<Celebrity/>}/>
         </Routes>
     )
 }
