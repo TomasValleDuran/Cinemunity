@@ -55,21 +55,6 @@
     height: 30px; /* Match the height of the dropdown and button */
 }
 
-.header-search-button button {
-    padding: 5px 10px;
-    background-color: #23c109;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    height: 40px;
-    flex-grow: 0;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.header-search-button button:hover {
-    background-color: #178c05;
-}
 
 .header-profile {
     cursor: pointer;
@@ -80,34 +65,3 @@
     flex-grow: 1;
 }
 
-.header-profile-username {
-    padding: 5px 10px;
-    background-color: #23c109;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    height: 30px;
-    flex-grow: 0;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.header-profile-username:hover {
-    background-color: #178c05;
-}
-
-.header-signout {
-    padding: 5px 10px;
-    background-color: #d00707;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    height: 40px;
-    flex-grow: 0;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.header-signout:hover {
-    background-color: #a60404;
-}

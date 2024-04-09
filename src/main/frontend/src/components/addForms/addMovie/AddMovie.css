@@ -1,35 +1,66 @@
+.content-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-container, .actor-list-container {
+    flex: 1;
+    margin: 10px;
+}
+
 .form-group {
     margin-bottom: 15px;
 }
 
 .form-control {
-    width: 100%;
+
+    padding: 15px 10px;
+    font-size: 16px; /* Larger font size for better readability */
+    color: #333; /* Darker text color for better contrast */
+    border: 2px solid #ccc; /* Solid border with a subtle color */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    background-color: #f8f8f8; /* Light background color */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle inner shadow for depth */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+}
+
+.form-control:hover {
+    border-color: #999; /* Darker border on hover for feedback */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow on hover */
+}
+
+.form-control:focus {
+    border-color: #666; /* Even darker border for focused state */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Deeper shadow for focus indication */
+    outline: none; /* Remove default outline to avoid style clashing */
+}
+
+.actor-list-container {
+    max-width: 400px; /* Adjust this width as necessary */
+    margin: 10px;
     padding: 10px;
-    border-radius: 5px;
     border: 1px solid #ccc;
-    margin-bottom: 10px;
-}
-
-.btn {
-    padding: 10px;
-    border: none;
     border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    margin-top: 10px;
-    display: inline-block;
-    text-align: center;
 }
 
-.btn-primary {
-    background-color: #007bff;
-}
-
-.btn-success {
-    background-color: #28a745;
+.actor-list-container h3 {
+    margin-top: 0;
+    color: #333;
 }
 
 .actor-list {
     list-style-type: none;
     padding-left: 0;
+    margin-top: 10px;
+}
+
+.delete-actor {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+}
+
+.delete-actor:hover {
+    color: darkred;
 }

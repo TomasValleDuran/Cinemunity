@@ -1,18 +1,31 @@
-.btn {
-    padding: 10px;
+.button {
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 4px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
     color: white;
-    margin-top: 10px;
+    font-size: 16px;
+    transition: background-color 0.2s, transform 0.2s;
     display: inline-block;
-    text-align: center;
 }
 
-.btn-primary {
+.btn-addActor {
     background-color: #007bff;
 }
 
-.btn-success {
+.btn-save {
     background-color: #28a745;
+}
+
+.btn-search {
+    background-color: #007bff;
+}
+
+.btn-profileName {
+    background-color: #000000;
+}
+
+.btn-logout {
+    background-color: #dc3545;
 }

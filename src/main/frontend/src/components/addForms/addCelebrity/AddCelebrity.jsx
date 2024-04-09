@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {SaveButton} from '../../shared/buttons/Buttons';
 import './AddCelebrity.css';
 import Header from '../../shared/header/Header';
 import FormInput from '../../shared/form-input/FormInput';
@@ -30,14 +31,15 @@ const AddCelebrity = () => {
     return (
         <div>
             <div className="home-container">
-                <Header />
-                <p>aca agregas celebridades</p>
-                <FormInput type="text" value={celebrityName} onChange={(e) => setCelebrityName(e.target.value)} placeholder="Name" />
-                <FormInput type="text" value={celebrityBio} onChange={(e) => setCelebrityBio(e.target.value)} placeholder="Biography" />
+                <Header/>
+                <p>Aquí agregas celebridades:</p>
+                <FormInput type="text" value={celebrityName} onChange={(e) => setCelebrityName(e.target.value)}
+                           placeholder="Name"/>
+                <FormInput type="text" value={celebrityBio} onChange={(e) => setCelebrityBio(e.target.value)}
+                           placeholder="Biography"/>
             </div>
-            <button onClick={handleSaveCelebrity}>Save</button>
+            <SaveButton onClick={handleSaveCelebrity()} className="btn btn-save">Save</SaveButton>
         </div>
-
     );
 };
 
