@@ -1,0 +1,74 @@
+.user-data-container {
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4 {
+    text-align: center;
+    height: 10px;
+}
+
+.user-header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.user-image img{
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+}
+
+.user-data {
+    display: flex;
+    flex-direction: row;
+}
+
+.username-mail {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.followers, .following {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.menu-icon {
+    padding-top: 10px;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.menu-icon img {
+    width: 20px;
+    height: 20px;
+}
+
+.rating-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.rating {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 30px;
+}
+
+.rating img {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+.buttons button {
+    margin-right: 10px;
+}

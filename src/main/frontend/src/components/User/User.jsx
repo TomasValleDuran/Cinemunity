@@ -3,11 +3,17 @@ import './User.css';
 import Header from '../shared/header/Header';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import Sample_User_Icon from "../assets/Sample_User_Icon.png";
+import heart from "../assets/heart.png";
+import menuicon from "../assets/menu-icon.png";
 
 const User = () => {
 
     const [username, setUsername] = useState('');
     const [usermail, setUsermail] = useState('');
+    const [followers, setFollowers] = useState('');
+    const [following, setFollowing] = useState('');
+    const [rating, setRating] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
 
     const navigate = useNavigate();
@@ -34,6 +40,9 @@ const User = () => {
             response && setUsername(response.username);
             response && setUsermail(response.email);
             response && setIsAdmin(response.is_admin);
+            response && setFollowers(response.followers.length);
+            response && setFollowing(response.following.length);
+            response && setRating(response.rating)
         };
 
         fetchUserData();
@@ -50,11 +59,38 @@ const User = () => {
     return (
         <div>
             <Header />
-            <h1>hola {username}</h1>
-            <h2>tu mail es: {usermail}</h2>
-            {isAdmin && <button onClick={handleMovieClick}>Agregar Shows</button>}
-            {isAdmin && <button onClick={handleMovieClick2}>Agregar Celebridades</button>}
-
+            <div className={"user-data-container"}>
+                <div className={"user-header"}>
+                    <div className={"user-image"}>
+                        <img src={Sample_User_Icon} alt={"imagen"}/>
+                    </div>
+                    <div className={"username-mail"}>
+                        <h1>{username}</h1>
+                        <h4>{usermail}</h4>
+                    </div>
+                    <div className={"followers"}>
+                        <h2>Followers</h2>
+                        <h3>{followers}</h3>
+                    </div>
+                    <div className={"following"}>
+                        <h2>Following</h2>
+                        <h3>{following}</h3>
+                    </div>
+                    <div className={"menu-icon"}>
+                        <img src={menuicon} alt={"menu icon"}/>
+                    </div>
+                </div>
+                <div className={"rating-buttons"}>
+                    <div className={"rating"}>
+                        <img src={heart} alt={"heart"}/>
+                        <h2>{rating}</h2>
+                    </div>
+                    <div className={"buttons"}>
+                        {isAdmin && <button onClick={handleMovieClick}>Agregar Shows</button>}
+                        {isAdmin && <button onClick={handleMovieClick2}>Agregar Celebridades</button>}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
