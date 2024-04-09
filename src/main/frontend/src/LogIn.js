@@ -18,7 +18,7 @@ function LogIn() {
         event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
 
         try {
-            const response = await axios.get('http://localhost:3333/user/signin', {
+            const response = await axios.get('http://localhost:3333/api/user/signin', {
                 params: {
                     username: user,
                     password: password

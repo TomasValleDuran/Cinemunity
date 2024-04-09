@@ -1,7 +1,7 @@
-.form-input{
+.form-input {
     display: flex;
     align-items: center;
-    margin: auto;
+    margin: 10px auto; /* Ajustado para agregar más espacio vertical */
     width: 480px;
     height: 80px;
     background: #eaeaea;
@@ -11,7 +11,7 @@
     border-radius: 6px;
 }
 
-.form-input input{
+.form-input input {
     height: 50px;
     width: 400px;
     background: transparent;
@@ -19,4 +19,5 @@
     outline: none;
     font-size: 19px;
     border-radius: 25px;
+    padding-left: 15px; /* Agregar padding izquierdo para alinear el texto dentro del input */
 }

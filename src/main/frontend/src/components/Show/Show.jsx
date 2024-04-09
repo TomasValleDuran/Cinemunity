@@ -15,7 +15,7 @@ const Show = () => {
 
     const fetchShow = async () => {
         try {
-            const response = await axios.get(`http://localhost:3333/show/${title}`, {
+            const response = await axios.get(`http://localhost:3333/api/show/get/${title}`, {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }

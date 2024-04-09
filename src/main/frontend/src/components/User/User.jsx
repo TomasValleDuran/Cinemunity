@@ -15,7 +15,7 @@ const User = () => {
 
     const fetchUser = async () => {
         try {
-            const response = await axios.get('http://localhost:3333/user/currentUser', {
+            const response = await axios.get('http://localhost:3333/api/user/currentUser', {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }

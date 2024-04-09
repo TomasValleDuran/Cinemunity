@@ -1,6 +1,5 @@
 package org.example;
 
-import com.google.gson.Gson;
 import org.example.controller.CelebrityController;
 import org.example.controller.ShowController;
 import org.example.controller.UserController;
@@ -14,7 +13,6 @@ import javax.persistence.Persistence;
 import static spark.Spark.*;
 
 public class Aplication {
-    static Gson gson = new Gson();
     public static void main(String[] args) {
         final EntityManagerFactory factory = Persistence.createEntityManagerFactory("cinemunityDB");
         final EntityManager entityManager = factory.createEntityManager();
@@ -41,16 +39,15 @@ public class Aplication {
 
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
-        Spark.get("/user/currentUser", userController::getCurrentUser);
-        Spark.post("/user/signup", userController::signup);
-        Spark.post("/user/signin", userController::signin);
-        Spark.get("/user/signout" , userController::signout);
-        Spark.get("/user/:username", userController::getUser);
+        Spark.get("/api/user/currentUser", userController::getCurrentUser);
+        Spark.post("/api/user/signup", userController::signup);
+        Spark.post("/api/user/signin", userController::signin);
+        Spark.get("/api/user/:username", userController::getUser);
 
-        Spark.post("/show/addShow", showController::addShow);
-        Spark.get("/show/:title", showController::getShow);
+        Spark.post("/api/show/addShow", showController::addShow);
+        Spark.get("/api/show/:title", showController::getShow);
 
-        Spark.post("/celebrity/addCelebrity", celebrityController::addCelebrity);
-        Spark.get("/celebrity/:celebrityName", celebrityController::getCelebrity);
+        Spark.post("/api/celebrity/addCelebrity", celebrityController::addCelebrity);
+        Spark.get("/api/celebrity/:celebrityName", celebrityController::getCelebrity);
     }
 }
