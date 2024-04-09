@@ -23,16 +23,21 @@ public class UserService {
     public String signup(String email, String username, String password) {
         // Validate user data
         if (email == null || username == null || password == null) {
-            return "Invalid user data";
+            throw new IllegalArgumentException("Missing data");
         }
 
         if (!isValidEmail(email)) {
-            return "Invalid email";
+            return "Email is invalid";
         }
 
-        User existingUser = users.findUserByEmailOrUsername(email, username);
+        User existingEmail = users.findUserByEmail(email);
+        if (existingEmail != null) {
+            return "Email already in use";
+        }
+
+        User existingUser = users.findUserByUsername(username);
         if (existingUser != null) {
-            return "User already exists";
+            return "Username already in use";
         }
 
         User user = new User(email, username, password);
@@ -49,7 +54,7 @@ public class UserService {
     public String signin(String username, String password) {
         User user = users.findUserByUsername(username);
         if (user == null || !user.getPassword().equals(password)) {
-            return "Invalid username or password";
+            throw new IllegalArgumentException("Invalid username or password");
         }
 
         // Create a Calendar object

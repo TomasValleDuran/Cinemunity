@@ -8,6 +8,9 @@ const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [inavlidMailError, setInvalidMailError] = useState(false);
+    const [mailError, setMailError] = useState(false); // Add this line
+    const [usernameError, setUsernameError] = useState(false);
 
     const navigate = useNavigate();
 
@@ -20,6 +23,24 @@ const SignUp = () => {
             });
             console.log("res")
             console.log(response.data);
+            if (response.data === "Email is invalid") {
+                setInvalidMailError(true);
+                return;
+            }
+                else setInvalidMailError(false);
+
+            if (response.data === "Email already in use") {
+                setMailError(true);
+                return;
+            }
+            else setMailError(false);
+
+            if (response.data === "Username already in use") {
+                setUsernameError(true);
+                return;
+            }
+            else setUsernameError(false);
+
 
             await signIn();
         } catch (error) {
@@ -52,7 +73,10 @@ const SignUp = () => {
             </div>
             <div className="signup-inputs">
                 <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+                {inavlidMailError && <div className="error-message">Invalid email</div>}
+                {mailError && <div className="error-message">Email already in use</div>}
                 <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
+                {usernameError && <div className="error-message">Username already in use</div>}
                 <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
             </div>
             <button className="signup-button" onClick={handleSignUp}>Sign Up</button>

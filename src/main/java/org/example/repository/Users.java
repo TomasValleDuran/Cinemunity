@@ -24,6 +24,9 @@ public class Users {
                 "FROM User u " +
                 "WHERE u.email LIKE :email", User.class);
         query.setParameter("email", email);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         return query.getSingleResult();
     }
 
@@ -46,6 +49,9 @@ public class Users {
                 "FROM User u " +
                 "WHERE u.username LIKE :username", User.class);
         query.setParameter("username", username);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         return query.getSingleResult();
     }
 
