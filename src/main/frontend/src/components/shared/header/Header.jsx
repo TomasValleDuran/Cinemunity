@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SaveButton, AddActorButton, LogoutButton, ProfileNameButton} from '../../shared/buttons/Buttons';
+import {AddActorButton, LogoutButton, ProfileNameButton} from '../buttons/Buttons';
 import logo from "../../assets/logo.png";
 import {Link, useNavigate} from 'react-router-dom';
 import './Header.css';

@@ -6,12 +6,12 @@ public class AddReviewDto {
     private final String review;
     private final String rating;
 
-    private final Show show;
+    private final String show_title;
 
-    public AddReviewDto(Show show, String review, String rating) {
+    public AddReviewDto(String show_title, String review, String rating) {
         this.review = review;
         this.rating = rating;
-        this.show = show;
+        this.show_title = show_title;
     }
 
     public String getReview() {
@@ -22,7 +22,7 @@ public class AddReviewDto {
         return rating;
     }
 
-    public Show getShow() {
-        return show;
+    public String getShow() {
+        return show_title;
     }
 }

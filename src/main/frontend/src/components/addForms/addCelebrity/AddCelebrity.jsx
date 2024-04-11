@@ -38,7 +38,7 @@ const AddCelebrity = () => {
                 <FormInput type="text" value={celebrityBio} onChange={(e) => setCelebrityBio(e.target.value)}
                            placeholder="Biography"/>
             </div>
-            <SaveButton onClick={handleSaveCelebrity()} className="btn btn-save">Save</SaveButton>
+            <SaveButton onClick={handleSaveCelebrity} className="btn btn-save">Save</SaveButton>
         </div>
     );
 };

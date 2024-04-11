@@ -65,7 +65,7 @@ const Show = () => {
             <div>
                 <h1>Comentarios</h1>
             </div>
-            {showAddReview && <AddReview onRemove={handleShowRemoveReview}/>}
+            {showAddReview && <AddReview onRemove={handleShowRemoveReview} showTitle={title}/>}
             <div>
                 <p>aca van los comentarios</p>
             </div>

@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import './AddReview.css';
 import FormInput from "../../shared/form-input/FormInput";
+import axios from "axios";
 
-const AddReview = ({ onRemove }) => {
+const AddReview = ({ showTitle, onRemove }) => {
 
     const [review, setReview] = useState('');
     const [rating, setRating] = useState('');
@@ -10,14 +11,23 @@ const AddReview = ({ onRemove }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const reviewData = {
-            review: review,
-            rating: rating
-        };
-
-        // Aquí puedes hacer una llamada a tu API para enviar la revisión
-        // Por ejemplo, usando axios:
-        // const response = await axios.post('/api/reviews', reviewData);
+        console.log(rating);
+        try {
+            const response = await axios.post('http://localhost:3333/api/review/addReview', {
+                review: review,
+                rating: rating,
+                show_title: showTitle
+            }, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("res")
+            console.log(response.data)
+        }
+        catch (error) {
+            console.error('Error al enviar solicitud:', error);
+        }
     };
 
     return (
