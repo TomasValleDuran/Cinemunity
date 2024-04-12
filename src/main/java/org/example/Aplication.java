@@ -48,6 +48,7 @@ public class Aplication {
 
         Spark.post("/api/show/addShow", showController::addShow);
         Spark.get("/api/show/get/:title", showController::getShow);
+        Spark.get("/api/show/getAll", showController::getAllShows);
 
         Spark.post("/api/celebrity/addCelebrity", celebrityController::addCelebrity);
         Spark.get("/api/celebrity/get/:celebrityName", celebrityController::getCelebrity);

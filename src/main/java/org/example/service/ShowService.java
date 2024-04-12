@@ -69,4 +69,12 @@ public class ShowService {
             return "Show not found";
         }
     }
+
+    public List<Show> getAllShows() {
+        try {
+            return shows.findAllShows();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
 }
