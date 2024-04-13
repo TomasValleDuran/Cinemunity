@@ -39,12 +39,13 @@ const User = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             const response = await fetchUser();
+            console.log(response)
             response && setUsername(response.username);
             response && setUsermail(response.email);
             response && setIsAdmin(response.is_admin);
             response && setFollowers(response.followers.length);
             response && setFollowing(response.following.length);
-            response && setRating(response.rating)
+            response && setRating(response.rating);
         };
 
         fetchUserData();
@@ -85,7 +86,7 @@ const User = () => {
                 <div className={"rating-buttons"}>
                     <div className={"rating"}>
                         <img src={heart} alt={"heart"}/>
-                        <h2>{rating}</h2>
+                        <h2>{String(rating)}</h2>
                     </div>
                     <div className={"buttons"}>
                         {isAdmin && <AddActorButton onClick={handleMovieClick}>Agregar Shows</AddActorButton>}
