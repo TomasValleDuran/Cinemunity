@@ -4,6 +4,7 @@ import './AddMovie.css';
 import Header from '../../shared/header/Header';
 import FormInput from '../../shared/form-input/FormInput';
 import axios from "axios";
+import withAuth from "../../hoc/withAuth";
 
 const AddMovie = () => {
 
@@ -105,4 +106,5 @@ const AddMovie = () => {
 
 };
 
-export default AddMovie;
+const ProtectedAddMovie = withAuth(AddMovie);
+export default ProtectedAddMovie;

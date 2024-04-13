@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom";
 import Header from '../shared/header/Header';
 import axios from "axios";
 import AddReview from "../addForms/addReview/AddReview";
+import withAuth from "../hoc/withAuth";
 
 const Show = () => {
 
@@ -74,4 +75,5 @@ const Show = () => {
     );
 };
 
-export default Show;
+const ProtectedShow = withAuth(Show)
+export default ProtectedShow;

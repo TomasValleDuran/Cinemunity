@@ -3,6 +3,7 @@ import './Celebrity.css';
 import {useParams} from "react-router-dom";
 import Header from '../shared/header/Header';
 import axios from "axios";
+import withAuth from "../hoc/withAuth";
 
 const Celebrity = () => {
 
@@ -44,4 +45,5 @@ const Celebrity = () => {
     );
 };
 
-export default Celebrity;
+const ProtectedCelebrity = withAuth(Celebrity);
+export default ProtectedCelebrity;

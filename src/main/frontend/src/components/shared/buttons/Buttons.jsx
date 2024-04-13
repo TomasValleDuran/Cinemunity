@@ -14,7 +14,7 @@ export const Button = ({ className, children, onClick, ...props }) => {
 export const SaveButton = ({ children, onClick, ...props }) => {
     return (
         <Button className="button-save" onClick={onClick} {...props}>
-            {children || 'Save'}
+            {children}
         </Button>
     );
 };
@@ -23,7 +23,7 @@ export const SaveButton = ({ children, onClick, ...props }) => {
 export const AddActorButton = ({ children, onClick, ...props }) => {
     return (
         <Button className="btn-addActor" onClick={onClick} {...props}>
-            {children || 'Add Actor'}
+            {children}
         </Button>
     );
 };
@@ -31,7 +31,7 @@ export const AddActorButton = ({ children, onClick, ...props }) => {
 export const SearchButton = ({ children, onClick, ...props }) => {
     return (
         <Button className="btn-search" onClick={onClick} {...props}>
-            {children || 'Add Actor'}
+            {children}
         </Button>
     );
 };
@@ -39,7 +39,7 @@ export const SearchButton = ({ children, onClick, ...props }) => {
 export const ProfileNameButton = ({ children, onClick, ...props }) => {
     return (
         <Button className="btn-profileName" onClick={onClick} {...props}>
-            {children || 'Add Actor'}
+            {children}
         </Button>
     );
 };
@@ -47,7 +47,7 @@ export const ProfileNameButton = ({ children, onClick, ...props }) => {
 export const LogoutButton = ({ children, onClick, ...props }) => {
     return (
         <Button className="btn-logout" onClick={onClick} {...props}>
-            {children || 'Add Actor'}
+            {children}
         </Button>
     );
 };

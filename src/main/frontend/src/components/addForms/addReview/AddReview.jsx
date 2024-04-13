@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './AddReview.css';
 import FormInput from "../../shared/form-input/FormInput";
 import axios from "axios";
+import withAuth from "../../hoc/withAuth";
 
 const AddReview = ({ showTitle, onRemove }) => {
 
@@ -53,4 +54,5 @@ const AddReview = ({ showTitle, onRemove }) => {
     );
 };
 
-export default AddReview;
+const ProtectedAddReview = withAuth(AddReview);
+export default ProtectedAddReview;

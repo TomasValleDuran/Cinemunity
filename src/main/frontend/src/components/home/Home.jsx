@@ -3,6 +3,7 @@ import './Home.css';
 import Header from '../shared/header/Header';
 import axios from "axios";
 import {Link} from "react-router-dom";
+import withAuth from '../hoc/withAuth';
 
 const Home = () => {
 
@@ -46,4 +47,5 @@ const Home = () => {
     );
 };
 
-export default Home;
+const ProtectedHome = withAuth(Home);
+export default ProtectedHome;

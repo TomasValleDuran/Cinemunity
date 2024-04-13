@@ -6,6 +6,8 @@ import {useNavigate} from "react-router-dom";
 import Sample_User_Icon from "../assets/Sample_User_Icon.png";
 import heart from "../assets/heart.png";
 import menuicon from "../assets/menu-icon.png";
+import { AddActorButton } from '../shared/buttons/Buttons';
+import withAuth from "../hoc/withAuth";
 
 const User = () => {
 
@@ -86,8 +88,9 @@ const User = () => {
                         <h2>{rating}</h2>
                     </div>
                     <div className={"buttons"}>
-                        {isAdmin && <button onClick={handleMovieClick}>Agregar Shows</button>}
-                        {isAdmin && <button onClick={handleMovieClick2}>Agregar Celebridades</button>}
+                        {isAdmin && <AddActorButton onClick={handleMovieClick}>Agregar Shows</AddActorButton>}
+                        {isAdmin && <AddActorButton onClick={handleMovieClick2}>Agregar Celebridades</AddActorButton>}
+
                     </div>
                 </div>
             </div>
@@ -95,4 +98,5 @@ const User = () => {
     );
 };
 
-export default User;
+const ProtectedUser = withAuth(User);
+export default ProtectedUser;
