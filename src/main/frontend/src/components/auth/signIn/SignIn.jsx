@@ -23,8 +23,8 @@ const SignIn = ()=>{
             console.log("Inicio de sesión exitoso:", response.data.token);
             navigate('/home');
         } catch (error) {
-            console.error("Error de inicio de sesión:", error);
-            setErrorMessage("Invalid username or password"); // Add this line
+            console.error(error.response.data, error);
+            setErrorMessage(error.response.data);
         }
     };
 
