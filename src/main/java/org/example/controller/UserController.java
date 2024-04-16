@@ -24,7 +24,13 @@ public class UserController {
         String password = signUpDto.getPassword();
 
         res.type("application/json");
-        return userService.signup(email, username, password);
+
+        try {
+            return userService.signup(email, username, password);
+        } catch (Exception e) {
+            res.status(400);
+            return e.getMessage();
+        }
     }
 
     public String signin(Request req, Response res) {
@@ -33,7 +39,12 @@ public class UserController {
         String password = signInDto.getPassword();
 
         res.type("application/json");
-        return userService.signin(username, password);
+        try {
+            return userService.signin(username, password);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
     }
 
     public String getUser(Request req, Response res) {
