@@ -7,6 +7,8 @@ import org.example.repository.Reviews;
 
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReviewService {
     Reviews reviews;
@@ -29,5 +31,13 @@ public class ReviewService {
 
         reviews.saveReview(review);
         return review.asJson();
+    }
+
+    public List<Review> getReviews(String id) {
+        try {
+            return reviews.findAllReviews(Long.parseLong(id));
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 }

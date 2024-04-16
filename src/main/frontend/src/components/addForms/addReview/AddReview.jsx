@@ -25,6 +25,7 @@ const AddReview = ({ showTitle, onRemove }) => {
             });
             console.log("res")
             console.log(response.data)
+            onRemove();
         }
         catch (error) {
             console.error('Error al enviar solicitud:', error);

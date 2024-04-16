@@ -54,5 +54,6 @@ public class Aplication {
         Spark.get("/api/celebrity/get/:celebrityName", celebrityController::getCelebrity);
 
         Spark.post("/api/review/addReview", reviewController::addReview);
+        Spark.get("/api/review/getReviews/:id", reviewController::getReviews);
     }
 }

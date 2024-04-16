@@ -15,6 +15,8 @@ const Show = () => {
     const [actors, setActors] = useState([]);
     const [seasons, setSeasons] = useState('');
     const [showAddReview, setShowAddReview] = useState(false);
+    const [reviews, setReviews] = useState([]);
+    const [id, setId] = useState('');
 
     const fetchShow = async () => {
         try {
@@ -32,6 +34,22 @@ const Show = () => {
         }
     }
 
+    const fetchReviews = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/review/getReviews/${id}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("reviews:", response.data)
+            return response.data;
+        }
+        catch (error) {
+            console.error('Error fetching reviews:', error);
+            return null;
+        }
+    }
+
     useEffect(() => {
         const fetchShowData = async () => {
             const response = await fetchShow();
@@ -40,9 +58,15 @@ const Show = () => {
             response && setDescription(response.show_desc);
             response && setActors(response.actors);
             response && setSeasons(response.seasons);
+            response && setId(response.showId);
         };
+        const fetchReviewsData = async () => {
+            const response = await fetchReviews()
+            response && setReviews(response);
+        }
 
         fetchShowData();
+        fetchReviewsData();
     }, []);
 
     const handleShowAddReview = () => {
@@ -67,7 +91,7 @@ const Show = () => {
                         </div>
                         <div className={"show-info"}>
                             <div className={"show-bio"}>
-                                <p> {description}</p>
+                                <p> {description}   {id}</p>
                             </div>
                             <div className={"show-elements"}>
                                 <h3> Director: {director}</h3>
@@ -83,7 +107,15 @@ const Show = () => {
                     <h2>Reviews</h2>
                     {showAddReview && <AddReview onRemove={handleShowRemoveReview} showTitle={title}/>}
                     <div>
-                        <p>aca van los comentarios</p>
+                        <div>
+                            {reviews.map((review, index) => (
+                                <div key={index}>
+                                    <h3>{review.title}</h3>
+                                    <p>{review.content}</p>
+                                    <p>Rating: {review.rating}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <button className="floating-button" onClick={handleShowAddReview}>+</button>

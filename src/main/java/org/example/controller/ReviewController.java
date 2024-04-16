@@ -1,7 +1,10 @@
 package org.example.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.example.dto.AddReviewDto;
+import org.example.model.Review;
 import org.example.model.Show;
 import org.example.model.User;
 import org.example.repository.Shows;
@@ -12,6 +15,7 @@ import spark.Request;
 import spark.Response;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class ReviewController {
 
@@ -38,5 +42,16 @@ public class ReviewController {
         Show show = shows.findShowByTitle(addReviewDto.getShow());
         res.type("application/json");
         return reviewService.addReview(user, show, addReviewDto.getReview(), addReviewDto.getRating());
+    }
+
+    public Object getReviews(Request req, Response res) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String id = req.params(":id");
+        System.out.println(id);
+        List<Review> reviewList = reviewService.getReviews(id);
+        System.out.println(reviewList);
+        String jsonShows = objectMapper.writeValueAsString(reviewList);
+        res.type("application/json");
+        return jsonShows;
     }
 }
