@@ -23,14 +23,19 @@ const AddReview = ({ showTitle, onRemove }) => {
                     'Authorization': localStorage.getItem('token')
                 }
             });
+
             console.log("res")
             console.log(response.data)
-            onRemove();
+            if (response.status === 200) {
+                onRemove();
+            }
         }
         catch (error) {
             console.error('Error al enviar solicitud:', error);
         }
     };
+
+
 
     return (
         <div className="add-review-container">

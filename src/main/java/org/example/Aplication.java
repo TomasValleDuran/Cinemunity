@@ -11,17 +11,18 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 
+import static org.example.utility.EntityManagerUtil.setFactory;
 import static spark.Spark.*;
 
 public class Aplication {
     public static void main(String[] args) {
         final EntityManagerFactory factory = Persistence.createEntityManagerFactory("cinemunityDB");
-        final EntityManager entityManager = factory.createEntityManager();
+        setFactory(factory);
 
-        final UserController userController = new UserController(entityManager);
-        final ShowController showController = new ShowController(entityManager);
-        final CelebrityController celebrityController = new CelebrityController(entityManager);
-        final ReviewController reviewController = new ReviewController(entityManager);
+        final UserController userController = new UserController();
+        final ShowController showController = new ShowController();
+        final CelebrityController celebrityController = new CelebrityController();
+        final ReviewController reviewController = new ReviewController();
 
         Spark.port(3333);
 
@@ -54,6 +55,6 @@ public class Aplication {
         Spark.get("/api/celebrity/get/:celebrityName", celebrityController::getCelebrity);
 
         Spark.post("/api/review/addReview", reviewController::addReview);
-        Spark.get("/api/review/getReviews/:id", reviewController::getReviews);
+        Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);
     }
 }

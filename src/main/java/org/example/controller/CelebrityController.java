@@ -7,14 +7,12 @@ import org.example.utility.AuthUtility;
 import spark.Request;
 import spark.Response;
 
-import javax.persistence.EntityManager;
-
 public class CelebrityController {
     private final CelerbrityService celebrityService;
     private final Gson gson = new Gson();
 
-    public CelebrityController(EntityManager entityManager) {
-        this.celebrityService = new CelerbrityService(entityManager);
+    public CelebrityController() {
+        this.celebrityService = new CelerbrityService();
     }
 
     public Object addCelebrity(Request req, Response res) {

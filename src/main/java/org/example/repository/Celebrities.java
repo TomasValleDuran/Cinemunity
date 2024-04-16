@@ -8,19 +8,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class Celebrities {
-    private EntityManager entityManager;
+import static org.example.utility.EntityManagerUtil.currentEntityManager;
 
-    public Celebrities(EntityManager entityManager) {
-        this.entityManager = entityManager;
+public class Celebrities {
+
+    public Celebrities() {
     }
 
     public Celebrity findCelebrityById(Long id) {
-        return entityManager.find(Celebrity.class, id);
+        return currentEntityManager().find(Celebrity.class, id);
     }
 
     public Celebrity findCelebrityByName(String name) {
-        TypedQuery<Celebrity> query = entityManager.createQuery("SELECT c " +
+        TypedQuery<Celebrity> query = currentEntityManager().createQuery("SELECT c " +
                 "FROM Celebrity c " +
                 "WHERE c.name LIKE :name", Celebrity.class);
         query.setParameter("name", name);
@@ -28,7 +28,7 @@ public class Celebrities {
     }
 
     public List<Show> findShowsDirectedByCelebrity(Celebrity celebrity) {
-        TypedQuery<Show> query = entityManager.createQuery("SELECT s " +
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
                 "FROM Show s " +
                 "WHERE s.director = :celebrity", Show.class);
         query.setParameter("celebrity", celebrity);
@@ -36,7 +36,7 @@ public class Celebrities {
     }
 
     public List<Show> findShowsActedByCelebrity(Celebrity celebrity) {
-        TypedQuery<Show> query = entityManager.createQuery("SELECT s " +
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
                 "FROM Show s " +
                 "JOIN s.actors c " +
                 "WHERE c = :celebrity", Show.class);
@@ -45,26 +45,21 @@ public class Celebrities {
     }
 
     public List<Celebrity> findAllCelebrities() {
-        TypedQuery<Celebrity> query = entityManager.createQuery("SELECT c FROM Celebrity c", Celebrity.class);
+        TypedQuery<Celebrity> query = currentEntityManager().createQuery("SELECT c FROM Celebrity c", Celebrity.class);
         return query.getResultList();
     }
 
     public void saveCelebrity(Celebrity celebrity) {
+        EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(celebrity);
         entityManager.getTransaction().commit();
     }
 
     public void deleteCelebrity(Celebrity celebrity) {
+        EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
         entityManager.remove(celebrity);
         entityManager.getTransaction().commit();
-    }
-
-    public Celebrity persist(Celebrity celebrity) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(celebrity);
-        entityManager.getTransaction().commit();
-        return celebrity;
     }
 }

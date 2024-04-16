@@ -6,7 +6,6 @@ import org.example.model.Show;
 import org.example.repository.Celebrities;
 import org.example.repository.Shows;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +14,9 @@ public class ShowService {
     private final Shows shows;
     private final Celebrities celebrities;
 
-    public ShowService(EntityManager entityManager) {
-        this.shows = new Shows(entityManager);
-        this.celebrities = new Celebrities(entityManager);
+    public ShowService() {
+        this.shows = new Shows();
+        this.celebrities = new Celebrities();
     }
 
     public String addShow(String title, String description, String show_type, String director, List<String> actors, Integer seasons) {

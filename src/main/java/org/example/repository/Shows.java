@@ -9,19 +9,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class Shows {
-    private EntityManager entityManager;
+import static org.example.utility.EntityManagerUtil.currentEntityManager;
 
-    public Shows(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+public class Shows {
+
+    public Shows() {}
 
     public Show findShowById(Long id) {
-        return entityManager.find(Show.class, id);
+        return currentEntityManager().find(Show.class, id);
     }
 
     public Show findShowByTitle(String title) {
-        TypedQuery<Show> query = entityManager.createQuery("SELECT s " +
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
                 "FROM Show s " +
                 "WHERE s.title LIKE :title", Show.class);
         query.setParameter("title", title);
@@ -29,7 +28,7 @@ public class Shows {
     }
 
     public List<Show> findShowByType(String show_type) {
-        TypedQuery<Show> query = entityManager.createQuery("SELECT s " +
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
                 "FROM Show s " +
                 "WHERE s.show_type LIKE :show_type", Show.class);
         query.setParameter("show_type", show_type);
@@ -37,7 +36,7 @@ public class Shows {
     }
 
     public List<Season> findSeasonsByShow(Show show) {
-        TypedQuery<Season> query = entityManager.createQuery("SELECT s " +
+        TypedQuery<Season> query = currentEntityManager().createQuery("SELECT s " +
                 "FROM Season s " +
                 "WHERE s.show = :show", Season.class);
         query.setParameter("show", show);
@@ -45,12 +44,12 @@ public class Shows {
     }
 
     public List<Show> findAllShows() {
-        TypedQuery<Show> query = entityManager.createQuery("SELECT s FROM Show s", Show.class);
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s FROM Show s", Show.class);
         return query.getResultList();
     }
 
     public List<Celebrity> findAllActorsByShow(Show show) {
-        TypedQuery<Celebrity> query = entityManager.createQuery("SELECT c " +
+        TypedQuery<Celebrity> query = currentEntityManager().createQuery("SELECT c " +
                 "FROM Celebrity c " +
                 "JOIN c.actedShows s " +
                 "WHERE s = :show", Celebrity.class);
@@ -59,7 +58,7 @@ public class Shows {
     }
 
     public Celebrity findDirectorByShow(Show show) {
-        TypedQuery<Celebrity> query = entityManager.createQuery("SELECT c " +
+        TypedQuery<Celebrity> query = currentEntityManager().createQuery("SELECT c " +
                 "FROM Celebrity c " +
                 "JOIN c.directedShows s " +
                 "WHERE s = :show", Celebrity.class);
@@ -68,12 +67,14 @@ public class Shows {
     }
 
     public void saveShow(Show show) {
+        EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(show);
         entityManager.getTransaction().commit();
     }
 
     public void deleteShow(Show show) {
+        EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
         entityManager.remove(show);
         entityManager.getTransaction().commit();

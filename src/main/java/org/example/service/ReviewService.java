@@ -12,10 +12,8 @@ import java.util.List;
 
 public class ReviewService {
     Reviews reviews;
-    EntityManager entityManager;
-    public ReviewService(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.reviews = new Reviews(entityManager);
+    public ReviewService() {
+        this.reviews = new Reviews();
     }
 
     public String addReview(User user, Show movie, String review_text, String rating) {
@@ -33,11 +31,13 @@ public class ReviewService {
         return review.asJson();
     }
 
-    public List<Review> getReviews(String id) {
-        try {
-            return reviews.findAllReviews(Long.parseLong(id));
-        } catch (Exception e) {
-            return new ArrayList<>();
+
+    public List<String> getReviewsByIds(List<Long> ids) {
+        List<Review> reviewList = reviews.findReviewsByIds(ids);
+        List<String> jsonList = new ArrayList<>();
+        for (Review review : reviewList) {
+            jsonList.add(review.asJson());
         }
+        return jsonList;
     }
 }
