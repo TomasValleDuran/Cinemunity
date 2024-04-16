@@ -39,9 +39,13 @@ const Home = () => {
             <Header />
             <h1>Shows</h1>
             <ul>
-                {posts.map(post => <li key={post.title} >
-                    <Link to={`/show/${post.title}`}>{post.title}</Link>
-                </li>)}
+                {posts.map(post => (
+                    <li key={post.title}>
+                        <Link to={`/show/${post.title}`} style={{ display: 'block', height: '100%' }}>
+                            {post.title}
+                        </Link>
+                    </li>
+                ))}
             </ul>
         </div>
     );
