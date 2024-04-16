@@ -16,8 +16,8 @@ import java.util.Calendar;
 public class UserService {
     private final Users users;
 
-    public UserService(EntityManager entityManager) {
-        this.users = new Users(entityManager);
+    public UserService() {
+        this.users = new Users();
     }
 
     public String signup(String email, String username, String password) {

@@ -32,8 +32,7 @@ public class AuthUtility {
     }
 
     public static String validateAdmin(Request req, Response res) {
-        EntityManager entityManager = Persistence.createEntityManagerFactory("cinemunityDB").createEntityManager();
-        Users users = new Users(entityManager);
+        Users users = new Users();
         String token = req.headers("Authorization");
         Long userId = AuthUtility.getUserIdFromToken(token);
         User user = users.findUserById(userId);

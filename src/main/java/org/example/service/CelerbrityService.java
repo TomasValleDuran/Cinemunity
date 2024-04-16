@@ -3,14 +3,12 @@ package org.example.service;
 import org.example.model.Celebrity;
 import org.example.repository.Celebrities;
 
-import javax.persistence.EntityManager;
-
 public class CelerbrityService {
 
     private final Celebrities celebrities;
 
-    public CelerbrityService(EntityManager entityManager) {
-        this.celebrities = new Celebrities(entityManager);
+    public CelerbrityService() {
+        this.celebrities = new Celebrities();
     }
 
     public String addCelebrity(String name, String biography) {

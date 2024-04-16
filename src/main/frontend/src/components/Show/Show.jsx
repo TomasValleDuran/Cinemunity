@@ -5,6 +5,8 @@ import Header from '../shared/header/Header';
 import axios from "axios";
 import AddReview from "../addForms/addReview/AddReview";
 import withAuth from "../hoc/withAuth";
+import review from "../shared/review/Review";
+import Review from "../shared/review/Review";
 
 const Show = () => {
 
@@ -17,6 +19,7 @@ const Show = () => {
     const [showAddReview, setShowAddReview] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [id, setId] = useState('');
+    const [reviewAdded, setReviewAdded] = useState(false);
 
     const fetchShow = async () => {
         try {
@@ -26,6 +29,7 @@ const Show = () => {
                 }
             });
             console.log("información de show:", response.data)
+            console.log(reviews)
             return response.data;
         }
         catch (error) {
@@ -34,9 +38,10 @@ const Show = () => {
         }
     }
 
-    const fetchReviews = async () => {
+    const fetchReviewsByIds = async (ids) => {
         try {
-            const response = await axios.get(`http://localhost:3333/api/review/getReviews/${id}`, {
+            const response = await axios.post(`http://localhost:3333/api/review/getReviewsByIds`,
+                ids, {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
@@ -59,22 +64,27 @@ const Show = () => {
             response && setActors(response.actors);
             response && setSeasons(response.seasons);
             response && setId(response.showId);
+            if (response && response.reviews) {
+                const reviewsResponse = await fetchReviewsByIds(response.reviews);
+                setReviews(reviewsResponse);
+            }
         };
-        const fetchReviewsData = async () => {
-            const response = await fetchReviews()
-            response && setReviews(response);
-        }
 
         fetchShowData();
-        fetchReviewsData();
-    }, []);
+    }, [showAddReview]);
 
     const handleShowAddReview = () => {
         setShowAddReview(true);
     }
 
-    const handleShowRemoveReview = () => {
+    const handleShowRemoveReview = async () => {
         setShowAddReview(false);
+    }
+
+    const handleAddReview = async () => {
+        console.log("review", showAddReview)
+        setShowAddReview(false);
+        console.log("added", showAddReview)
     }
 
     return (
@@ -102,20 +112,20 @@ const Show = () => {
                         </div>
                     </div>
                 </div>
-
-                <div className={"review-container"}>
+                <div className={"review-show-container"}>
                     <h2>Reviews</h2>
-                    {showAddReview && <AddReview onRemove={handleShowRemoveReview} showTitle={title}/>}
+                    {showAddReview && <AddReview
+                        onRemove={handleShowRemoveReview}
+                        showTitle={title}/>}
                     <div>
-                        <div>
-                            {reviews.map((review, index) => (
-                                <div key={index}>
-                                    <h3>{review.title}</h3>
-                                    <p>{review.content}</p>
-                                    <p>Rating: {review.rating}</p>
-                                </div>
-                            ))}
-                        </div>
+                        {reviews.map((review, index) => (
+                            <Review
+                                username={review.username}
+                                reviewText={review.review_text}
+                                reviewRating={review.review_rating}
+                                initialLikes={review.likes}
+                            />
+                        ))}
                     </div>
                 </div>
                 <button className="floating-button" onClick={handleShowAddReview}>+</button>

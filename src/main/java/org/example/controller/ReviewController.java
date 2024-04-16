@@ -1,10 +1,9 @@
 package org.example.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import org.example.dto.AddReviewDto;
-import org.example.model.Review;
 import org.example.model.Show;
 import org.example.model.User;
 import org.example.repository.Shows;
@@ -14,7 +13,8 @@ import org.example.utility.AuthUtility;
 import spark.Request;
 import spark.Response;
 
-import javax.persistence.EntityManager;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewController {
@@ -25,15 +25,18 @@ public class ReviewController {
     private final Users users;
     private final Shows shows;
 
-    public ReviewController(EntityManager entityManager) {
-        this.reviewService = new ReviewService(entityManager);
-        this.users = new Users(entityManager);
-        this.shows = new Shows(entityManager);
+    public ReviewController() {
+        this.reviewService = new ReviewService();
+        this.users = new Users();
+        this.shows = new Shows();
     }
 
     public String addReview(Request req, Response res) {
-        String validation = AuthUtility.validateAdmin(req, res);
-        if (!validation.equals("admin")) return validation;
+        Long id = AuthUtility.getUserIdFromToken(req.headers("Authorization"));
+        if (id == null) {
+            res.status(401);
+            return "Invalid or expired token";
+        }
 
         User user = users.findUserById(AuthUtility.getUserIdFromToken(req.headers("Authorization")));
 
@@ -44,14 +47,10 @@ public class ReviewController {
         return reviewService.addReview(user, show, addReviewDto.getReview(), addReviewDto.getRating());
     }
 
-    public Object getReviews(Request req, Response res) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String id = req.params(":id");
-        System.out.println(id);
-        List<Review> reviewList = reviewService.getReviews(id);
-        System.out.println(reviewList);
-        String jsonShows = objectMapper.writeValueAsString(reviewList);
+    public Object getReviewsByIds(Request req, Response res) throws JsonProcessingException {
+        Type listType = new TypeToken<ArrayList<Long>>(){}.getType();
+        List<Long> reviewIds = new Gson().fromJson(req.body(), listType);
         res.type("application/json");
-        return jsonShows;
+        return reviewService.getReviewsByIds(reviewIds);
     }
 }

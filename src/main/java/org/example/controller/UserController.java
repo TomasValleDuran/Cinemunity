@@ -13,8 +13,8 @@ public class UserController {
     private final UserService userService;
     private final Gson gson = new Gson();
 
-    public UserController(EntityManager entityManager) {
-        this.userService = new UserService(entityManager);
+    public UserController() {
+        this.userService = new UserService();
     }
 
     public String signup(Request req, Response res) {
