@@ -15,10 +15,10 @@ public class CelerbrityService {
 
     public String addCelebrity(String name, String biography) {
         if (name == null || name.isEmpty()) {
-            return "Name cannot be empty";
+            throw new IllegalArgumentException("Name cannot be empty");
         }
         if (biography == null || biography.isEmpty()) {
-            return "Biography cannot be empty";
+            throw new IllegalArgumentException("Biography cannot be empty");
         }
 
         Celebrity celebrity = new Celebrity(name, biography);

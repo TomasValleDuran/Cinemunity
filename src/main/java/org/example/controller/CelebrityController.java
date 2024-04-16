@@ -26,7 +26,12 @@ public class CelebrityController {
         String biography = addCelebrityDto.getBiography();
 
         res.type("application/json");
-        return celebrityService.addCelebrity(name, biography);
+        try {
+            return celebrityService.addCelebrity(name, biography);
+        } catch (IllegalArgumentException e) {
+            res.status(400);
+            return e.getMessage();
+        }
     }
 
     public Object getCelebrity(Request req, Response res) {

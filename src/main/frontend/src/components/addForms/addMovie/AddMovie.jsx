@@ -18,7 +18,8 @@ const AddMovie = () => {
 
     const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSaveMovie = async () => {
+    const handleSaveMovie = async (event) => {
+        event.preventDefault();
         try {
             const response = await axios.post('http://localhost:3333/api/show/addShow', {
                 title: showName,
@@ -34,6 +35,12 @@ const AddMovie = () => {
             });
             console.log("res")
             console.log(response.data)
+            setShowName('');
+            setShowDescription('');
+            setShowDirector('');
+            setActorList([]);
+            setSeasons('');
+            setErrorMessage('');
         }
         catch (error) {
             console.error(error.response.data, error);

@@ -11,13 +11,15 @@ const AddCelebrity = () => {
     const [celebrityName, setCelebrityName] = useState('');
     const [celebrityBio, setCelebrityBio] = useState('');
 
+    const [errorMessage, setErrorMessage] = useState("");
+
     const handleSaveCelebrity = async (event) => {
         event.preventDefault(); // Prevent the form from refreshing the page
         try {
             const response = await axios.post('http://localhost:3333/api/celebrity/addCelebrity', {
                 name: celebrityName,
                 biography: celebrityBio,
-            }, {
+            },{
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
@@ -26,9 +28,11 @@ const AddCelebrity = () => {
             console.log(response.data)
             setCelebrityName('');
             setCelebrityBio('');
+            setErrorMessage('');
         }
         catch (error) {
-            console.error('Error al enviar solicitud:', error);
+            console.error(error.response.data, error);
+            setErrorMessage(error.response.data);
         }
     }
 
@@ -41,6 +45,9 @@ const AddCelebrity = () => {
                            placeholder="Name"/>
                 <FormInput type="text" value={celebrityBio} onChange={(e) => setCelebrityBio(e.target.value)}
                            placeholder="Biography"/>
+
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
+
                 <SaveButton type="submit" className="btn btn-save">Save</SaveButton>
             </form>
         </div>
