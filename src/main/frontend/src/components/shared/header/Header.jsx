@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {AddActorButton, LogoutButton, ProfileNameButton} from '../buttons/Buttons';
+import {AddActorButton, LogoutButton, ProfileNameButton, SearchButton} from '../buttons/Buttons';
 import logo from "../../assets/logo.png";
 import {Link, useNavigate} from 'react-router-dom';
 import './Header.css';
@@ -9,7 +9,7 @@ const Header = () => {
     const [searchType, setSearchType] = useState('movie'); // Default search type
     const [username, setUsername] = useState(''); // Username of the currently signed-in user
     const navigate = useNavigate();
-    const [search, setSearch] = useState('');
+    const [searchInput, setSearchInput] = useState('');
 
     const fetchUsername = async () => {
         try {
@@ -53,37 +53,38 @@ const Header = () => {
         navigate('/signin');
     };
 
-    const searchShow = async () => {
-        if (searchType === 'celebrity') {
-            try {
-                const response = await axios.get(`http://localhost:3333/api/celebrity/get/${search}`, {
-                    headers: {
-                        'Authorization': localStorage.getItem('token')
-                    }
-                });
-                if (response.data.name) {
-                    console.log(response.data)
-                    navigate(`/celebrity/${search}`)
-                } else console.log(response.data)
-            } catch (error) {
-                console.error('ERROR: Celebrity not found:', error);
+    const performSearch = async (endpoint, searchInput, successCriteria, navigatePath) => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/${endpoint}/get/${searchInput}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            if (response.data[successCriteria]) {
+                console.log(response.data);
+                navigate(`/${navigatePath}/${searchInput}`);
+            } else {
+                console.log(response.data);
             }
-        } else {
-            try {
-                const response = await axios.get(`http://localhost:3333/api/show/get/${search}`, {
-                    headers: {
-                        'Authorization': localStorage.getItem('token')
-                    }
-                });
-                if (response.data.title) {
-                    console.log(response.data)
-                    navigate(`/show/${search}`)
-                } else console.log(response.data)
-            } catch (error) {
-                console.error('ERROR: Show not found:', error);
-            }
+        } catch (error) {
+            console.error(`ERROR: ${navigatePath} not found:`, error);
         }
-    }
+    };
+
+    const search = async () => {
+        if (searchType === 'celebrity') {
+            await performSearch('celebrity', searchInput, 'name', 'celebrity');
+        }
+        else if (searchType === 'user') {
+            await performSearch('user', searchInput, 'username', 'user');
+        }
+        else if (searchType === 'movie') {
+            await performSearch('show', searchInput, 'title', 'show');
+        }
+        else if (searchType === 'tv show') {
+            await performSearch('show', searchInput, 'title', 'show');
+        }
+    };
 
     return (
         <div className={'header-menu'}>
@@ -102,10 +103,10 @@ const Header = () => {
                     </select>
                 </div>
                 <div className={'header-search'}>
-                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search"/>
+                    <input type="text" value={searchInput} onChange={(e) => setSearchInput(e.target.value)} placeholder="Search"/>
                 </div>
                 <div className={'header-search-button'}>
-                    <AddActorButton onClick={searchShow}>Search</AddActorButton> {/* Add onClick event */}
+                    <SearchButton onClick={search}>Search</SearchButton> {/* Add onClick event */}
                 </div>
             </div>
             <div className={'header-profile'}>
