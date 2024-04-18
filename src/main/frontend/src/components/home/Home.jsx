@@ -37,7 +37,7 @@ const Home = () => {
     return (
         <div className="home-container">
             <Header />
-            <h1>XOACO HOLA XOACO HOLA XOACO HOLA</h1>
+            <h1>Shows</h1>
             <ul>
                 {posts.map(post => (
                     <li key={post.title}>

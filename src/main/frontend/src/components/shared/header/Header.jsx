@@ -10,7 +10,6 @@ const Header = () => {
     const [username, setUsername] = useState(''); // Username of the currently signed-in user
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
 
     const fetchUsername = async () => {
         try {
@@ -86,24 +85,6 @@ const Header = () => {
         }
     }
 
-    const fetchSuggestions = async (query) => {
-        if (query.length < 3) {
-            setSuggestions([]);
-            return;
-        }
-
-        try {
-            const response = await axios.get(`http://localhost:3333/api/show/search/${query}`, {
-                headers: {
-                    'Authorization': localStorage.getItem('token')
-                }
-            });
-            setSuggestions(response.data);
-        } catch (error) {
-            console.error('Error fetching suggestions:', error);
-        }
-    };
-
     return (
         <div className={'header-menu'}>
             <div className={'header-logo'}>
@@ -121,13 +102,7 @@ const Header = () => {
                     </select>
                 </div>
                 <div className={'header-search'}>
-                    <input type="text" value={search} onChange={(e) => {setSearch(e.target.value); fetchSuggestions(e.target.value);}} placeholder="Search"/>
-
-                    {suggestions.map(suggestion => (
-                        <div key={suggestion.id} onClick={() => {setSearch(suggestion.title); setSuggestions([]);}}>
-                            {suggestion.title}
-                        </div>
-                    ))}
+                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search"/>
                 </div>
                 <div className={'header-search-button'}>
                     <AddActorButton onClick={searchShow}>Search</AddActorButton> {/* Add onClick event */}
