@@ -9,7 +9,7 @@ import org.example.utility.AuthUtility;
 import org.example.service.ShowService;
 import spark.Request;
 import spark.Response;
-import javax.persistence.EntityManager;
+
 import java.util.List;
 
 
@@ -17,8 +17,8 @@ public class ShowController {
     private final Gson gson = new Gson();
     private final ShowService showService;
 
-    public ShowController(EntityManager entityManager) {
-        this.showService = new ShowService(entityManager);
+    public ShowController() {
+        this.showService = new ShowService();
     }
 
 
@@ -34,9 +34,14 @@ public class ShowController {
         String director = addShowDto.getDirector();
         List<String> actors = addShowDto.getActors();
         Integer seasons = addShowDto.getSeasons();
-
         res.type("application/json");
-        return showService.addShow(title, description, show_type, director, actors, seasons);
+
+        try {
+            return showService.addShow(title, description, show_type, director, actors, seasons);
+        } catch (Exception e) {
+            res.status(400);
+            return e.getMessage();
+        }
     }
 
     public Object getShow(Request req, Response res) {

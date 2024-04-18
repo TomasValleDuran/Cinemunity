@@ -16,8 +16,8 @@ import java.util.Calendar;
 public class UserService {
     private final Users users;
 
-    public UserService(EntityManager entityManager) {
-        this.users = new Users(entityManager);
+    public UserService() {
+        this.users = new Users();
     }
 
     public String signup(String email, String username, String password) {
@@ -27,17 +27,25 @@ public class UserService {
         }
 
         if (!isValidEmail(email)) {
-            return "Email is invalid";
+            throw new IllegalArgumentException("Invalid email");
         }
 
         User existingEmail = users.findUserByEmail(email);
         if (existingEmail != null) {
-            return "Email already in use";
+            throw new IllegalArgumentException("Email already in use");
         }
 
         User existingUser = users.findUserByUsername(username);
         if (existingUser != null) {
-            return "Username already in use";
+            throw new IllegalArgumentException("Username already in use");
+        }
+
+        if(username.length() < 4) {
+            throw new IllegalArgumentException("Username must be at least 4 characters long");
+        }
+
+        if (password.length() < 4) {
+            throw new IllegalArgumentException("Password must be at least 4 characters long");
         }
 
         User user = new User(email, username, password);

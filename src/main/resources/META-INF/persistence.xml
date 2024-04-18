@@ -16,10 +16,10 @@
             <property name="javax.persistence.jdbc.password" value=""/>
 
             <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+<!--            <property name="hibernate.hbm2ddl.auto" value="create"/>-->
 
             <!-- Si se quiere actualizar la base de datos, descomentar la siguiente línea -->
-            <!--    <property name="hibernate.hbm2ddl.auto" value="update"/>   -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
 
     </persistence-unit>

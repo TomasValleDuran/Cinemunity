@@ -6,7 +6,6 @@ import org.example.model.Show;
 import org.example.repository.Celebrities;
 import org.example.repository.Shows;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +14,17 @@ public class ShowService {
     private final Shows shows;
     private final Celebrities celebrities;
 
-    public ShowService(EntityManager entityManager) {
-        this.shows = new Shows(entityManager);
-        this.celebrities = new Celebrities(entityManager);
+    public ShowService() {
+        this.shows = new Shows();
+        this.celebrities = new Celebrities();
     }
 
     public String addShow(String title, String description, String show_type, String director, List<String> actors, Integer seasons) {
         if (title == null || title.isEmpty()) {
-            return "Title is required";
+            throw new IllegalArgumentException("Title cannot be empty");
         }
         if (!show_type.equals("Movie") && !show_type.equals("TVShow")) {
-            return "Show type must be movie or TVShow";
+            throw new IllegalArgumentException("Show type must be Movie or TVShow");
         }
 
         Show show = new Show(title, description, show_type);
@@ -33,7 +32,7 @@ public class ShowService {
         try {
             show.setDirector(celebrities.findCelebrityByName(director));
         } catch (Exception e) {
-            return "Director not found";
+            throw new IllegalArgumentException("Director not found");
         }
 
         try{
@@ -43,12 +42,12 @@ public class ShowService {
             }
             show.setActors(actorList);
         } catch (Exception e) {
-            return "An actor is not found";
+            throw new IllegalArgumentException("An actor is not found");
         }
 
         if (show_type.equals("TVShow")) {
             if (seasons == null) {
-                return "Seasons is required for TVShow";
+                throw new IllegalArgumentException("Seasons is required for TVShow");
             }
 
             for (int i = 1; i <= seasons; i++) {

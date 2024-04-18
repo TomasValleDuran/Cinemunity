@@ -16,7 +16,10 @@ const AddMovie = () => {
     const [actorList, setActorList] = useState([]);
     const [seasons, setSeasons] = useState('');
 
-    const handleSaveMovie = async () => {
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const handleSaveMovie = async (event) => {
+        event.preventDefault();
         try {
             const response = await axios.post('http://localhost:3333/api/show/addShow', {
                 title: showName,
@@ -32,9 +35,16 @@ const AddMovie = () => {
             });
             console.log("res")
             console.log(response.data)
+            setShowName('');
+            setShowDescription('');
+            setShowDirector('');
+            setActorList([]);
+            setSeasons('');
+            setErrorMessage('');
         }
         catch (error) {
-            console.error('Error al enviar solicitud:', error);
+            console.error(error.response.data, error);
+            setErrorMessage(error.response.data);
         }
     }
 
@@ -87,6 +97,9 @@ const AddMovie = () => {
                         placeholder="Actor Name"
                         addon={<AddActorButton onClick={handleAddActor}>Add Actor</AddActorButton>}
                     />
+
+                    {errorMessage && <div className="error-message">{errorMessage}</div>}
+
                     <SaveButton onClick={handleSaveMovie} className="btn btn-save">Save</SaveButton>
                 </div>
                 <div className="actor-list-container">

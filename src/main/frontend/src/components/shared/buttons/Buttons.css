@@ -45,7 +45,9 @@
 }
 
 .btn-profileName {
-    background-color: rgba(0, 0, 0, 0);
+    background: linear-gradient(to left top, #4dc32c 50%, #5ab337 50%);
+    border-style: none;
+    color:#fff;
 }
 
 .btn-logout {

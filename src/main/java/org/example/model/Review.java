@@ -53,9 +53,9 @@ public class Review {
                         jsonObject.addProperty("reviewId", src.reviewId);
                         jsonObject.addProperty("review_text", src.review_text);
                         jsonObject.addProperty("review_rating", src.review_rating);
-                        jsonObject.addProperty("userName", src.user.getUsername());
+                        jsonObject.addProperty("username", src.user.getUsername());
                         jsonObject.addProperty("showTitle", src.show.getTitle());
-
+                        jsonObject.addProperty("likes", src.likedBy.size());
                         return jsonObject;
                     }
                 })
