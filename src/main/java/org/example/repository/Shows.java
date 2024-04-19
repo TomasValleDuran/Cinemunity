@@ -20,7 +20,9 @@ public class Shows {
     }
 
     public Show findShowByTitle(String title) {
-        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
+        EntityManager entityManager = currentEntityManager();
+        System.out.println(entityManager);
+        TypedQuery<Show> query = entityManager.createQuery("SELECT s " +
                 "FROM Show s " +
                 "WHERE s.title LIKE :title", Show.class);
         query.setParameter("title", title);

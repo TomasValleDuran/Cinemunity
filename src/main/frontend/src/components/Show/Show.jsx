@@ -7,9 +7,9 @@ import AddReview from "../addForms/addReview/AddReview";
 import withAuth from "../hoc/withAuth";
 import review from "../shared/review/Review";
 import Review from "../shared/review/Review";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 const Show = () => {
-
     const { title } = useParams();
     const [director, setDirector] = useState('');
     const [show_type, setShow_type] = useState('');
@@ -29,7 +29,6 @@ const Show = () => {
                 }
             });
             console.log("información de show:", response.data)
-            console.log(reviews)
             return response.data;
         }
         catch (error) {
@@ -56,6 +55,7 @@ const Show = () => {
     }
 
     useEffect(() => {
+        console.log("use effect 1")
         const fetchShowData = async () => {
             const response = await fetchShow();
             response && setDirector(response.director);
@@ -71,7 +71,7 @@ const Show = () => {
         };
 
         fetchShowData();
-    }, [showAddReview]);
+    }, [reviewAdded]);
 
     const handleShowAddReview = () => {
         setShowAddReview(true);

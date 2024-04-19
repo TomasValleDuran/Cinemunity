@@ -6,12 +6,11 @@ import org.example.controller.UserController;
 import org.example.controller.ReviewController;
 import spark.*;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
 import static org.example.utility.EntityManagerUtil.setFactory;
+import static org.example.utility.EntityManagerUtil.closeCurrentEntityManager;
 import static spark.Spark.*;
 
 public class Aplication {
@@ -56,5 +55,7 @@ public class Aplication {
 
         Spark.post("/api/review/addReview", reviewController::addReview);
         Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);
+
+        after((request, response) -> closeCurrentEntityManager());
     }
 }
