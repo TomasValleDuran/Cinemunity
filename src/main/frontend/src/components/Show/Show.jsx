@@ -19,7 +19,6 @@ const Show = () => {
     const [showAddReview, setShowAddReview] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [id, setId] = useState('');
-    const [reviewAdded, setReviewAdded] = useState(false);
 
     const fetchShow = async () => {
         try {
@@ -71,7 +70,7 @@ const Show = () => {
         };
 
         fetchShowData();
-    }, [reviewAdded]);
+    }, [showAddReview]);
 
     const handleShowAddReview = () => {
         setShowAddReview(true);
@@ -81,11 +80,12 @@ const Show = () => {
         setShowAddReview(false);
     }
 
-    const handleAddReview = async () => {
-        console.log("review", showAddReview)
-        setShowAddReview(false);
-        console.log("added", showAddReview)
-    }
+    // Sort reviews by likes and user
+    const currentUser = localStorage.getItem('username');
+    const currentUserReviews = reviews.filter(review => review.username === currentUser);
+    const otherReviews = reviews.filter(review => review.username !== currentUser);
+    otherReviews.sort((a, b) => b.likes - a.likes);
+    const sortedReviews = currentUserReviews.concat(otherReviews);
 
     return (
         <div>
@@ -118,14 +118,15 @@ const Show = () => {
                         onRemove={handleShowRemoveReview}
                         showTitle={title}/>}
                     <div>
-                        {reviews.map((review, index) => (
+                        {sortedReviews.map((review, index) => (
                             <Review
+                                id={review.reviewId}
                                 username={review.username}
                                 reviewText={review.review_text}
                                 reviewRating={review.review_rating}
-                                initialLikes={review.likes}
-                            />
-                        ))}
+                                initialLikes={+review.likes}
+                            />))}
+
                     </div>
                 </div>
                 <button className="floating-button" onClick={handleShowAddReview}>+</button>

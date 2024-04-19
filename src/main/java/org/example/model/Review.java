@@ -44,6 +44,18 @@ public class Review {
         return reviewId;
     }
 
+    public String getUserName() {
+        return user.getUsername();
+    }
+
+    public void likeReview(User user) {
+        likedBy.add(user);
+    }
+
+    public void unlikeReview(User user) {
+        likedBy.remove(user);
+    }
+
     public String asJson() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Review.class, new JsonSerializer<Review>() {

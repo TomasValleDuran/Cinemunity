@@ -20,6 +20,9 @@ const SignIn = ()=>{
 
             // Store the token in local storage
             localStorage.setItem('token', response.data.token);
+            console.log("Token:", localStorage.getItem('token'));
+            localStorage.setItem('username', username);
+            console.log("Username:", localStorage.getItem('username'));
             console.log("Inicio de sesión exitoso:", response.data.token);
             navigate('/home');
         } catch (error) {

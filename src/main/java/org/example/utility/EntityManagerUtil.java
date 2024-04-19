@@ -22,10 +22,10 @@ public class EntityManagerUtil {
     }
 
     public static void closeCurrentEntityManager() {
-    final EntityManager em = emRef.get();
-    if (em != null) {
-        em.close();
-        emRef.remove();
+        final EntityManager em = emRef.get();
+        if (em != null) {
+            em.close();
+            emRef.remove();
+        }
     }
-}
 }

@@ -117,4 +117,13 @@ public class UserService {
             return "Not signed in or token expired";
         }
     }
+
+    public String getLikedReviews(String username) {
+        User user = users.findUserByUsername(username);
+        if (user == null) {
+            return "User not found";
+        }
+
+        return user.asJson();
+    }
 }

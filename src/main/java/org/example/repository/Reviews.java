@@ -38,4 +38,11 @@ public class Reviews {
         query.setParameter("id", id);
         return query.getSingleResult();
     }
+
+    public void updateReview(Review review) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(review);
+        entityManager.getTransaction().commit();
+    }
 }

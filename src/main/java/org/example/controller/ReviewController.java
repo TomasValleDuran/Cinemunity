@@ -53,4 +53,25 @@ public class ReviewController {
         res.type("application/json");
         return reviewService.getReviewsByIds(reviewIds);
     }
+
+    public String likeReview(Request req, Response res) {
+        Long id = AuthUtility.getUserIdFromToken(req.headers("Authorization"));
+        if (id == null) {
+            res.status(401);
+            return "Invalid or expired token";
+        }
+        User user = users.findUserById(id);
+        return reviewService.likeReview(user, Long.parseLong(req.params(":reviewId")));
+    }
+
+    public String unlikeReview(Request req, Response res) {
+        Long id = AuthUtility.getUserIdFromToken(req.headers("Authorization"));
+        if (id == null) {
+            res.status(401);
+            return "Invalid or expired token";
+        }
+        User user = users.findUserById(id);
+        return reviewService.unlikeReview(user, Long.parseLong(req.params(":reviewId")));
+    }
+
 }

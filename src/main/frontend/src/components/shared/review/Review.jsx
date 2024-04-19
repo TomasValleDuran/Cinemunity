@@ -1,26 +1,75 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './Review.css';
 import emptyHeart from '../../assets/empty-heart.png';
 import filledHeart from '../../assets/filled-heart.png';
+import star from '../../assets/golden_star.png';
+import axios from "axios";
 
-const Review = ({ username, reviewText, reviewRating, initialikes }) => {
+const Review = ({ id , username, reviewText, reviewRating, initialLikes }) => {
+    const currentUsername = localStorage.getItem('username');
     const [liked, setLiked] = useState(false);
-    const [likes, setLikes] = useState(initialikes === undefined ? 0 : initialikes);
-    const [rating, setRating] = useState(reviewRating);
+    const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
+    const rating = reviewRating;
+
+
+    const fetchLikes = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/user/getLikedReviews/${currentUsername}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            return response.data.likes;
+        } catch (error) {
+            console.error('Error fetching likes:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchLikes().then((likes) => {
+            if (likes.includes(id)) {
+                setLiked(true);
+            }
+        });
+    });
 
     const handleLike = () => {
-        setLiked(!liked);
         if (!liked) {
-            setLikes(likes + 1);
+            axios.put(`http://localhost:3333/api/review/likeReview/${id}`, {}, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    console.log("liked review")
+                    setLikes(likes + 1);
+                    setLiked(true);
+                })
+                .catch(error => {
+                    console.error('Error liking review:', error);
+                });
         } else {
-            setLikes(likes - 1);
+            axios.put(`http://localhost:3333/api/review/unlikeReview/${id}`, {}, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    console.log("unliked review")
+                    setLikes(likes - 1);
+                    setLiked(false);
+                })
+                .catch(error => {
+                    console.error('Error unliking review:', error);
+                });
         }
     };
 
     return (
         <div className="review-container">
             <div className="review-header">
-                <h2>{username} - Rating: {rating}</h2> {/* Display the rating next to the username */}
+                <h2>{username}</h2>
+                {Array.from({length: rating}).map((_, index) => <img key={index} src={star} alt={"rating"}/>)}
             </div>
             <div className="review-body">
                 <p>{reviewText}</p>
