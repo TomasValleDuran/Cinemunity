@@ -74,4 +74,15 @@ public class ReviewController {
         return reviewService.unlikeReview(user, Long.parseLong(req.params(":reviewId")));
     }
 
+    public Object deleteReview(Request req, Response res) {
+        Long id = AuthUtility.getUserIdFromToken(req.headers("Authorization"));
+        if (id == null) {
+            res.status(401);
+            return "Invalid or expired token";
+        }
+        User user = users.findUserById(id);
+        reviewService.deleteReview(user, Long.parseLong(req.params(":reviewId")));
+        return "Review deleted";
+    }
+
 }

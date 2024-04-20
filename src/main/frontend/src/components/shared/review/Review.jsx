@@ -4,8 +4,9 @@ import emptyHeart from '../../assets/empty-heart.png';
 import filledHeart from '../../assets/filled-heart.png';
 import star from '../../assets/golden_star.png';
 import axios from "axios";
+import trashIcon from '../../assets/trashCan.png';
 
-const Review = ({ id , username, reviewText, reviewRating, initialLikes }) => {
+const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
     const currentUsername = localStorage.getItem('username');
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
@@ -41,7 +42,7 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes }) => {
                 }
             })
                 .then(response => {
-                    console.log("liked review")
+                    console.log("liked review", response.data)
                     setLikes(likes + 1);
                     setLiked(true);
                 })
@@ -55,7 +56,7 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes }) => {
                 }
             })
                 .then(response => {
-                    console.log("unliked review")
+                    console.log("unliked review", response.data)
                     setLikes(likes - 1);
                     setLiked(false);
                 })
@@ -65,11 +66,27 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes }) => {
         }
     };
 
+    const handleDelete = () => {
+        axios.delete(`http://localhost:3333/api/review/deleteReview/${id}`, {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+                onRemoveReview();
+            })
+            .catch(error => {
+                console.error('Error deleting review:', error);
+            });
+    };
+
     return (
         <div className="review-container">
             <div className="review-header">
                 <h2>{username}</h2>
                 {Array.from({length: rating}).map((_, index) => <img key={index} src={star} alt={"rating"}/>)}
+                {currentUsername === username && <img className="review-trashIcon" src={trashIcon} alt="delete" onClick={handleDelete} />}
             </div>
             <div className="review-body">
                 <p>{reviewText}</p>

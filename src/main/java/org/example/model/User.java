@@ -164,4 +164,8 @@ public class User {
     public void unlikeReview(Review review) {
         likes.remove(review);
     }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
 }

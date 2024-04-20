@@ -58,6 +58,7 @@ public class Aplication {
         Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);
         Spark.put("/api/review/likeReview/:reviewId", reviewController::likeReview);
         Spark.put("/api/review/unlikeReview/:reviewId", reviewController::unlikeReview);
+        Spark.delete("/api/review/deleteReview/:reviewId", reviewController::deleteReview);
 
 
         after((request, response) -> closeCurrentEntityManager());

@@ -5,9 +5,7 @@ import Header from '../shared/header/Header';
 import axios from "axios";
 import AddReview from "../addForms/addReview/AddReview";
 import withAuth from "../hoc/withAuth";
-import review from "../shared/review/Review";
 import Review from "../shared/review/Review";
-import {wait} from "@testing-library/user-event/dist/utils";
 
 const Show = () => {
     const { title } = useParams();
@@ -19,6 +17,7 @@ const Show = () => {
     const [showAddReview, setShowAddReview] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [id, setId] = useState('');
+    const [reviewsUpdated, setReviewsUpdated] = useState(false);
 
     const fetchShow = async () => {
         try {
@@ -70,7 +69,7 @@ const Show = () => {
         };
 
         fetchShowData();
-    }, [showAddReview]);
+    }, [showAddReview, reviewsUpdated]);
 
     const handleShowAddReview = () => {
         setShowAddReview(true);
@@ -78,6 +77,7 @@ const Show = () => {
 
     const handleShowRemoveReview = async () => {
         setShowAddReview(false);
+        setReviewsUpdated(!reviewsUpdated);
     }
 
     // Sort reviews by likes and user
@@ -125,6 +125,7 @@ const Show = () => {
                                 reviewText={review.review_text}
                                 reviewRating={review.review_rating}
                                 initialLikes={+review.likes}
+                                onRemoveReview={handleShowRemoveReview}
                             />))}
 
                     </div>

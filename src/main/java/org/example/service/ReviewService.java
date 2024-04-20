@@ -73,4 +73,12 @@ public class ReviewService {
         users.updateUser(user);
         return review.asJson();
     }
+
+    public void deleteReview(User user, Long reviewId) {
+        Review review = reviews.getReviewById(reviewId);
+        if (!user.getReviews().contains(review)) {
+            throw new RuntimeException("You can't delete this review");
+        }
+        reviews.deleteReview(reviewId);
+    }
 }
