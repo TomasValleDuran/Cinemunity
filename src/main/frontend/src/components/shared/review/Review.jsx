@@ -5,12 +5,14 @@ import filledHeart from '../../assets/filled-heart.png';
 import star from '../../assets/golden_star.png';
 import axios from "axios";
 import trashIcon from '../../assets/trashCan.png';
+import PopUp from '../pop-up/PopUp';
 
 const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
     const currentUsername = localStorage.getItem('username');
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
     const rating = reviewRating;
+    const [showPopUp, setShowPopUp] = useState(false);
 
 
     const fetchLikes = async () => {
@@ -81,13 +83,21 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
             });
     };
 
+    const handleDeleteConfirm = () => {
+        setShowPopUp(false); // Oculta el pop-up
+        handleDelete(); // Llama a handleDelete solo si el usuario confirma la acción
+    };
+
+    const handleDeleteCancel = () => {
+        setShowPopUp(false); // Oculta el pop-up si el usuario cancela la acción
+    };
+
     return (
         <div className="review-container">
             <div className="review-header">
                 <h2>{username}</h2>
                 {Array.from({length: rating}).map((_, index) => <img key={index} src={star} alt={"rating"}/>)}
-                {currentUsername === username && <img className="review-trashIcon" src={trashIcon} alt="delete" onClick={handleDelete} />}
-            </div>
+                {currentUsername === username && <img className="review-trashIcon" src={trashIcon} alt="delete" onClick={() => setShowPopUp(true)} />}            </div>
             <div className="review-body">
                 <p>{reviewText}</p>
             </div>
@@ -95,6 +105,7 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
                 <img src={liked ? filledHeart : emptyHeart} alt="like" onClick={handleLike} />
                 <p>Likes: {likes}</p>
             </div>
+            {showPopUp && <PopUp onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel} />}
         </div>
     );
 };
