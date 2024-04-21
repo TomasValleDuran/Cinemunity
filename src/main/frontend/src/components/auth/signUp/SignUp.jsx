@@ -52,7 +52,7 @@ const SignUp = () => {
     return (
         <div className="container">
             <div className="header">
-                <div className={'header-logo'}>
+                <div className={'header-img'}>
                     <img src={logo} alt={'logo.png'}/>
                 </div>
                 <div className="title">
