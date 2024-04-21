@@ -8,7 +8,6 @@ const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const [errorMessage, setErrorMessage] = useState("");
 
 
@@ -30,7 +29,8 @@ const SignUp = () => {
         }
     };
 
-    const signIn = async () => {
+    const signIn = async (e) => {
+        e.preventDefault();
         try {
             const response = await axios.post(`http://localhost:3333/api/user/signin`, {
                 username: username,
@@ -51,17 +51,20 @@ const SignUp = () => {
         <div className="signup-container">
             <div className="signup-header">
                 <div className="signup-title">
-                    <div className="text"> Sign Up </div>
+                    <div className="sign-up-text">Sign Up</div>
                 </div>
             </div>
-            <div className="signup-inputs">
-                <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-                <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-                <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+            <form onSubmit={handleSignUp} className="signup-inputs">
+                <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                           placeholder="Email"/>
+                <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+                           placeholder="Username"/>
+                <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                           placeholder="Password"/>
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
-            </div>
-            <button className="signup-button" onClick={handleSignUp}>Sign Up</button>
-            <div className="login">
+                <button className="signup-button" onClick={handleSignUp}>Sign Up</button>
+            </form>
+            <div className="signin-link">
                 Already have an account? <Link to={'/signin'}>Sign In Here</Link>
             </div>
         </div>

@@ -11,14 +11,15 @@ const SignIn = ()=>{
     const [errorMessage, setErrorMessage] = useState(""); // Add this line
 
     const navigate = useNavigate();
-    const handleSignIn = async () => {
+
+    const handleSignIn = async (e) => {
+        e.preventDefault();
         try {
             const response = await axios.post(`http://localhost:3333/api/user/signin`, {
                 username: username,
                 password: password,
             });
 
-            // Store the token in local storage
             localStorage.setItem('token', response.data.token);
             console.log("Token:", localStorage.getItem('token'));
             localStorage.setItem('username', username);
@@ -35,18 +36,19 @@ const SignIn = ()=>{
         <div className="signin-container">
             <div className='signin-header'>
                 <div className='signin-title'>
-                    <div className='log-in-text'>
-                        Log In</div>
+                    <div className='sign-in-text'>Log In</div>
                 </div>
             </div>
-            <div className='signin-inputs'>
-                <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-                <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-            </div>
-            {errorMessage && <div className="error-message">{errorMessage}</div>} {/* Add this line */}
-            <button className='signin-button' onClick={handleSignIn}>Sign In</button>
-            <div className='signup'>
-                Don't have an account? <Link to={"/signup"}>Sign Up Here</Link>
+            <form onSubmit={handleSignIn} className='signin-inputs'>
+                <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+                           placeholder="Username"/>
+                <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                           placeholder="Password"/>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
+                <button className='signin-button' onClick={handleSignIn}>Sign In</button>
+            </form>
+            <div className='signup-link'>
+            Don't have an account? <Link to={"/signup"}>Sign Up Here</Link>
             </div>
         </div>
     )
