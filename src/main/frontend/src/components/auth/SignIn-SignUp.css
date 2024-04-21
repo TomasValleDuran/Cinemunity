@@ -1,4 +1,4 @@
-.signup-container {
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,12 +11,12 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.signup-container:hover {
+.container:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
 }
 
-.signup-header {
+.header {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -26,14 +26,14 @@
     margin-top: 30px;
 }
 
-.signup-title {
+.title {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.sign-up-text {
+.tittle-text {
     display: flex;
     justify-content: center;
     color: #00d6d1;
@@ -42,43 +42,18 @@
     margin-bottom: 10px;
 }
 
-.signup-inputs {
+.inputs {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
 
-.signup-button {
-    padding: 15px 30px;
-    border: none;
-    border-radius: 30px;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    width: 50%;
-    font-family: 'Poppins', sans-serif;
-    background-image: linear-gradient(145deg, #004aad, #0084d1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    outline: none;
-}
-
-.signup-button:hover {
-    background-image: linear-gradient(145deg, #00d6d1, #00b2aa);
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
 .error-message {
     color: red;
 }
 
-.signin-link {
+.link {
     margin-top: 20px;
     color: #00d6d1;
     font-size: 16px;

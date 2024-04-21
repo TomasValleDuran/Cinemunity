@@ -1,9 +1,10 @@
+import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import React from "react";
-import './SignIn.css'
 import axios from "axios";
+import '../SignIn-SignUp.css'
 import FormInput from "../../shared/form-input/FormInput";
+import {SigninSignupButton} from "../../shared/buttons/Buttons";
 
 const SignIn = ()=>{
     const [username, setUsername] = useState("");
@@ -33,21 +34,21 @@ const SignIn = ()=>{
     };
 
     return (
-        <div className="signin-container">
-            <div className='signin-header'>
-                <div className='signin-title'>
-                    <div className='sign-in-text'>Log In</div>
+        <div className="container">
+            <div className='header'>
+                <div className='title'>
+                    <div className='tittle-text'>Log In</div>
                 </div>
             </div>
-            <form onSubmit={handleSignIn} className='signin-inputs'>
+            <form onSubmit={handleSignIn} className='inputs'>
                 <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)}
                            placeholder="Username"/>
                 <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                            placeholder="Password"/>
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
-                <button className='signin-button' onClick={handleSignIn}>Sign In</button>
+                <SigninSignupButton onClick={handleSignIn}>Sign In</SigninSignupButton>
             </form>
-            <div className='signup-link'>
+            <div className='link'>
             Don't have an account? <Link to={"/signup"}>Sign Up Here</Link>
             </div>
         </div>

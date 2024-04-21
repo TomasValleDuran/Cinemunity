@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './SignUp.css';
+import '../SignIn-SignUp.css';
 import {Link, useNavigate} from 'react-router-dom';
 import FormInput from "../../shared/form-input/FormInput";
+import {SigninSignupButton} from "../../shared/buttons/Buttons";
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -48,13 +49,13 @@ const SignUp = () => {
     };
 
     return (
-        <div className="signup-container">
-            <div className="signup-header">
-                <div className="signup-title">
-                    <div className="sign-up-text">Sign Up</div>
+        <div className="container">
+            <div className="header">
+                <div className="title">
+                    <div className="tittle-text">Sign Up</div>
                 </div>
             </div>
-            <form onSubmit={handleSignUp} className="signup-inputs">
+            <form onSubmit={handleSignUp} className="inputs">
                 <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                            placeholder="Email"/>
                 <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)}
@@ -62,9 +63,9 @@ const SignUp = () => {
                 <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                            placeholder="Password"/>
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
-                <button className="signup-button" onClick={handleSignUp}>Sign Up</button>
+                <SigninSignupButton onClick={handleSignUp}>Sign Up</SigninSignupButton>
             </form>
-            <div className="signin-link">
+            <div className="link">
                 Already have an account? <Link to={'/signin'}>Sign In Here</Link>
             </div>
         </div>

@@ -10,6 +10,14 @@ export const Button = ({ className, children, onClick, ...props }) => {
     );
 };
 
+export const SigninSignupButton = ({ children, onClick, ...props }) => {
+    return (
+        <Button className="btn-signin-signup" onClick={onClick} {...props}>
+            {children}
+        </Button>
+    );
+};
+
 // Botón para guardar
 export const SaveButton = ({ children, onClick, ...props }) => {
     return (
@@ -51,3 +59,4 @@ export const LogoutButton = ({ children, onClick, ...props }) => {
         </Button>
     );
 };
+
