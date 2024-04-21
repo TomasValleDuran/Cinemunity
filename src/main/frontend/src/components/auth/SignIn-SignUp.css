@@ -1,3 +1,11 @@
+html, body {
+    height: 100%; /* Make sure html and body cover the full height of the viewport */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    background: linear-gradient(to bottom, #00d6d1, #00a1c5); /* Your gradient here */
+    background-attachment: fixed; /* Keep the background fixed in place */
+}
+
 .container {
     display: flex;
     flex-direction: column;
