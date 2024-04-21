@@ -23,8 +23,9 @@ public class ShowController {
 
 
     public String addShow(Request req, Response res) {
+        // Validate if the user is an admin
         String validation = AuthUtility.validateAdmin(req, res);
-        if (!validation.equals("admin")) return validation;
+        if (!validation.equals("Admin")) return validation;
 
         AddShowDto addShowDto = gson.fromJson(req.body(), AddShowDto.class);
 

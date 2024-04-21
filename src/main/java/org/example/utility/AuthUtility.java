@@ -9,10 +9,6 @@ import org.example.repository.Users;
 import spark.Request;
 import spark.Response;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-
-
 public class AuthUtility {
     public static Long getUserIdFromToken(String token) {
         try {
@@ -42,6 +38,11 @@ public class AuthUtility {
             return "No user found for token";
         }
 
-        return user.isAdmin() ? "admin" : "user: not an admin";
+        if (!user.isAdmin()) {
+            res.status(403);
+            return "User is not an admin";
+        } else {
+            return "Admin";
+        }
     }
 }

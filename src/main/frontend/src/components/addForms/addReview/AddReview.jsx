@@ -41,21 +41,28 @@ const AddReview = ({ showTitle, onRemove }) => {
         <div className="add-review-container">
             <button className="close-button" onClick={onRemove}>X</button>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <input type="radio" id="star1" name="rating" value="1" onChange={(e) => setRating(e.target.value)} />
-                    <label htmlFor="star1">1</label>
-                    <input type="radio" id="star2" name="rating" value="2" onChange={(e) => setRating(e.target.value)} />
-                    <label htmlFor="star2">2</label>
-                    <input type="radio" id="star3" name="rating" value="3" onChange={(e) => setRating(e.target.value)} />
-                    <label htmlFor="star3">3</label>
-                    <input type="radio" id="star4" name="rating" value="4" onChange={(e) => setRating(e.target.value)} />
-                    <label htmlFor="star4">4</label>
-                    <input type="radio" id="star5" name="rating" value="5" onChange={(e) => setRating(e.target.value)} />
-                    <label htmlFor="star5">5</label>
+                <div className="rating">
+                    {[...Array(5)].map((star, index) => {
+                        const ratingValue = 5 - index;
+                        return (
+                            <label key={index}>
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value={ratingValue}
+                                    onClick={() => setRating(ratingValue)}
+                                />
+                                &#9733; {/* Star character */}
+                            </label>
+                        );
+                    })}
                 </div>
-                <FormInput type="text" value={review} onChange={(e) => setReview(e.target.value)} placeholder="Review"></FormInput>
+
+                <FormInput type="text" value={review} onChange={(e) => setReview(e.target.value)}
+                           placeholder="Review"></FormInput>
                 <button type="submit">Enviar revisión</button>
             </form>
+
         </div>
     );
 };

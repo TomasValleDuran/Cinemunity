@@ -50,6 +50,10 @@ public class ShowService {
                 throw new IllegalArgumentException("Seasons is required for TVShow");
             }
 
+            if (seasons < 1) {
+                throw new IllegalArgumentException("Seasons must be greater than 0");
+            }
+
             for (int i = 1; i <= seasons; i++) {
                 Season season = new Season(i, show);
                 show.addSeason(season);

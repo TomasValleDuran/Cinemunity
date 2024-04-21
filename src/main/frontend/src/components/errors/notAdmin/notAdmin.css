@@ -1,0 +1,19 @@
+.not-admin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.not-admin-container h1 {
+    font-size: 24px;
+    color: #d9534f;
+}
+
+.not-admin-container p {
+    font-size: 16px;
+    color: #666;
+}

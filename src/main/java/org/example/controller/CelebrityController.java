@@ -16,8 +16,9 @@ public class CelebrityController {
     }
 
     public Object addCelebrity(Request req, Response res) {
+        // Validate if the user is an admin
         String validation = AuthUtility.validateAdmin(req, res);
-        if (!validation.equals("admin")) return validation;
+        if (!validation.equals("Admin")) return validation;
 
         AddCelebrityDto addCelebrityDto = gson.fromJson(req.body(), AddCelebrityDto.class);
         String name = addCelebrityDto.getName();
