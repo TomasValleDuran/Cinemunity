@@ -1,6 +1,6 @@
 import React from 'react';
 import './notAdmin.css';
-import {SaveButton, AddActorButton, ProfileNameButton} from '../../shared/buttons/Buttons';
+import {SaveButton} from '../../shared/buttons/Buttons';
 import {useNavigate} from "react-router-dom";
 import withAuth from '../../hoc/withAuth';
 
