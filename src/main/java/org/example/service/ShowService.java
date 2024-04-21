@@ -47,7 +47,7 @@ public class ShowService {
 
         if (show_type.equals("TVShow")) {
             if (seasons == null) {
-                throw new IllegalArgumentException("Seasons is required for TVShow");
+                throw new IllegalArgumentException("Seasons field is required for TV Show");
             }
 
             if (seasons < 1) {

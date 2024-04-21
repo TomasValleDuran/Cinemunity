@@ -39,7 +39,7 @@ const AddMovie = () => {
             setShowDescription('');
             setShowDirector('');
             setActorList([]);
-            setSeasons('');
+            setSeasons('1');
             setErrorMessage('');
         }
         catch (error) {
@@ -80,8 +80,14 @@ const AddMovie = () => {
                             <FormInput
                                 type="number"
                                 value={seasons}
-                                onChange={(e) => setSeasons(e.target.value)}
+                                onChange={(e) => {
+                                    const newValue = parseInt(e.target.value, 10);
+                                    if (newValue >= 1) {
+                                        setSeasons(newValue);
+                                    }
+                                }}
                                 placeholder="Seasons"
+                                min="1"
                             />
                         )}
                     </div>
