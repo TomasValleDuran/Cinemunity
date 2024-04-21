@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './AddReview.css';
-import FormInput from "../../shared/form-input/FormInput";
+import {FormInput} from "../../shared/form-input/FormInput";
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
 

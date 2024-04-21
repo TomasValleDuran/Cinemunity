@@ -3,8 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import axios from "axios";
 import '../SignIn-SignUp.css'
-import FormInput from "../../shared/form-input/FormInput";
-import {SigninSignupButton} from "../../shared/buttons/Buttons";
+import {FormInput, SendFormButton} from "../../shared/form-input/FormInput";
 import logo from "../../assets/logo.png";
 
 const SignIn = ()=>{
@@ -50,10 +49,10 @@ const SignIn = ()=>{
                 <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                            placeholder="Password"/>
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
-                <SigninSignupButton onClick={handleSignIn}>Sign In</SigninSignupButton>
+                <SendFormButton onClick={handleSignIn}>Sign In</SendFormButton>
             </form>
             <div className='link'>
-            Don't have an account? <Link to={"/signup"}>Sign Up Here</Link>
+                Don't have an account? <Link to={"/signup"}>Sign Up Here</Link>
             </div>
         </div>
     )

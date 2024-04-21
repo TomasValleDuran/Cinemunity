@@ -55,7 +55,6 @@
     height: 30px; /* Match the height of the dropdown and button */
 }
 
-
 .header-profile {
     cursor: pointer;
     display: flex;
@@ -63,5 +62,21 @@
     justify-content: flex-end;
     gap: 10px;
     flex-grow: 1;
+}
+
+.btn-search {
+    /*TODO: Hacer un boton de un dibujo de una lupa*/
+}
+
+.btn-profileName {
+    /*TODO: Hacer un boton de un dibujo de una personita*/
+}
+
+.btn-logout {
+    /*TODO: Hacer un boton de un dibujo de salida*/
+}
+
+.btn-home {
+    /*TODO: Hacer un boton de un dibujo de una casa*/
 }
 

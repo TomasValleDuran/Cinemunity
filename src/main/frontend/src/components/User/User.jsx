@@ -6,7 +6,6 @@ import {useNavigate} from "react-router-dom";
 import Sample_User_Icon from "../assets/Sample_User_Icon.png";
 import heart from "../assets/heart.png";
 import menuicon from "../assets/menu-icon.png";
-import { AddActorButton } from '../shared/buttons/Buttons';
 import withAuth from "../hoc/withAuth";
 
 const User = () => {
@@ -89,8 +88,8 @@ const User = () => {
                         <h2>{String(rating)}</h2>
                     </div>
                     <div className={"buttons"}>
-                        {isAdmin && <AddActorButton onClick={handleMovieClick}>Agregar Shows</AddActorButton>}
-                        {isAdmin && <AddActorButton onClick={handleMovieClick2}>Agregar Celebridades</AddActorButton>}
+                        {isAdmin && <button onClick={handleMovieClick}>Agregar Shows</button>}
+                        {isAdmin && <button onClick={handleMovieClick2}>Agregar Celebridades</button>}
 
                     </div>
                 </div>

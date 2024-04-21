@@ -5,7 +5,7 @@
     width: 480px;
     height: 80px;
     background: #eaeaea;
-    border: 2px solid #00d6d1;
+    border: 2px solid #0ea9ea;
     border-radius: 6px;
 }
 
@@ -37,5 +37,30 @@
 .form-input:active, .form-input:hover, .form-input:visited {
     outline: none;
     border: none;
+}
+
+.btn-send-form {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 50%;
+    font-family: 'Poppins', sans-serif;
+    background-image: linear-gradient(145deg, #004aad, #0084d1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+}
+
+.btn-send-form:hover {
+    background-image: linear-gradient(145deg, #0857b9, #20a0ee);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 

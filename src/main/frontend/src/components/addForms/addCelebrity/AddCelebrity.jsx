@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {SaveButton} from '../../shared/buttons/Buttons';
 import './AddCelebrity.css';
 import Header from '../../shared/header/Header';
-import FormInput from '../../shared/form-input/FormInput';
+import {FormInput, SendFormButton} from '../../shared/form-input/FormInput';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
 
@@ -39,17 +38,15 @@ const AddCelebrity = () => {
     return (
         <div>
             <Header/>
-            <h1 className="add-celebrity-title">Add Celebrity</h1>
-            <form onSubmit={handleSaveCelebrity} className={"add-celebrity-container"}>
+            <h2 className="add-celebrity-title">Add Celebrity</h2>
+            <div className="form-container">
                 <FormInput type="text" value={celebrityName} onChange={(e) => setCelebrityName(e.target.value)}
                            placeholder="Name"/>
                 <FormInput type="text" value={celebrityBio} onChange={(e) => setCelebrityBio(e.target.value)}
                            placeholder="Biography"/>
-
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
-
-                <SaveButton type="submit" className="btn btn-save">Save</SaveButton>
-            </form>
+                <SendFormButton onClick={handleSaveCelebrity}>Save</SendFormButton>
+            </div>
         </div>
     );
 };

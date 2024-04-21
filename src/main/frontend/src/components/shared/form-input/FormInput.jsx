@@ -1,7 +1,7 @@
 import React from 'react';
 import './FormInput.css';
 
-const FormInput = ({ type, value, onChange, placeholder, addon }) => {
+export const FormInput = ({ type, value, onChange, placeholder, addon }) => {
     return (
         <div className="form-input-group">
             <input
@@ -16,4 +16,10 @@ const FormInput = ({ type, value, onChange, placeholder, addon }) => {
     );
 };
 
-export default FormInput;
+export const SendFormButton = ({ children, onClick, ...props }) => {
+    return (
+        <button className="btn-send-form" onClick={onClick} {...props}>
+            {children}
+        </button>
+    );
+};

@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {AddActorButton, LogoutButton, ProfileNameButton, SearchButton} from '../buttons/Buttons';
 import logo from "../../assets/logo.png";
 import {Link, useNavigate} from 'react-router-dom';
 import './Header.css';
@@ -106,14 +105,14 @@ const Header = () => {
                     <input type="text" value={searchInput} onChange={(e) => setSearchInput(e.target.value)} placeholder="Search"/>
                 </div>
                 <div className={'header-search-button'}>
-                    <SearchButton onClick={search}>Search</SearchButton> {/* Add onClick event */}
+                    <button className={"btn-search"} onClick={search}>Search</button> {/* Add onClick event */}
                 </div>
             </div>
             <div className={'header-profile'}>
-                <ProfileNameButton onClick={handleProfileClick}>
+                <button className={"btn-profile"} onClick={handleProfileClick}>
                     {username}
-                </ProfileNameButton>
-                <LogoutButton onClick={handleSignOut}>Sign Out</LogoutButton>
+                </button>
+                <button className={"btn-logout"} onClick={handleSignOut}>Sign Out</button>
             </div>
         </div>
     );

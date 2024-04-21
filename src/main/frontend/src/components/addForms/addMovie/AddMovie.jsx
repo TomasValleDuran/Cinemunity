@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {SaveButton, AddActorButton} from '../../shared/buttons/Buttons';
 import './AddMovie.css';
 import Header from '../../shared/header/Header';
-import FormInput from '../../shared/form-input/FormInput';
+import {FormInput, SendFormButton} from '../../shared/form-input/FormInput';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
 
@@ -39,7 +38,7 @@ const AddMovie = () => {
             setShowDescription('');
             setShowDirector('');
             setActorList([]);
-            setSeasons('1');
+            setSeasons('');
             setErrorMessage('');
         }
         catch (error) {
@@ -66,7 +65,7 @@ const AddMovie = () => {
     };
 
     return (
-        <div className="home-container">
+        <div>
             <Header/>
             <h2>Add new Show:</h2>
             <div className="content-container">
@@ -101,12 +100,12 @@ const AddMovie = () => {
                         value={actorName}
                         onChange={(e) => setActorName(e.target.value)}
                         placeholder="Actor Name"
-                        addon={<AddActorButton onClick={handleAddActor}>Add Actor</AddActorButton>}
+                        addon={<button className={"btn-addActor"} onClick={handleAddActor}>Add Actor</button>}
                     />
 
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-                    <SaveButton onClick={handleSaveMovie} className="btn btn-save">Save</SaveButton>
+                    <SendFormButton onClick={handleSaveMovie}>Save</SendFormButton>
                 </div>
                 <div className="actor-list-container">
                     <h3>Added Actors:</h3>

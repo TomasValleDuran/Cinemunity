@@ -54,7 +54,7 @@ html, body {
 .tittle-text {
     display: flex;
     justify-content: center;
-    color: #00d6d1;
+    color: #0ea9ea;
     font-size: 43px;
     font-weight: 700;
     margin-bottom: 10px;
@@ -73,7 +73,7 @@ html, body {
 
 .link {
     margin-top: 20px;
-    color: #00d6d1;
+    color: #0ea9ea;
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
