@@ -18,7 +18,7 @@ const Header = () => {
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            console.log("respuesta de current user:", response.data)
+            console.log("cargo el header")
             return response.data.username;
         } catch (error) {
             console.error('Error fetching username:', error);

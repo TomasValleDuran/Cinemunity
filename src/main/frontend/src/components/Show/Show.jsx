@@ -5,11 +5,9 @@ import Header from '../shared/header/Header';
 import axios from "axios";
 import AddReview from "../addForms/addReview/AddReview";
 import withAuth from "../hoc/withAuth";
-import review from "../shared/review/Review";
 import Review from "../shared/review/Review";
 
 const Show = () => {
-
     const { title } = useParams();
     const [director, setDirector] = useState('');
     const [show_type, setShow_type] = useState('');
@@ -19,7 +17,7 @@ const Show = () => {
     const [showAddReview, setShowAddReview] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [id, setId] = useState('');
-    const [reviewAdded, setReviewAdded] = useState(false);
+    const [reviewsUpdated, setReviewsUpdated] = useState(false);
 
     const fetchShow = async () => {
         try {
@@ -29,7 +27,6 @@ const Show = () => {
                 }
             });
             console.log("información de show:", response.data)
-            console.log(reviews)
             return response.data;
         }
         catch (error) {
@@ -56,6 +53,7 @@ const Show = () => {
     }
 
     useEffect(() => {
+        console.log("use effect 1")
         const fetchShowData = async () => {
             const response = await fetchShow();
             response && setDirector(response.director);
@@ -71,7 +69,7 @@ const Show = () => {
         };
 
         fetchShowData();
-    }, [showAddReview]);
+    }, [showAddReview, reviewsUpdated]);
 
     const handleShowAddReview = () => {
         setShowAddReview(true);
@@ -79,13 +77,15 @@ const Show = () => {
 
     const handleShowRemoveReview = async () => {
         setShowAddReview(false);
+        setReviewsUpdated(!reviewsUpdated);
     }
 
-    const handleAddReview = async () => {
-        console.log("review", showAddReview)
-        setShowAddReview(false);
-        console.log("added", showAddReview)
-    }
+    // Sort reviews by likes and user
+    const currentUser = localStorage.getItem('username');
+    const currentUserReviews = reviews.filter(review => review.username === currentUser);
+    const otherReviews = reviews.filter(review => review.username !== currentUser);
+    otherReviews.sort((a, b) => b.likes - a.likes);
+    const sortedReviews = currentUserReviews.concat(otherReviews);
 
     return (
         <div>
@@ -118,14 +118,16 @@ const Show = () => {
                         onRemove={handleShowRemoveReview}
                         showTitle={title}/>}
                     <div>
-                        {reviews.map((review, index) => (
+                        {sortedReviews.map((review, index) => (
                             <Review
+                                id={review.reviewId}
                                 username={review.username}
                                 reviewText={review.review_text}
                                 reviewRating={review.review_rating}
-                                initialLikes={review.likes}
-                            />
-                        ))}
+                                initialLikes={+review.likes}
+                                onRemoveReview={handleShowRemoveReview}
+                            />))}
+
                     </div>
                 </div>
                 <button className="floating-button" onClick={handleShowAddReview}>+</button>

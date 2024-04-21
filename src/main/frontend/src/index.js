@@ -8,11 +8,14 @@ import {BrowserRouter, createBrowserRouter, Router, RouterProvider} from "react-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <React.StrictMode>
+    /*<React.StrictMode>
         <BrowserRouter>
             <App />
         </BrowserRouter>
-    </React.StrictMode>,
+    </React.StrictMode>,*/
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
 );
 
 reportWebVitals();

@@ -6,6 +6,7 @@ import com.google.gson.annotations.Expose;
 import javax.persistence.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("ALL")
@@ -150,5 +151,21 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public Collection<Review> getLikes() {
+        return likes;
+    }
+
+    public void likeReview(Review review) {
+        likes.add(review);
+    }
+
+    public void unlikeReview(Review review) {
+        likes.remove(review);
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
     }
 }

@@ -20,4 +20,12 @@ public class EntityManagerUtil {
         }
         return emRef.get();
     }
+
+    public static void closeCurrentEntityManager() {
+        final EntityManager em = emRef.get();
+        if (em != null) {
+            em.close();
+            emRef.remove();
+        }
+    }
 }

@@ -6,12 +6,11 @@ import org.example.controller.UserController;
 import org.example.controller.ReviewController;
 import spark.*;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
 import static org.example.utility.EntityManagerUtil.setFactory;
+import static org.example.utility.EntityManagerUtil.closeCurrentEntityManager;
 import static spark.Spark.*;
 
 public class Aplication {
@@ -46,6 +45,7 @@ public class Aplication {
         Spark.post("/api/user/signup", userController::signup);
         Spark.post("/api/user/signin", userController::signin);
         Spark.get("/api/user/get/:username", userController::getUser);
+        Spark.get("/api/user/getLikedReviews/:username", userController::getLikedReviews);
 
         Spark.post("/api/show/addShow", showController::addShow);
         Spark.get("/api/show/get/:title", showController::getShow);
@@ -56,5 +56,11 @@ public class Aplication {
 
         Spark.post("/api/review/addReview", reviewController::addReview);
         Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);
+        Spark.put("/api/review/likeReview/:reviewId", reviewController::likeReview);
+        Spark.put("/api/review/unlikeReview/:reviewId", reviewController::unlikeReview);
+        Spark.delete("/api/review/deleteReview/:reviewId", reviewController::deleteReview);
+
+
+        after((request, response) -> closeCurrentEntityManager());
     }
 }

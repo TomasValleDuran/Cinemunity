@@ -1,27 +1,103 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './Review.css';
 import emptyHeart from '../../assets/empty-heart.png';
 import filledHeart from '../../assets/filled-heart.png';
+import star from '../../assets/golden_star.png';
+import axios from "axios";
+import trashIcon from '../../assets/trashCan.png';
+import PopUp from '../pop-up/PopUp';
 
-const Review = ({ username, reviewText, reviewRating, initialikes }) => {
+const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
+    const currentUsername = localStorage.getItem('username');
     const [liked, setLiked] = useState(false);
-    const [likes, setLikes] = useState(initialikes === undefined ? 0 : initialikes);
-    const [rating, setRating] = useState(reviewRating);
+    const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
+    const rating = reviewRating;
+    const [showPopUp, setShowPopUp] = useState(false);
+
+
+    const fetchLikes = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/user/getLikedReviews/${currentUsername}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            return response.data.likes;
+        } catch (error) {
+            console.error('Error fetching likes:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchLikes().then((likes) => {
+            if (likes.includes(id)) {
+                setLiked(true);
+            }
+        });
+    });
 
     const handleLike = () => {
-        setLiked(!liked);
         if (!liked) {
-            setLikes(likes + 1);
+            axios.put(`http://localhost:3333/api/review/likeReview/${id}`, {}, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    console.log("liked review", response.data)
+                    setLikes(likes + 1);
+                    setLiked(true);
+                })
+                .catch(error => {
+                    console.error('Error liking review:', error);
+                });
         } else {
-            setLikes(likes - 1);
+            axios.put(`http://localhost:3333/api/review/unlikeReview/${id}`, {}, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    console.log("unliked review", response.data)
+                    setLikes(likes - 1);
+                    setLiked(false);
+                })
+                .catch(error => {
+                    console.error('Error unliking review:', error);
+                });
         }
+    };
+
+    const handleDelete = () => {
+        axios.delete(`http://localhost:3333/api/review/deleteReview/${id}`, {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+                onRemoveReview();
+            })
+            .catch(error => {
+                console.error('Error deleting review:', error);
+            });
+    };
+
+    const handleDeleteConfirm = () => {
+        setShowPopUp(false); // Oculta el pop-up
+        handleDelete(); // Llama a handleDelete solo si el usuario confirma la acción
+    };
+
+    const handleDeleteCancel = () => {
+        setShowPopUp(false); // Oculta el pop-up si el usuario cancela la acción
     };
 
     return (
         <div className="review-container">
             <div className="review-header">
-                <h2>{username} - Rating: {rating}</h2> {/* Display the rating next to the username */}
-            </div>
+                <h2>{username}</h2>
+                {Array.from({length: rating}).map((_, index) => <img key={index} src={star} alt={"rating"}/>)}
+                {currentUsername === username && <img className="review-trashIcon" src={trashIcon} alt="delete" onClick={() => setShowPopUp(true)} />}            </div>
             <div className="review-body">
                 <p>{reviewText}</p>
             </div>
@@ -29,6 +105,7 @@ const Review = ({ username, reviewText, reviewRating, initialikes }) => {
                 <img src={liked ? filledHeart : emptyHeart} alt="like" onClick={handleLike} />
                 <p>Likes: {likes}</p>
             </div>
+            {showPopUp && <PopUp onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel} />}
         </div>
     );
 };

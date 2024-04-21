@@ -105,4 +105,11 @@ public class Users {
         }
         return users.getFirst();
     }
+
+    public void updateUser(User user) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(user);
+        entityManager.getTransaction().commit();
+    }
 }

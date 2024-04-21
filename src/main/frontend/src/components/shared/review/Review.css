@@ -8,6 +8,23 @@
 
 .review-header {
     align-self: flex-start;
+    display: flex;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.review-header img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+.review-header h2 {
+    align-self: center;
+    margin-right: 10px;
 }
 
 .review-body {

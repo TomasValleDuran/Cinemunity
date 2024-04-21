@@ -39,6 +39,7 @@ const SignUp = () => {
 
             // Store the token in local storage
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('username', username);
             console.log("Inicio de sesión exitoso:", response.data.token);
             navigate('/home');
         } catch (error) {

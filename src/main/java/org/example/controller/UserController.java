@@ -63,4 +63,11 @@ public class UserController {
         res.type("application/json");
         return userService.getCurrentUser(token);
     }
+
+    public String getLikedReviews(Request req, Response res) {
+        String username = req.params(":username");
+
+        res.type("application/json");
+        return userService.getLikedReviews(username);
+    }
 }
