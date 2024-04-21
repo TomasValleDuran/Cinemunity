@@ -2,6 +2,7 @@ import React from 'react';
 import './notAdmin.css';
 import {SaveButton, AddActorButton, ProfileNameButton} from '../../shared/buttons/Buttons';
 import {useNavigate} from "react-router-dom";
+import withAuth from '../../hoc/withAuth';
 
 const NotAdmin = () => {
     const navigate = useNavigate();
@@ -19,4 +20,5 @@ const NotAdmin = () => {
     );
 }
 
-export default NotAdmin;
+const ProtectedCelebrity = withAuth(NotAdmin);
+export default ProtectedCelebrity;
