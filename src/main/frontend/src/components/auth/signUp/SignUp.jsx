@@ -15,7 +15,8 @@ const SignUp = () => {
 
     const navigate = useNavigate();
 
-    const handleSignUp = async () => {
+    const handleSignUp = async (e) => {
+        e.preventDefault();
         try {
             const response = await axios.post('http://localhost:3333/api/user/signup', {
                 username: username,
