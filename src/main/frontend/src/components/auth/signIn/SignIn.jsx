@@ -5,6 +5,7 @@ import axios from "axios";
 import '../SignIn-SignUp.css'
 import FormInput from "../../shared/form-input/FormInput";
 import {SigninSignupButton} from "../../shared/buttons/Buttons";
+import logo from "../../assets/logo.png";
 
 const SignIn = ()=>{
     const [username, setUsername] = useState("");
@@ -36,6 +37,9 @@ const SignIn = ()=>{
     return (
         <div className="container">
             <div className='header'>
+                <div className={'header-logo'}>
+                        <img src={logo} alt={'logo.png'}/>
+                </div>
                 <div className='title'>
                     <div className='tittle-text'>Log In</div>
                 </div>

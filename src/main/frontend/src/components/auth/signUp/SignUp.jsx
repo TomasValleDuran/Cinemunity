@@ -4,6 +4,7 @@ import '../SignIn-SignUp.css';
 import {Link, useNavigate} from 'react-router-dom';
 import FormInput from "../../shared/form-input/FormInput";
 import {SigninSignupButton} from "../../shared/buttons/Buttons";
+import logo from "../../assets/logo.png";
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -51,6 +52,9 @@ const SignUp = () => {
     return (
         <div className="container">
             <div className="header">
+                <div className={'header-logo'}>
+                    <img src={logo} alt={'logo.png'}/>
+                </div>
                 <div className="title">
                     <div className="tittle-text">Sign Up</div>
                 </div>
