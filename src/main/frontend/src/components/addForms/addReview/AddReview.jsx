@@ -60,7 +60,7 @@ const AddReview = ({ showTitle, onRemove }) => {
 
                 <FormInput type="text" value={review} onChange={(e) => setReview(e.target.value)}
                            placeholder="Review"></FormInput>
-                <button type="submit">Enviar revisión</button>
+                <button type="submit">Submit Review</button>
             </form>
 
         </div>
