@@ -11,11 +11,14 @@ import AddCelebrity from "./components/addForms/addCelebrity/AddCelebrity";
 import Show from "./components/Show/Show";
 import Celebrity from "./components/Celebrity/Celebrity";
 import NotAdmin from "./components/errors/notAdmin/notAdmin";
+import SearchBar from "./components/shared/header/search-bar/SearchBar";
 
 function App() {
     return (
         <div className="App">
                 <Routes>
+                    <Route path="/test" element={<SearchBar/>}/>
+
                     <Route path="/" element={<SignIn/>}/>
                     <Route path="/signin" element={<SignIn/>}/>
                     <Route path="/signup" element={<SignUp/>}/>
