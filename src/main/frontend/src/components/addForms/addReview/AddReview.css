@@ -34,9 +34,9 @@ input[type="radio"] {
 
 .rating {
     display: flex;
-    justify-content: start; /* Aligns items to the start of the row */
+    justify-content: flex-end;
     font-size: 24px;
-    direction: ltr; /* Left-to-right to keep the stars in correct order */
+    direction: rtl;
 }
 
 .rating label {
@@ -54,6 +54,9 @@ input[type="radio"] {
     color: #ffc107; /* Gold color on hover and selected */
 }
 
+.rating input:checked ~ label {
+    color: #ffc107; /* Gold color when selected */
+}
 
 input[type="text"], button[type="submit"] {
     padding: 8px;

@@ -44,7 +44,7 @@ const User = () => {
             response && setIsAdmin(response.is_admin);
             response && setFollowers(response.followers.length);
             response && setFollowing(response.following.length);
-            response && setRating(response.rating);
+            response && setRating(response.user_rating);
         };
 
         fetchUserData();

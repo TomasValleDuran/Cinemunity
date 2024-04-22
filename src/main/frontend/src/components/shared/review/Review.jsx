@@ -4,8 +4,9 @@ import emptyHeart from '../../assets/empty-heart.png';
 import filledHeart from '../../assets/filled-heart.png';
 import star from '../../assets/golden_star.png';
 import axios from "axios";
-import trashIcon from '../../assets/trashCan.png';
+import trashIcon from '../../assets/trash-icon.png';
 import PopUp from '../pop-up/PopUp';
+import trashIconHover from '../../assets/new-open-trash-removebg-preview.png';
 
 const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
     const currentUsername = localStorage.getItem('username');
@@ -13,6 +14,7 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
     const rating = reviewRating;
     const [showPopUp, setShowPopUp] = useState(false);
+    const [isHovered, setIsHovered] = useState(false); // Add this line
 
 
     const fetchLikes = async () => {
@@ -95,17 +97,31 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
     return (
         <div className="review-container">
             <div className="review-header">
-                <h2>{username}</h2>
-                {Array.from({length: rating}).map((_, index) => <img key={index} src={star} alt={"rating"}/>)}
-                {currentUsername === username && <img className="review-trashIcon" src={trashIcon} alt="delete" onClick={() => setShowPopUp(true)} />}            </div>
+                <div className = "name-and-stars">
+                    <h2>{username}</h2>
+                    {Array.from({length: rating}).map((_, index) => <img key={index} src={star} alt={"rating"}/>)}
+                </div>
+                <div className={"review-trashIcon"}>
+                    {currentUsername === username &&
+                        <img
+                            className="review-trashIcon"
+                            src={isHovered ? trashIconHover : trashIcon} // Use isHovered to conditionally render the hover image
+                            alt="delete"
+                            onClick={() => setShowPopUp(true)}
+                            onMouseEnter={() => setIsHovered(true)} // Set isHovered to true when the mouse enters the icon
+                            onMouseLeave={() => setIsHovered(false)} // Set isHovered to false when the mouse leaves the icon
+                        />
+                    }
+                </div>
+            </div>
             <div className="review-body">
                 <p>{reviewText}</p>
             </div>
             <div className="review-footer">
-                <img src={liked ? filledHeart : emptyHeart} alt="like" onClick={handleLike} />
+                <img src={liked ? filledHeart : emptyHeart} alt="like" onClick={handleLike}/>
                 <p>Likes: {likes}</p>
             </div>
-            {showPopUp && <PopUp onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel} />}
+            {showPopUp && <PopUp onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel}/>}
         </div>
     );
 };

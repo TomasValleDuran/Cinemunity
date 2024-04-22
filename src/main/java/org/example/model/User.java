@@ -168,4 +168,12 @@ public class User {
     public List<Review> getReviews() {
         return reviews;
     }
+
+    public void addRating() {
+        user_rating++;
+    }
+
+    public void removeRating() {
+        user_rating--;
+    }
 }
