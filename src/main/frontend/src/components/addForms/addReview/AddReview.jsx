@@ -35,8 +35,6 @@ const AddReview = ({ showTitle, onRemove }) => {
         }
     };
 
-
-
     return (
         <div className="add-review-container">
             <button className="close-button" onClick={onRemove}>X</button>
