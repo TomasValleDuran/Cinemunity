@@ -5,20 +5,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #042042;
+    background-color: #4783ef;
 }
 
 .header-logo {
     margin: 20px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
     flex-grow: 1;
 }
 
 .header-logo img {
-    height: 40px;
-    width: 150px;
+    height: 60px;
 }
 
 .header-right-buttons {
@@ -31,15 +30,10 @@
     flex-grow: 1;
 }
 
-.btn-profileName {
-    /*TODO: Hacer un boton de un dibujo de una personita*/
+.btn-profile, .btn-logout, .btn-home {
+    padding: 5px 5px;
+    height: 35px;
+
 }
 
-.btn-logout {
-    /*TODO: Hacer un boton de un dibujo de salida*/
-}
-
-.btn-home {
-    /*TODO: Hacer un boton de un dibujo de una casa*/
-}
 

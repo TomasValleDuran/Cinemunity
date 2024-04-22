@@ -1,9 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import logo from "../../assets/logo.png";
 import {Link, useNavigate} from 'react-router-dom';
 import './Header.css';
 import axios from "axios";
 import SearchBar from "./search-bar/SearchBar";
+
+import logo from "../../assets/logo.png";
+import personImg from "../../assets/person.png";
+import logOutImg from "../../assets/log-out.png";
+import homeImg from "../../assets/home.png";
 
 const Header = () => {
     const [username, setUsername] = useState(''); // Username of the currently signed-in user
@@ -39,10 +43,12 @@ const Header = () => {
 
     const handleSignOut = () => {
         localStorage.removeItem('token');
-        console.log("Sesión cerrada")
-
         navigate('/signin');
     };
+
+    const handleHomeClick = () => {
+        navigate('/home');
+    }
 
 
     return (
@@ -56,10 +62,24 @@ const Header = () => {
                 <SearchBar/>
             </div>
             <div className={'header-right-buttons'}>
-                <button className={"btn-profile"} onClick={handleProfileClick}>
-                    {username}
-                </button>
-                <button className={"btn-logout"} onClick={handleSignOut}>Sign Out</button>
+                <img
+                    src={homeImg}
+                    alt={'home.png'}
+                    className={'btn-home'}
+                    onClick={handleHomeClick}
+                />
+                <img
+                    src={personImg}
+                    alt={'person.png'}
+                    className={'btn-profile'}
+                    onClick={handleProfileClick}
+                />
+                <img
+                    src={logOutImg}
+                    alt={'log-out.png'}
+                    className={'btn-logout'}
+                    onClick={handleSignOut}
+                />
             </div>
         </div>
     );

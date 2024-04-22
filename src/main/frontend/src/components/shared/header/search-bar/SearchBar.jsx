@@ -1,9 +1,49 @@
 import React, {useState} from 'react';
 import Select from 'react-select';
-import searchIcon from '../../../assets/searchIcon.png';
+import searchIcon from '../../../assets/search-icon.png';
 import {useNavigate} from 'react-router-dom';
 import './SearchBar.css';
 import axios from "axios";
+
+const DropdownStyles = {
+
+    control: (provided, state) => ({
+        ...provided,
+        backgroundColor: '#dedada',
+        border: 'none',
+        borderColor: state.isFocused ? 'blue' : 'gray',
+        boxShadow: state.isFocused ? '0 0 0 1px blue' : 'none',
+        ':hover': {
+            borderColor: state.isFocused ? 'blue' : 'gray'
+        },
+        borderRadius: '50px'
+    }),
+
+    option: (provided, state) => ({
+        ...provided,
+        color: state.isSelected ? 'white' : 'black',
+        backgroundColor: state.isSelected ? 'blue' : 'white',
+        ':hover': {
+            backgroundColor: 'lightgray',
+        }
+    }),
+
+    dropdownIndicator: (provided, state) => ({
+        ...provided,
+        color: 'gray',
+        ':hover': {
+            color: 'black',
+        },
+        borderLeft: 'none',
+        padding: 5,
+        alignItems: 'center'
+    }),
+
+    clearIndicator: (provided, state) => ({
+        ...provided,
+        color: 'red',
+    })
+};
 
 const Dropdown = ({ value, onChange, options }) => (
     <Select
@@ -12,16 +52,18 @@ const Dropdown = ({ value, onChange, options }) => (
         onChange={onChange}
         options={options}
         isSearchable={false}
+        styles={DropdownStyles}
     />
 );
 
-const SearchTextBox = ({value, onChange, placeholder, addon1, addon2 }) => (
+const SearchTextBox = ({value, onChange, onKeyPress, placeholder, addon1, addon2}) => (
     <div className="search-bar">
         {addon1}
         <input
             type="text"
             value={value}
             onChange={onChange}
+            onKeyPress={onKeyPress}
             placeholder={placeholder}
             className="search-input"
         />
@@ -45,6 +87,12 @@ const SearchBar = () => {
 
     const handleSelect = selectedOption => {
         setSearchType(selectedOption);
+    };
+
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            search();
+        }
     };
 
     const performSearch = async (endpoint, searchInput, successCriteria, navigatePath) => {
@@ -86,6 +134,7 @@ const SearchBar = () => {
         <SearchTextBox
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
+            onKeyPress={handleEnterPress}
             placeholder="Search"
             addon1={<Dropdown value={searchType} onChange={handleSelect} options={options}/>}
             addon2={
