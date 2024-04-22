@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Select from 'react-select';
-import logo from "../../../assets/logo.png";
-import search from '../../../assets/search.png';
-import {Link, useNavigate} from 'react-router-dom';
+import searchIcon from '../../../assets/searchIcon.png';
+import {useNavigate} from 'react-router-dom';
 import './SearchBar.css';
 import axios from "axios";
 
@@ -89,7 +88,13 @@ const SearchBar = () => {
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search"
             addon1={<Dropdown value={searchType} onChange={handleSelect} options={options}/>}
-            addon2={<button className={"btn-search"} onClick={search}>Search</button>}
+            addon2={
+                <img
+                    src={searchIcon}
+                    alt="Search"
+                    className="btn-search"
+                    onClick={search}
+                />}
         />
     );
 };

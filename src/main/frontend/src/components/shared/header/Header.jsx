@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Select from 'react-select';
 import logo from "../../assets/logo.png";
 import {Link, useNavigate} from 'react-router-dom';
 import './Header.css';
