@@ -34,7 +34,7 @@ const Celebrity = () => {
         };
 
         fetchCelebrityData();
-    }, []);
+    }, [fetchCelebrity]);
 
     return (
         <div className="home-container">

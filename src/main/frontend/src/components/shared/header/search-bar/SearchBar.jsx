@@ -105,6 +105,7 @@ const SearchBar = () => {
             if (response.data[successCriteria]) {
                 console.log(response.data);
                 navigate(`/${navigatePath}/${searchInput}`);
+                window.location.reload();
             } else {
                 console.log(response.data);
             }
