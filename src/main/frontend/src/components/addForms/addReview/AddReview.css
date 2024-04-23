@@ -78,3 +78,7 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #0056b3;
 }
+
+.rating label.selected {
+    color: #ffc107; /* Gold color when selected */
+}

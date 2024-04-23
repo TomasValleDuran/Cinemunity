@@ -43,7 +43,7 @@ const AddReview = ({ showTitle, onRemove }) => {
                     {[...Array(5)].map((star, index) => {
                         const ratingValue = 5 - index;
                         return (
-                            <label key={index}>
+                            <label key={index} className={ratingValue <= rating ? "selected" : ""}>
                                 <input
                                     type="radio"
                                     name="rating"

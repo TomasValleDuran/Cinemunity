@@ -44,7 +44,7 @@ const SignIn = ()=>{
                 </div>
             </div>
             <form onSubmit={handleSignIn} className='inputs'>
-                <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+                <FormInput value={username} onChange={(e) => setUsername(e.target.value)}
                            placeholder="Username"/>
                 <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                            placeholder="Password"/>

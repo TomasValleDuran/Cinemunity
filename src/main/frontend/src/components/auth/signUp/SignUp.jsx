@@ -26,13 +26,16 @@ const SignUp = () => {
             console.log(response.data);
             await signIn();
         } catch (error) {
-            console.error(error.response.data, error);
-            setErrorMessage(error.response.data);
+            if (error.response && error.response.data) {
+                console.error(error.response.data, error);
+                setErrorMessage(error.response.data);
+            } else {
+                console.error("Ocurrió un error, pero no se pudo obtener más información", error);
+            }
         }
     };
 
-    const signIn = async (e) => {
-        e.preventDefault();
+    const signIn = async () => {
         try {
             const response = await axios.post(`http://localhost:3333/api/user/signin`, {
                 username: username,
@@ -62,7 +65,7 @@ const SignUp = () => {
             <form onSubmit={handleSignUp} className="inputs">
                 <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                            placeholder="Email"/>
-                <FormInput type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+                <FormInput value={username} onChange={(e) => setUsername(e.target.value)}
                            placeholder="Username"/>
                 <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                            placeholder="Password"/>

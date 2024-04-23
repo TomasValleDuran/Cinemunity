@@ -101,13 +101,13 @@ const Show = () => {
                         </div>
                         <div className={"show-info"}>
                             <div className={"show-bio"}>
-                                <p> {description}   {id}</p>
+                                <p> {description}</p>
                             </div>
                             <div className={"show-elements"}>
                                 <h3> Director: {director}</h3>
                                 <h3> Cast: {actors.join(", ")}</h3>
                                 <h3> Show Type: {show_type}</h3>
-                                {seasons.length > 0 && <p> seasons: {seasons[seasons.length - 1]}</p>}
+                                {seasons.length > 0 && <h3> seasons: {seasons[seasons.length - 1]}</h3>}
                             </div>
                         </div>
                     </div>
