@@ -28,6 +28,7 @@ const AddReview = ({ showTitle, onRemove }) => {
             console.log(response.data)
             if (response.status === 200) {
                 onRemove();
+                window.location.reload(); // malardo esto
             }
         }
         catch (error) {

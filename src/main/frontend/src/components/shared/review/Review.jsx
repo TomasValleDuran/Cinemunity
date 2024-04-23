@@ -88,6 +88,7 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
     const handleDeleteConfirm = () => {
         setShowPopUp(false); // Oculta el pop-up
         handleDelete(); // Llama a handleDelete solo si el usuario confirma la acción
+        window.location.reload(); // Recarga la página para mostrar los cambios
     };
 
     const handleDeleteCancel = () => {

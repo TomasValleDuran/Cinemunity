@@ -13,12 +13,6 @@ public class Reviews {
 
     public Reviews() {}
 
-    /*public List<Review> findAllReviews(Long id) {
-        TypedQuery<Review> query = entityManager.createQuery("SELECT Review FROM Review WHERE Review.show.showId = :id", Review.class);
-        query.setParameter("id", id);
-        return query.getResultList();
-    }*/
-
     public List<Review> findReviewsByIds(List<Long> ids) {
         TypedQuery<Review> query = currentEntityManager().createQuery("SELECT r FROM Review r WHERE r.id IN :ids", Review.class);
         query.setParameter("ids", ids);

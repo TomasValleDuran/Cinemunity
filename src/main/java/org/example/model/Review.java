@@ -49,10 +49,12 @@ public class Review {
     }
 
     public void likeReview(User user) {
+        review_rating++;
         likedBy.add(user);
     }
 
     public void unlikeReview(User user) {
+        review_rating--;
         likedBy.remove(user);
     }
 
