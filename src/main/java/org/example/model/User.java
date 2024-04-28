@@ -103,7 +103,7 @@ public class User {
                         jsonObject.addProperty("userId", src.userId);
                         jsonObject.addProperty("username", src.username);
                         jsonObject.addProperty("email", src.email);
-                        jsonObject.addProperty("user_rating", src.user_rating);
+                        jsonObject.addProperty("user_rating", src.getUser_rating());
                         jsonObject.addProperty("is_admin", src.is_admin);
                         jsonObject.addProperty("is_verified", src.is_verified);
 
@@ -169,11 +169,11 @@ public class User {
         return reviews;
     }
 
-    public void addRating() {
-        user_rating++;
-    }
-
-    public void removeRating() {
-        user_rating--;
+    private Integer getUser_rating() {
+        Integer rating = 0;
+        for (Review review : reviews) {
+            rating += review.getNumberOfLikes();
+        }
+        return rating;
     }
 }

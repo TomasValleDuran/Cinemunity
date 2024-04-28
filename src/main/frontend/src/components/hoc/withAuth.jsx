@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const withAuth = WrappedComponent => {
     return (props) => {
         const navigate = useNavigate();
+        //validate if the user is logged in
 
         useEffect(() => {
             const token = localStorage.getItem('token');

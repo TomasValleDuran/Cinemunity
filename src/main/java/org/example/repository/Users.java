@@ -112,4 +112,11 @@ public class Users {
         entityManager.merge(user);
         entityManager.getTransaction().commit();
     }
+
+    public void delete(User user) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.remove(user);
+        entityManager.getTransaction().commit();
+    }
 }

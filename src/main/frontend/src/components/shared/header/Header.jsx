@@ -3,7 +3,9 @@ import {Link, useNavigate} from 'react-router-dom';
 import './Header.css';
 import axios from "axios";
 import SearchBar from "./search-bar/SearchBar";
-
+import HomeIcon from '@mui/icons-material/Home';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 import logo from "../../assets/logo.png";
 import personImg from "../../assets/person.png";
 import logOutImg from "../../assets/log-out.png";
@@ -62,24 +64,9 @@ const Header = () => {
                 <SearchBar/>
             </div>
             <div className={'header-right-buttons'}>
-                <img
-                    src={homeImg}
-                    alt={'home.png'}
-                    className={'btn-home'}
-                    onClick={handleHomeClick}
-                />
-                <img
-                    src={personImg}
-                    alt={'person.png'}
-                    className={'btn-profile'}
-                    onClick={handleProfileClick}
-                />
-                <img
-                    src={logOutImg}
-                    alt={'log-out.png'}
-                    className={'btn-logout'}
-                    onClick={handleSignOut}
-                />
+                <HomeIcon onClick={handleHomeClick} fontSize={'large'} className={'btn-home'}/>
+                <AccountCircleIcon onClick={handleProfileClick} fontSize={'large'} className={'btn-profile'}/>
+                <LogoutIcon onClick={handleSignOut} fontSize={'large'} className={'btn-profile'}/>
             </div>
         </div>
     );

@@ -48,14 +48,20 @@ public class Review {
         return user.getUsername();
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void likeReview(User user) {
-        review_rating++;
         likedBy.add(user);
     }
 
     public void unlikeReview(User user) {
-        review_rating--;
         likedBy.remove(user);
+    }
+
+    public Integer getNumberOfLikes() {
+        return likedBy.size();
     }
 
     public String asJson() {

@@ -25,7 +25,7 @@ function App() {
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/user/:username" element={<User/>}/>
 
-                    <Route path="/addMovie" element={
+                    <Route path="/addShow" element={
                         <ProtectedRoute>
                             <AddMovie/>
                         </ProtectedRoute>

@@ -126,4 +126,15 @@ public class UserService {
 
         return user.asJson();
     }
+
+    public String deleteUser(String token) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            return "Invalid token";
+        }
+
+        User user = users.findUserById(userId);
+        users.delete(user);
+        return "User deleted";
+    }
 }

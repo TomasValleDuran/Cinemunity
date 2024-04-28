@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import './Review.css';
 import emptyHeart from '../../assets/empty-heart.png';
 import filledHeart from '../../assets/filled-heart.png';
-import star from '../../assets/golden_star.png';
 import axios from "axios";
-import trashIcon from '../../assets/trash-icon.png';
 import PopUp from '../pop-up/PopUp';
-import trashIconHover from '../../assets/new-open-trash-removebg-preview.png';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from "@mui/material/IconButton";
+import StarIcon from '@mui/icons-material/Star';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
     const currentUsername = localStorage.getItem('username');
@@ -100,18 +102,13 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
             <div className="review-header">
                 <div className = "name-and-stars">
                     <h2>{username}</h2>
-                    {Array.from({length: rating}).map((_, index) => <img key={index} src={star} alt={"rating"}/>)}
+                    {Array.from({length: rating}).map((_, index) => <StarIcon className={"start-icon"}/>)}
                 </div>
-                <div className={"review-trashIcon"}>
+                <div>
                     {currentUsername === username &&
-                        <img
-                            className="review-trashIcon"
-                            src={isHovered ? trashIconHover : trashIcon} // Use isHovered to conditionally render the hover image
-                            alt="delete"
-                            onClick={() => setShowPopUp(true)}
-                            onMouseEnter={() => setIsHovered(true)} // Set isHovered to true when the mouse enters the icon
-                            onMouseLeave={() => setIsHovered(false)} // Set isHovered to false when the mouse leaves the icon
-                        />
+                        <IconButton aria-label="delete" className={"delete-icon"}>
+                            <DeleteIcon onClick={() => setShowPopUp(true)}/>
+                        </IconButton>
                     }
                 </div>
             </div>
@@ -119,8 +116,13 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
                 <p>{reviewText}</p>
             </div>
             <div className="review-footer">
-                <img src={liked ? filledHeart : emptyHeart} alt="like" onClick={handleLike}/>
-                <p>Likes: {likes}</p>
+                <div className="like-container">
+                    {liked
+                        ? <FavoriteIcon className={"favorite-icon"} onClick={handleLike}/>
+                        : <FavoriteBorderIcon className={"favorite-border-icon"} onClick={handleLike}/>
+                    }
+                </div>
+                <p>{likes}</p>
             </div>
             {showPopUp && <PopUp onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel}/>}
         </div>

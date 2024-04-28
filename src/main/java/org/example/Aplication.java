@@ -46,6 +46,7 @@ public class Aplication {
         Spark.post("/api/user/signin", userController::signin);
         Spark.get("/api/user/get/:username", userController::getUser);
         Spark.get("/api/user/getLikedReviews/:username", userController::getLikedReviews);
+        Spark.delete("/api/user/deleteUser", userController::deleteUser);
 
         Spark.post("/api/show/addShow", showController::addShow);
         Spark.get("/api/show/get/:title", showController::getShow);

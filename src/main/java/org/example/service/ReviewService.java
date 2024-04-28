@@ -52,7 +52,6 @@ public class ReviewService {
         }
 
         user.likeReview(review);
-        user.addRating();
         review.likeReview(user);
 
         reviews.updateReview(review);
@@ -68,7 +67,6 @@ public class ReviewService {
         }
 
         user.unlikeReview(review);
-        user.removeRating();
         review.unlikeReview(user);
 
         reviews.updateReview(review);

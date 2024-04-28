@@ -72,3 +72,12 @@ h1, h2, h3, h4 {
 .buttons button {
     margin-right: 10px;
 }
+
+.menu-item:hover {
+    background-color: #f0f0f0;
+    color: black;
+}
+
+.delete-account-item:hover {
+    color: red;
+}

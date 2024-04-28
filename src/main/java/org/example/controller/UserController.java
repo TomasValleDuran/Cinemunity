@@ -70,4 +70,14 @@ public class UserController {
         res.type("application/json");
         return userService.getLikedReviews(username);
     }
+
+    public String deleteUser(Request req, Response res) {
+        String token = req.headers("Authorization");
+        if (token == null) {
+            return "Not signed in";
+        }
+
+        res.type("application/json");
+        return userService.deleteUser(token);
+    }
 }
