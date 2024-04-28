@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import './Review.css';
-import emptyHeart from '../../assets/empty-heart.png';
-import filledHeart from '../../assets/filled-heart.png';
 import axios from "axios";
 import PopUp from '../pop-up/PopUp';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,14 +7,14 @@ import IconButton from "@mui/material/IconButton";
 import StarIcon from '@mui/icons-material/Star';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
 
 const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
     const currentUsername = localStorage.getItem('username');
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
     const rating = reviewRating;
-    const [showPopUp, setShowPopUp] = useState(false);
-    const [isHovered, setIsHovered] = useState(false); // Add this line
+    const [dialogOpen, setDialogOpen] = useState(false); // State for confirmation dialog
 
 
     const fetchLikes = async () => {
@@ -81,20 +79,20 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
             .then(response => {
                 console.log(response.data);
                 onRemoveReview();
+                window.location.reload()
             })
             .catch(error => {
                 console.error('Error deleting review:', error);
             });
     };
 
-    const handleDeleteConfirm = () => {
-        setShowPopUp(false); // Oculta el pop-up
-        handleDelete(); // Llama a handleDelete solo si el usuario confirma la acción
-        window.location.reload(); // Recarga la página para mostrar los cambios
+    const handleDialogOpen = () => {
+        setDialogOpen(true);
     };
 
-    const handleDeleteCancel = () => {
-        setShowPopUp(false); // Oculta el pop-up si el usuario cancela la acción
+    // Close confirmation dialog
+    const handleDialogClose = () => {
+        setDialogOpen(false);
     };
 
     return (
@@ -107,7 +105,7 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
                 <div>
                     {currentUsername === username &&
                         <IconButton aria-label="delete" className={"delete-icon"}>
-                            <DeleteIcon onClick={() => setShowPopUp(true)}/>
+                            <DeleteIcon onClick={handleDialogOpen}/>
                         </IconButton>
                     }
                 </div>
@@ -124,7 +122,8 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
                 </div>
                 <p>{likes}</p>
             </div>
-            {showPopUp && <PopUp onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel}/>}
+            <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDelete}
+                                information={"Review"} />
         </div>
     );
 };

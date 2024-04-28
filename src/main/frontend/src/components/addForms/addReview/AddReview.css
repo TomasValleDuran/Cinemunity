@@ -82,3 +82,9 @@ button[type="submit"]:hover {
 .rating label.selected {
     color: #ffc107; /* Gold color when selected */
 }
+
+.review-input {
+    width: 100% !important;
+    align-self: center !important;
+    background-color: #bcd7fc;
+}

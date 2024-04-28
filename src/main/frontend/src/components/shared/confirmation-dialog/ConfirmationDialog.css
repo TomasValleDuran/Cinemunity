@@ -1,0 +1,27 @@
+/* ConfirmationDialog.css */
+.dialog {
+    font-family: Arial, sans-serif;
+}
+
+.dialog-title {
+    background-color: #2196f3;
+    color: white;
+    font-weight: bold !important;
+    padding-bottom: 30px !important;
+}
+
+.dialog-content {
+    padding: 20px !important;
+}
+
+.dialog-actions {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.redButton {
+    background-color: red !important;
+    color: white;
+    font-weight: bold;
+}

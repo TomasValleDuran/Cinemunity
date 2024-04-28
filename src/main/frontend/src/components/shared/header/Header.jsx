@@ -5,11 +5,7 @@ import axios from "axios";
 import SearchBar from "./search-bar/SearchBar";
 import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
 import logo from "../../assets/logo.png";
-import personImg from "../../assets/person.png";
-import logOutImg from "../../assets/log-out.png";
-import homeImg from "../../assets/home.png";
 
 const Header = () => {
     const [username, setUsername] = useState(''); // Username of the currently signed-in user
@@ -43,11 +39,6 @@ const Header = () => {
         navigate(`/user/${username}`);
     };
 
-    const handleSignOut = () => {
-        localStorage.removeItem('token');
-        navigate('/signin');
-    };
-
     const handleHomeClick = () => {
         navigate('/home');
     }
@@ -66,7 +57,6 @@ const Header = () => {
             <div className={'header-right-buttons'}>
                 <HomeIcon onClick={handleHomeClick} fontSize={'large'} className={'btn-home'}/>
                 <AccountCircleIcon onClick={handleProfileClick} fontSize={'large'} className={'btn-profile'}/>
-                <LogoutIcon onClick={handleSignOut} fontSize={'large'} className={'btn-profile'}/>
             </div>
         </div>
     );

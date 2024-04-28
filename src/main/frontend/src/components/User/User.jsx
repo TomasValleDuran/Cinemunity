@@ -4,9 +4,9 @@ import Header from '../shared/header/Header';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Sample_User_Icon from "../assets/Sample_User_Icon.png";
-import heart from "../assets/heart.png";
 import withAuth from "../hoc/withAuth";
 import MenuIcon from '@mui/icons-material/Menu';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Menu, MenuItem, IconButton, Button } from '@mui/material';
 import ConfirmationDialog from "../shared/confirmation-dialog/ConfirmationDialog";
 
@@ -125,7 +125,7 @@ const User = () => {
                 </div>
                 <div className={"rating-buttons"}>
                     <div className={"rating"}>
-                        <img src={heart} alt={"Heart"} />
+                        <FavoriteIcon />
                         <h2>{String(rating)}</h2>
                     </div>
                     <div className={"buttons"}>
