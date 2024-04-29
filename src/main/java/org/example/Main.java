@@ -20,7 +20,7 @@ public class Main {
     }
 
     public static void createAdminUser(EntityManager entityManager) {
-        User user = new User("admin@gmail.com", "admin", "admin");
+        User user = new User("admin@gmail.com", "admin", "admin123");
         user.setAdmin();
         entityManager.getTransaction().begin();
         entityManager.persist(user);

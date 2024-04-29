@@ -106,7 +106,7 @@ public class Users {
         return users.getFirst();
     }
 
-    public void updateUser(User user) {
+    public void update(User user) {
         EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
         entityManager.merge(user);

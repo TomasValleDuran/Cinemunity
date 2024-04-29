@@ -7,7 +7,6 @@ import org.example.repository.Reviews;
 import org.example.repository.Users;
 
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class ReviewService {
         review.likeReview(user);
 
         reviews.updateReview(review);
-        users.updateUser(user);
+        users.update(user);
         return review.asJson();
 
     }
@@ -70,7 +69,7 @@ public class ReviewService {
         review.unlikeReview(user);
 
         reviews.updateReview(review);
-        users.updateUser(user);
+        users.update(user);
         return review.asJson();
     }
 

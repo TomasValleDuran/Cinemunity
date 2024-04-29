@@ -18,7 +18,7 @@ const User = () => {
     const [rating, setRating] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [dialogOpen, setDialogOpen] = useState(false); // State for confirmation dialog
+    const [dialogOpen, setDialogOpen] = useState(false);
     const navigate = useNavigate();
 
     // Fetch user data
@@ -75,10 +75,6 @@ const User = () => {
         setDialogOpen(false);
     };
 
-    const handleModifyInformation = () => {
-        navigate('/user/modifyInfo');
-    }
-
     // Handle account deletion
     const handleDeleteAccount = async () => {
         const response = await axios.delete('http://localhost:3333/api/user/deleteUser', {
@@ -90,6 +86,14 @@ const User = () => {
         localStorage.removeItem('token');
         navigate('/signin');
     };
+
+    const handleModifyDialogOpen = () => {
+        navigate('/user/modifyUser', { state: { username: username, email: usermail }});
+    };
+
+    const handleChangePassword = () => {
+        navigate('/user/modifyPassword', { state: { username: username }})
+    }
 
     return (
         <div>
@@ -112,7 +116,7 @@ const User = () => {
                         <h3>{following}</h3>
                     </div>
                     <div className={"menu-icon"}>
-                        <IconButton onClick={handleMenuOpen}>
+                        <IconButton onClick={handleMenuOpen} size={"large"}>
                             <MenuIcon />
                         </IconButton>
                         <Menu
@@ -121,7 +125,8 @@ const User = () => {
                             open={Boolean(anchorEl)}
                             onClose={handleMenuClose}
                         >
-                            <MenuItem className={"menu-item"} onClick={handleModifyInformation}>Modify Account Information</MenuItem>
+                            <MenuItem className={"menu-item"} onClick={handleModifyDialogOpen}>Modify Account Information</MenuItem>
+                            <MenuItem className={"menu-item"} onClick={handleChangePassword}>Change Password</MenuItem>
                             <MenuItem className={"menu-item"} onClick={handleSignOut}>Log Out</MenuItem>
                             <MenuItem className={"delete-account-item"} onClick={handleDialogOpen}>Delete Account</MenuItem>
                         </Menu>

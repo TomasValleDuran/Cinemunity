@@ -12,6 +12,8 @@ import Show from "./components/Show/Show";
 import Celebrity from "./components/Celebrity/Celebrity";
 import NotAdmin from "./components/errors/notAdmin/notAdmin";
 import SearchBar from "./components/shared/header/search-bar/SearchBar";
+import ModifyUser from "./components/modify-forms/modify-user-info/ModifyUser";
+import ModifyPassword from "./components/modify-forms/modify-user-password/ModifyPassword";
 
 function App() {
     return (
@@ -24,6 +26,8 @@ function App() {
                     <Route path="/signup" element={<SignUp/>}/>
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/user/:username" element={<User/>}/>
+                    <Route path="/user/modifyUser" element={<ModifyUser/>}/>
+                    <Route path="/user/modifyPassword" element={<ModifyPassword/>}/>
 
                     <Route path="/addShow" element={
                         <ProtectedRoute>

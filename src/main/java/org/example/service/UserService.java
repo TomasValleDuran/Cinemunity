@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.dto.SignUpDto;
 import org.example.model.User;
 import org.example.repository.Users;
 import org.example.utility.AuthUtility;
@@ -40,12 +41,12 @@ public class UserService {
             throw new IllegalArgumentException("Username already in use");
         }
 
-        if(username.length() < 4) {
-            throw new IllegalArgumentException("Username must be at least 4 characters long");
+        if(username.length() < 4){
+            throw new IllegalArgumentException("Username must be at least 1 characters long");
         }
 
-        if (password.length() < 4) {
-            throw new IllegalArgumentException("Password must be at least 4 characters long");
+        if (password.length() < 8){
+            throw new IllegalArgumentException("Password must be at least 8 characters long");
         }
 
         User user = new User(email, username, password);
@@ -136,5 +137,55 @@ public class UserService {
         User user = users.findUserById(userId);
         users.delete(user);
         return "User deleted";
+    }
+
+    public String updateUser(String token, String username, String email, String password) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+
+
+        User user = users.findUserById(userId);
+        if (users.findUserByUsername(username) != null && !user.getUsername().equals(username)) {
+            throw new IllegalArgumentException("Username already in use");
+        } else if (username.length() < 4) {
+            throw new IllegalArgumentException("Username must be at least 4 characters long");
+        } else {
+            user.setUsername(username);
+        }
+
+        if (users.findUserByEmail(email) != null && !user.getEmail().equals(email)) {
+            throw new IllegalArgumentException("Email already in use");
+        } else {
+            user.setEmail(email);
+        }
+
+        if (!password.equals(user.getPassword())) {
+            throw new IllegalArgumentException("Invalid password");
+        }
+
+        users.update(user);
+        return user.asJson();
+    }
+
+    public String updatePassword(String token, String currentPassword, String newPassword) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+
+        User user = users.findUserById(userId);
+        if (!user.getPassword().equals(currentPassword)) {
+            throw new IllegalArgumentException("Incorrect current password");
+        }
+
+        if (newPassword.length() < 8) {
+            throw new IllegalArgumentException("New password must be at least 8 characters long");
+        }
+
+        user.setPassword(newPassword);
+        users.update(user);
+        return user.asJson();
     }
 }

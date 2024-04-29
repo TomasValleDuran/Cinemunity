@@ -1,6 +1,8 @@
 package org.example.controller;
 
 import com.google.gson.Gson;
+import org.example.dto.ModifyAccountDto;
+import org.example.dto.ModifyPasswordDto;
 import org.example.dto.SignInDto;
 import org.example.dto.SignUpDto;
 import org.example.service.UserService;
@@ -79,5 +81,44 @@ public class UserController {
 
         res.type("application/json");
         return userService.deleteUser(token);
+    }
+
+    public String updateUser(Request req, Response res) {
+        String token = req.headers("Authorization");
+        if (token == null) {
+            return "Not signed in";
+        }
+
+        ModifyAccountDto modifyAccountDto = gson.fromJson(req.body(), ModifyAccountDto.class);
+        String username = modifyAccountDto.getUsername();
+        String email = modifyAccountDto.getEmail();
+        String password = modifyAccountDto.getPassword();
+
+        res.type("application/json");
+        try {
+            return userService.updateUser(token, username, email, password);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
+
+    public String updatePassword(Request req, Response res) {
+        String token = req.headers("Authorization");
+        if (token == null) {
+            return "Not signed in";
+        }
+
+        ModifyPasswordDto modifyPasswordDto = gson.fromJson(req.body(), ModifyPasswordDto.class);
+        String newPassword = modifyPasswordDto.getNewPassword();
+        String currentPassword = modifyPasswordDto.getCurrentPassword();
+
+        res.type("application/json");
+        try {
+            return userService.updatePassword(token, currentPassword, newPassword);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
     }
 }

@@ -63,7 +63,7 @@ input[type="text"], button[type="submit"] {
     font-size: 16px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    width: 100%;
+    width: 30%;
     box-sizing: border-box;
 }
 
