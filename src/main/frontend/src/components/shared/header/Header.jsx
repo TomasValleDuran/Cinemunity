@@ -55,8 +55,8 @@ const Header = () => {
                 <SearchBar/>
             </div>
             <div className={'header-right-buttons'}>
-                <HomeIcon onClick={handleHomeClick} fontSize={'large'} className={'btn-home'}/>
-                <AccountCircleIcon onClick={handleProfileClick} fontSize={'large'} className={'btn-profile'}/>
+                <HomeIcon onClick={handleHomeClick} fontSize={'large'} className={'btn'}/>
+                <AccountCircleIcon onClick={handleProfileClick} fontSize={'large'} className={'btn'}/>
             </div>
         </div>
     );

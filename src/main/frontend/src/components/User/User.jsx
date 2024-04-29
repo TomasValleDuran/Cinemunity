@@ -75,6 +75,10 @@ const User = () => {
         setDialogOpen(false);
     };
 
+    const handleModifyInformation = () => {
+        navigate('/user/modifyInfo');
+    }
+
     // Handle account deletion
     const handleDeleteAccount = async () => {
         const response = await axios.delete('http://localhost:3333/api/user/deleteUser', {
@@ -117,7 +121,7 @@ const User = () => {
                             open={Boolean(anchorEl)}
                             onClose={handleMenuClose}
                         >
-                            <MenuItem className={"menu-item"} onClick={handleMenuClose}>Modify Account Information</MenuItem>
+                            <MenuItem className={"menu-item"} onClick={handleModifyInformation}>Modify Account Information</MenuItem>
                             <MenuItem className={"menu-item"} onClick={handleSignOut}>Log Out</MenuItem>
                             <MenuItem className={"delete-account-item"} onClick={handleDialogOpen}>Delete Account</MenuItem>
                         </Menu>
@@ -134,7 +138,8 @@ const User = () => {
                     </div>
                 </div>
             </div>
-            <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDeleteAccount} information={"Account"} />
+            <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDeleteAccount}
+                                information={"Account"} isAdmin={isAdmin}/>
         </div>
     );
 };

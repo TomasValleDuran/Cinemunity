@@ -123,7 +123,7 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
                 <p>{likes}</p>
             </div>
             <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDelete}
-                                information={"Review"} />
+                                information={"Review"} isAdmin={false}/>
         </div>
     );
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import './ConfirmationDialog.css'; // Import the CSS file
 
-function ConfirmationDialog({ open, onClose, onConfirm, information }) {
+function ConfirmationDialog({ open, onClose, onConfirm, information, isAdmin }) {
     return (
         <Dialog open={open} onClose={onClose} className="dialog">
             <DialogTitle className="dialog-title">Confirm {information} Deletion</DialogTitle>
@@ -14,7 +14,8 @@ function ConfirmationDialog({ open, onClose, onConfirm, information }) {
                 <Button onClick={onClose} color="primary" className="dialog-button">
                     Cancel
                 </Button>
-                <Button variant="contained" onClick={onConfirm} color="primary" className="redButton">
+                <Button variant="contained" onClick={onConfirm} color="primary" className="redButton"
+                        disabled={isAdmin && information==="Account"}>
                     Confirm
                 </Button>
             </DialogActions>
