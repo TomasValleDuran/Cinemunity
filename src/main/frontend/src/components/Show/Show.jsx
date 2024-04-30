@@ -6,6 +6,7 @@ import axios from "axios";
 import AddReview from "../addForms/addReview/AddReview";
 import withAuth from "../hoc/withAuth";
 import Review from "../shared/review/Review";
+import {IconButton} from "@mui/material";
 
 const Show = () => {
     const { title } = useParams();
@@ -52,6 +53,42 @@ const Show = () => {
         }
     }
 
+    const handleAddToWishlist = async () => {
+        try {
+            const response = await axios.post(`http://localhost:3333/api/user/wishlist`, {
+                showId: id
+            }, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("información de show:", response.data)
+            return response.data;
+        }
+        catch (error) {
+            console.error('Error fetching show:', error);
+            return null;
+        }
+
+    }
+
+
+    const handleRemoveFromWishlist = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:3333/api/user/wishlist/${id}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("borrado")
+            return response.data;
+        }
+        catch (error) {
+            console.error("no se pudo borrar");
+            return null;
+        }
+    }
+
     useEffect(() => {
         console.log("use effect 1")
         const fetchShowData = async () => {
@@ -94,6 +131,10 @@ const Show = () => {
                 <div className="show-container">
                     <div className={"show-title"}>
                         <h1> {title} </h1>
+                    </div>
+                    <div>
+                        <IconButton onClick={handleAddToWishlist} size="large">Add to Wishlist</IconButton>
+                        <IconButton onClick={handleRemoveFromWishlist} size="large">Remove from Wishlist</IconButton>
                     </div>
                     <div className={"show-separator"}>
                         <div className={"show-card"}>

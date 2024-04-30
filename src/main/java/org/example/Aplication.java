@@ -63,6 +63,10 @@ public class Aplication {
         Spark.put("/api/review/unlikeReview/:reviewId", reviewController::unlikeReview);
         Spark.delete("/api/review/deleteReview/:reviewId", reviewController::deleteReview);
 
+        Spark.get("/api/user/wishlist/:userId", userController::getWishlist);
+        Spark.post("/api/user/wishlist", userController::addToWishlist);
+        Spark.delete("/api/user/wishlist/:userId", userController::removeFromWishlist);
+
 
         after((request, response) -> closeCurrentEntityManager());
     }

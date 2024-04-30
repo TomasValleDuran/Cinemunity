@@ -1,14 +1,10 @@
 package org.example.controller;
 
 import com.google.gson.Gson;
-import org.example.dto.ModifyAccountDto;
-import org.example.dto.ModifyPasswordDto;
-import org.example.dto.SignInDto;
-import org.example.dto.SignUpDto;
+import org.example.dto.*;
 import org.example.service.UserService;
 import spark.Request;
 import spark.Response;
-import javax.persistence.EntityManager;
 
 
 public class UserController {
@@ -120,5 +116,27 @@ public class UserController {
             res.status(401);
             return e.getMessage();
         }
+    }
+
+    public Object getWishlist(Request req, Response res) {
+        Long userId = Long.valueOf(req.params(":userId"));
+        res.type("application/json");
+        return userService.getWishlist(userId);
+    }
+
+    public String addToWishlist(Request req, Response res){
+        AddToWishlistDto addToWishlistDto = gson.fromJson(req.body(), AddToWishlistDto.class);
+        Long showId = addToWishlistDto.getShowId();
+        String token = req.headers("Authorization");
+        res.type("application/json");
+        System.out.println(showId);
+        return userService.addToWishlist(token, showId);
+    }
+
+    public String removeFromWishlist(Request req, Response res){
+        Long showId = Long.valueOf(req.params(":showId"));
+        String token = req.headers("Authorization");
+        res.type("application/json");
+        return userService.removeFromWishlist(token, showId);
     }
 }

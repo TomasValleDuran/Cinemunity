@@ -6,9 +6,11 @@ import SearchBar from "./search-bar/SearchBar";
 import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from "../../assets/logo.png";
+import {IconButton} from "@mui/material";
 
 const Header = () => {
     const [username, setUsername] = useState(''); // Username of the currently signed-in user
+    const [userid, setUserid] = useState(''); // User ID of the currently signed-in user
     const navigate = useNavigate();
 
     const fetchUsername = async () => {
@@ -19,7 +21,7 @@ const Header = () => {
                 }
             });
             console.log("cargo el header")
-            return response.data.username;
+            return response.data;
         } catch (error) {
             console.error('Error fetching username:', error);
             return null;
@@ -28,8 +30,9 @@ const Header = () => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const username = await fetchUsername();
-            setUsername(username);
+            const res = await fetchUsername();
+            setUsername(res.username);
+            setUserid(res.userId);
         };
 
         fetchUserData();
@@ -39,8 +42,8 @@ const Header = () => {
         navigate(`/user/${username}`);
     };
 
-    const handleHomeClick = () => {
-        navigate('/home');
+    const handleWishlistClick = () => {
+        navigate(`/user/${username}/wishlist`, { state: { userId: userid } });
     }
 
 
@@ -55,7 +58,7 @@ const Header = () => {
                 <SearchBar/>
             </div>
             <div className={'header-right-buttons'}>
-                <HomeIcon onClick={handleHomeClick} fontSize={'large'} className={'btn'}/>
+                <IconButton onClick={handleWishlistClick} size="large">Wishlist</IconButton>
                 <AccountCircleIcon onClick={handleProfileClick} fontSize={'large'} className={'btn'}/>
             </div>
         </div>

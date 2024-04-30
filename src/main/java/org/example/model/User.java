@@ -188,4 +188,16 @@ public class User {
     public void setPassword(String newPassword) {
         this.password = newPassword;
     }
+
+    public List<Show> getWishlist() {
+        return wishlist;
+    }
+
+    public void addToWishlist(Show show) {
+        wishlist.add(show);
+    }
+
+    public void removeFromWishlist(Show show) {
+        wishlist.remove(show);
+    }
 }
