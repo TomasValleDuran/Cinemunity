@@ -41,8 +41,8 @@ function App() {
                         </ProtectedRoute>
                     }/>
 
-                    <Route path="/show/:title" element={<Show/>}/>
-                    <Route path="/celebrity/:celebrityName" element={<Celebrity/>}/>
+                    <Route path="/show/:showId" element={<Show/>}/>
+                    <Route path="/celebrity/:celebrityId" element={<Celebrity/>}/>
 
                     <Route path="/error" element={<NotAdmin/>}/>
                 </Routes>

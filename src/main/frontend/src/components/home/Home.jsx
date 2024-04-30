@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './Home.css';
 import Header from '../shared/header/Header';
 import axios from "axios";
@@ -8,6 +8,7 @@ import withAuth from '../hoc/withAuth';
 const Home = () => {
 
     const[posts, setPosts] = React.useState([]);
+
 
     const fetchPosts = async () => {
         try {
@@ -25,7 +26,7 @@ const Home = () => {
         }
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         const fetchPostsData = async () => {
             const response = await fetchPosts();
             response && setPosts(response);
@@ -41,7 +42,7 @@ const Home = () => {
             <ul>
                 {posts.map(post => (
                     <li key={post.title}>
-                        <Link to={`/show/${post.title}`} style={{ display: 'block', height: '100%' }}>
+                        <Link to={`/show/${post.showId}`} style={{ display: 'block', height: '100%' }}>
                             {post.title}
                         </Link>
                     </li>

@@ -81,8 +81,13 @@ public class ReviewController {
             return "Invalid or expired token";
         }
         User user = users.findUserById(id);
-        reviewService.deleteReview(user, Long.parseLong(req.params(":reviewId")));
-        return "Review deleted";
+        try {
+            reviewService.deleteReview(user, Long.parseLong(req.params(":reviewId")));
+            return "Review deleted";
+        } catch (Exception e) {
+            res.status(400);
+            return e.getMessage();
+        }
     }
 
 }

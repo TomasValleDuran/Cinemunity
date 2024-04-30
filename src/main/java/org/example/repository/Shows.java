@@ -81,4 +81,14 @@ public class Shows {
         entityManager.remove(show);
         entityManager.getTransaction().commit();
     }
+
+    public List<Show> getShowsWithPrefix(String search, String type) {
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
+                "FROM Show s " +
+                "WHERE s.title LIKE :search " +
+                "AND s.show_type LIKE :type", Show.class);
+        query.setParameter("search", search + "%");
+        query.setParameter("type", type);
+        return query.getResultList();
+    }
 }

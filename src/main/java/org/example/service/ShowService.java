@@ -1,5 +1,6 @@
 package org.example.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.model.Celebrity;
 import org.example.model.Season;
 import org.example.model.Show;
@@ -64,20 +65,30 @@ public class ShowService {
         return show.asJson();
     }
 
-    public String getShow(String title) {
+    public String getShow(Long id) {
         try {
-            Show show = shows.findShowByTitle(title);
+            Show show = shows.findShowById(id);
             return show.asJson();
         } catch (Exception e) {
             return "Show not found";
         }
     }
 
-    public List<Show> getAllShows() {
-        try {
-            return shows.findAllShows();
-        } catch (Exception e) {
-            return new ArrayList<>();
+    public List<String> getAllShows() {
+            List<Show> showsList = shows.findAllShows();
+            List<String> returnShows = new ArrayList<>();
+            for (Show show : showsList) {
+                returnShows.add(show.asJson());
+            }
+            return returnShows;
+    }
+
+    public List<String> getSearchedShows(String search, String type) {
+        List<Show> showsList = shows.getShowsWithPrefix(search, type);
+        List<String> returnShows = new ArrayList<>();
+        for (Show show : showsList) {
+            returnShows.add(show.asJson());
         }
+        return returnShows;
     }
 }

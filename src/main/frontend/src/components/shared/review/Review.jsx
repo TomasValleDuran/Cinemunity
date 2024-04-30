@@ -103,7 +103,7 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
                     {Array.from({length: rating}).map((_, index) => <StarIcon className={"start-icon"}/>)}
                 </div>
                 <div>
-                    {currentUsername === username &&
+                    {(currentUsername === username || currentUsername === "admin") &&
                         <IconButton aria-label="delete" className={"delete-icon"}>
                             <DeleteIcon onClick={handleDialogOpen}/>
                         </IconButton>

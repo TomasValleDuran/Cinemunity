@@ -7,12 +7,13 @@ import withAuth from "../hoc/withAuth";
 
 const Celebrity = () => {
 
-    const { celebrityName } = useParams();
+    const { celebrityId } = useParams();
+    const [name, setName] = useState('');
     const [bio, setBio] = useState('');
 
     const fetchCelebrity = async () => {
         try {
-            const response = await axios.get(`http://localhost:3333/api/celebrity/get/${celebrityName}`, {
+            const response = await axios.get(`http://localhost:3333/api/celebrity/get/${celebrityId}`, {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
@@ -31,6 +32,7 @@ const Celebrity = () => {
         const fetchCelebrityData = async () => {
             const response = await fetchCelebrity();
             response && setBio(response.bio);
+            response && setName(response.name);
         };
 
         fetchCelebrityData();
@@ -39,7 +41,7 @@ const Celebrity = () => {
     return (
         <div className="home-container">
             <Header />
-            <h2> esto es una celebridad y se llama: {celebrityName}</h2>
+            <h2> esto es una celebridad y se llama: {name}</h2>
             <h3>biografia: {bio}</h3>
         </div>
     );

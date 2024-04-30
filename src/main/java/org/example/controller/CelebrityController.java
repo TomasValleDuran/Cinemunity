@@ -7,6 +7,8 @@ import org.example.utility.AuthUtility;
 import spark.Request;
 import spark.Response;
 
+import java.util.List;
+
 public class CelebrityController {
     private final CelerbrityService celebrityService;
     private final Gson gson = new Gson();
@@ -34,9 +36,16 @@ public class CelebrityController {
     }
 
     public Object getCelebrity(Request req, Response res) {
-        String name = req.params(":celebrityName");
+        Long celebrityId = Long.valueOf(req.params(":celebrityId"));
 
         res.type("application/json");
-        return celebrityService.getCelebrity(name);
+        return celebrityService.getCelebrity(celebrityId);
+    }
+
+    public List<String> getSearchedCelebrityList(Request req, Response res) {
+        String search = req.params(":search");
+
+        res.type("application/json");
+        return celebrityService.getSearchedCelebrityList(search);
     }
 }

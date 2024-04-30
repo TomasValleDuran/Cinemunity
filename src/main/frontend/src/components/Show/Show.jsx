@@ -8,7 +8,7 @@ import withAuth from "../hoc/withAuth";
 import Review from "../shared/review/Review";
 
 const Show = () => {
-    const { title } = useParams();
+    const { showId } = useParams();
     const [director, setDirector] = useState('');
     const [show_type, setShow_type] = useState('');
     const [description, setDescription] = useState('');
@@ -16,12 +16,12 @@ const Show = () => {
     const [seasons, setSeasons] = useState('');
     const [showAddReview, setShowAddReview] = useState(false);
     const [reviews, setReviews] = useState([]);
-    const [id, setId] = useState('');
+    const [title, setTitle] = useState('');
     const [reviewsUpdated, setReviewsUpdated] = useState(false);
 
     const fetchShow = async () => {
         try {
-            const response = await axios.get(`http://localhost:3333/api/show/get/${title}`, {
+            const response = await axios.get(`http://localhost:3333/api/show/get/${showId}`, {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
@@ -61,7 +61,7 @@ const Show = () => {
             response && setDescription(response.show_desc);
             response && setActors(response.actors);
             response && setSeasons(response.seasons);
-            response && setId(response.showId);
+            response && setTitle(response.title);
             if (response && response.reviews) {
                 const reviewsResponse = await fetchReviewsByIds(response.reviews);
                 setReviews(reviewsResponse);

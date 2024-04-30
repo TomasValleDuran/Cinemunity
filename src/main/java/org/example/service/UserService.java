@@ -6,6 +6,8 @@ import org.example.repository.Users;
 import org.example.utility.AuthUtility;
 import spark.Request;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -93,9 +95,9 @@ public class UserService {
         return "Signed out";
     }
 
-    public String getUser(String username) {
+    public String getUser(Long userId) {
         try {
-            User user = users.findUserByUsername(username);
+            User user = users.findUserById(userId);
             return user.asJson();
         } catch (Exception e) {
             return "User not found";
@@ -187,5 +189,14 @@ public class UserService {
         user.setPassword(newPassword);
         users.update(user);
         return user.asJson();
+    }
+
+    public List<String> getSearchedUsersList(String search) {
+        List<User> userList = users.getUsersWithPrefix(search);
+        List<String> returnUsers = new ArrayList<>();
+        for (User user : userList) {
+            returnUsers.add(user.asJson());
+        }
+        return returnUsers;
     }
 }

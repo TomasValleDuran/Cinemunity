@@ -75,7 +75,7 @@ public class ReviewService {
 
     public void deleteReview(User user, Long reviewId) {
         Review review = reviews.getReviewById(reviewId);
-        if (!user.getReviews().contains(review)) {
+        if (!user.getReviews().contains(review) && !user.isAdmin()) {
             throw new RuntimeException("You can't delete this review");
         }
         reviews.deleteReview(reviewId);

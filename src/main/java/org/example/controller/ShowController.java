@@ -1,10 +1,7 @@
 package org.example.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.example.dto.AddShowDto;
-import org.example.model.Show;
 import org.example.utility.AuthUtility;
 import org.example.service.ShowService;
 import spark.Request;
@@ -45,18 +42,22 @@ public class ShowController {
         }
     }
 
-    public Object getShow(Request req, Response res) {
-        String title = req.params(":title");
+    public String getShow(Request req, Response res) {
+        Long showId = Long.valueOf(req.params(":showId"));
 
         res.type("application/json");
-        return showService.getShow(title);
+        return showService.getShow(showId);
     }
 
-    public Object getAllShows(Request req, Response res) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Show> shows = showService.getAllShows();
-        String jsonShows = objectMapper.writeValueAsString(shows);
+    public List<String> getSearchedShowsList(Request req, Response res){
+        String search = req.params(":search");
+        String type = req.url().split("/")[4];
         res.type("application/json");
-        return jsonShows;
+        return showService.getSearchedShows(search, type);
+    }
+
+    public List<String> getAllShows(Request req, Response res) {
+        res.type("application/json");
+        return showService.getAllShows();
     }
 }

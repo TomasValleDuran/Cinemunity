@@ -119,4 +119,12 @@ public class Users {
         entityManager.remove(user);
         entityManager.getTransaction().commit();
     }
+
+    public List<User> getUsersWithPrefix(String search) {
+        TypedQuery<User> query = currentEntityManager().createQuery("SELECT u " +
+                "FROM User u " +
+                "WHERE u.username LIKE :search", User.class);
+        query.setParameter("search", search + "%");
+        return query.getResultList();
+    }
 }

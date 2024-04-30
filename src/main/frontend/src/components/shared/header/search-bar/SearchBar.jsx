@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Select from 'react-select';
 import searchIcon from '../../../assets/search-icon.png';
 import {useNavigate} from 'react-router-dom';
@@ -75,13 +75,14 @@ const SearchTextBox = ({value, onChange, onKeyPress, placeholder, addon1, addon2
 
 const SearchBar = () => {
     const options = [
-        { value: "movie", label: 'Movie' },
-        { value: "tv show", label: 'TV Show' },
+        { value: "Movie", label: 'Movie' },
+        { value: "TVShow", label: 'TV Show' },
         { value: "celebrity", label: 'Celebrity' },
         { value: "user", label: 'User' }
     ];
     const [searchType, setSearchType] = useState(options[0]);
     const [searchInput, setSearchInput] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
 
@@ -125,27 +126,72 @@ const SearchBar = () => {
         else if (searchType.value === 'movie') {
             await performSearch('show', searchInput, 'title', 'show');
         }
-        else if (searchType.value === 'tv show') {
+        else if (searchType.value === 'tvshow') {
             await performSearch('show', searchInput, 'title', 'show');
         }
     };
 
+    useEffect(() => {
+        const fetchSearchResults = async () => {
+            try {
+                let response;
+                    response = await axios.get(`http://localhost:3333/api/${searchType.value}/search/${searchInput}`, {
+                        headers: {
+                            'Authorization': localStorage.getItem('token')
+                        }
+                    });
+                setSearchResults(response.data);
+            } catch (error) {
+                console.error(`ERROR: Could not fetch search results:`, error);
+            }
+        };
+
+        if (searchInput) {
+            fetchSearchResults();
+        } else {
+            setSearchResults([]);
+        }
+    }, [searchInput, searchType]);
+
+    const handleResultClick = (result) => {
+        console.log(result)
+        if (searchType.value === 'celebrity') {
+            navigate(`/celebrity/${result.celebrityId}`);
+        } else if (searchType.value === 'user') {
+            navigate(`/user/${result.userId}`);
+        } else {
+            navigate(`/show/${result.showId}`);
+        }
+        window.location.reload();
+    };
+
 
     return (
-        <SearchTextBox
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyPress={handleEnterPress}
-            placeholder="Search"
-            addon1={<Dropdown value={searchType} onChange={handleSelect} options={options}/>}
-            addon2={
-                <img
-                    src={searchIcon}
-                    alt="Search"
-                    className="btn-search"
-                    onClick={search}
-                />}
-        />
+        <div>
+            <SearchTextBox
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                onKeyPress={handleEnterPress}
+                placeholder="Search"
+                addon1={<Dropdown value={searchType} onChange={handleSelect} options={options}/>}
+                addon2={
+                    <img
+                        src={searchIcon}
+                        alt="Search"
+                        className="btn-search"
+                        onClick={search}
+                    />}
+            />
+            {searchResults.length > 0 && (
+                <div className="search-results">
+                    {searchResults.map((result) => (
+                        <div key={searchType.value === 'celebrity' ? result.name : searchType.value === 'user' ? result.username : result.id} onClick={() => handleResultClick(result)}>
+                            {searchType.value === 'celebrity' ? result.name : searchType.value === 'user' ? result.username : result.title}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 };
 

@@ -9,6 +9,7 @@ import org.example.service.UserService;
 import spark.Request;
 import spark.Response;
 import javax.persistence.EntityManager;
+import java.util.List;
 
 
 public class UserController {
@@ -50,10 +51,10 @@ public class UserController {
     }
 
     public String getUser(Request req, Response res) {
-        final String username = req.params(":username");
+        Long userId = Long.valueOf(req.params(":userId"));
 
         res.type("application/json");
-        return userService.getUser(username);
+        return userService.getUser(userId);
     }
 
     public String getCurrentUser(Request req, Response res) {
@@ -120,5 +121,12 @@ public class UserController {
             res.status(401);
             return e.getMessage();
         }
+    }
+
+    public List<String> getSearchedUsersList(Request req, Response res) {
+        String search = req.params(":search");
+
+        res.type("application/json");
+        return userService.getSearchedUsersList(search);
     }
 }

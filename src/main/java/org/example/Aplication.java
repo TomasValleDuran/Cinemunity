@@ -44,18 +44,22 @@ public class Aplication {
         Spark.get("/api/user/currentUser", userController::getCurrentUser);
         Spark.post("/api/user/signup", userController::signup);
         Spark.post("/api/user/signin", userController::signin);
-        Spark.get("/api/user/get/:username", userController::getUser);
+        Spark.get("/api/user/get/:userId", userController::getUser);
         Spark.get("/api/user/getLikedReviews/:username", userController::getLikedReviews);
         Spark.delete("/api/user/deleteUser", userController::deleteUser);
         Spark.put("/api/user/updateUserInfo", userController::updateUser);
         Spark.put("/api/user/updatePassword", userController::updatePassword);
+        Spark.get("/api/user/search/:search", userController::getSearchedUsersList);
 
         Spark.post("/api/show/addShow", showController::addShow);
-        Spark.get("/api/show/get/:title", showController::getShow);
+        Spark.get("/api/show/get/:showId", showController::getShow);
         Spark.get("/api/show/getAll", showController::getAllShows);
+        Spark.get("/api/Movie/search/:search", showController::getSearchedShowsList);
+        Spark.get("/api/TVShow/search/:search", showController::getSearchedShowsList);
 
         Spark.post("/api/celebrity/addCelebrity", celebrityController::addCelebrity);
-        Spark.get("/api/celebrity/get/:celebrityName", celebrityController::getCelebrity);
+        Spark.get("/api/celebrity/get/:celebrityId", celebrityController::getCelebrity);
+        Spark.get("/api/celebrity/search/:search", celebrityController::getSearchedCelebrityList);
 
         Spark.post("/api/review/addReview", reviewController::addReview);
         Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);
