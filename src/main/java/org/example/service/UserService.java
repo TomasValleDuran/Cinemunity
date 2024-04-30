@@ -1,11 +1,12 @@
 package org.example.service;
 
-import org.example.dto.SignUpDto;
+import org.example.model.Show;
 import org.example.model.User;
+import org.example.repository.Shows;
 import org.example.repository.Users;
 import org.example.utility.AuthUtility;
-import spark.Request;
-import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -18,10 +19,12 @@ import java.util.Calendar;
 
 public class UserService {
     private final Users users;
+    private final Shows shows;
 
     public UserService() {
         this.users = new Users();
-    }
+        this.shows = new Shows();
+    }import javax.persistence.EntityManager;
 
     public String signup(String email, String username, String password) {
         // Validate user data
@@ -86,16 +89,7 @@ public class UserService {
         return userJson.toString();
     }
 
-    public String signout(Request req) {
-        if (req.session().attribute("userId") == null) {
-            return "Not signed in";
-        }
-
-        req.session().removeAttribute("userId");
-        return "Signed out";
-    }
-
-    public String getUser(Long userId) {
+    public String getUser(String username) {
         try {
             User user = users.findUserById(userId);
             return user.asJson();
@@ -198,5 +192,33 @@ public class UserService {
             returnUsers.add(user.asJson());
         }
         return returnUsers;
+    }
+
+    public List<String> getWishlist(Long userId) {
+        User user = users.findUserById(userId);
+        List<Show> wishlist = user.getWishlist();
+        List<String> jsonList = new ArrayList<>();
+        for (Show show : wishlist) {
+            jsonList.add(show.asJson());
+        }
+        return jsonList;
+    }
+
+    public String addToWishlist(String token, Long showId) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        User user = users.findUserById(userId);
+        Show show = shows.findShowById(showId);
+        user.addToWishlist(show);
+        users.update(user);
+        return "todo piola";
+    }
+
+    public String removeFromWishlist(String token, Long showId) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        User user = users.findUserById(userId);
+        Show show = shows.findShowById(showId);
+        user.removeFromWishlist(show);
+        users.update(user);
+        return show.asJson();
     }
 }

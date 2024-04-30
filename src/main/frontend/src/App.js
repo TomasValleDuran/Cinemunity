@@ -14,6 +14,7 @@ import NotAdmin from "./components/errors/notAdmin/notAdmin";
 import SearchBar from "./components/shared/header/search-bar/SearchBar";
 import ModifyUser from "./components/modify-forms/modify-user-info/ModifyUser";
 import ModifyPassword from "./components/modify-forms/modify-user-password/ModifyPassword";
+import Wishlist from "./components/Wishlist/Wishlist";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/user/:username" element={<User/>}/>
                     <Route path="/user/modifyUser" element={<ModifyUser/>}/>
                     <Route path="/user/modifyPassword" element={<ModifyPassword/>}/>
+                    <Route path="/user/:username/wishlist" element={<Wishlist/>}/>
 
                     <Route path="/addShow" element={
                         <ProtectedRoute>
