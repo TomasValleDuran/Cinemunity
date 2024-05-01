@@ -133,7 +133,7 @@ public class User {
 
                         JsonArray wishlistArray = new JsonArray();
                         for (Show show : src.wishlist) {
-                            wishlistArray.add(show.getTitle());
+                            wishlistArray.add(show.getShowId());
                         }
                         jsonObject.add("wishlist", wishlistArray);
 
@@ -194,10 +194,11 @@ public class User {
     }
 
     public void addToWishlist(Show show) {
+        if (wishlist.contains(show)) {
+            return;
+        }
         wishlist.add(show);
     }
 
-    public void removeFromWishlist(Show show) {
-        wishlist.remove(show);
-    }
+    public void removeFromWishlist(Show show) { wishlist.remove(show); }
 }

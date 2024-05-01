@@ -7,8 +7,6 @@ import org.example.repository.Users;
 import org.example.utility.AuthUtility;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -17,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.Calendar;
 
+
 public class UserService {
     private final Users users;
     private final Shows shows;
@@ -24,7 +23,7 @@ public class UserService {
     public UserService() {
         this.users = new Users();
         this.shows = new Shows();
-    }import javax.persistence.EntityManager;
+    }
 
     public String signup(String email, String username, String password) {
         // Validate user data
@@ -89,7 +88,7 @@ public class UserService {
         return userJson.toString();
     }
 
-    public String getUser(String username) {
+    public String getUser(Long userId) {
         try {
             User user = users.findUserById(userId);
             return user.asJson();
@@ -210,7 +209,7 @@ public class UserService {
         Show show = shows.findShowById(showId);
         user.addToWishlist(show);
         users.update(user);
-        return "todo piola";
+        return show.asJson();
     }
 
     public String removeFromWishlist(String token, Long showId) {

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import Header from "../shared/header/Header";
 const Wishlist = () => {
 
@@ -37,6 +37,15 @@ const Wishlist = () => {
         <div>
             <Header />
             <h1>Wishlist</h1>
+            <ul>
+                {wishlist.map(show => (
+                    <li key={show.title}>
+                        <Link to={`/show/${show.showId}`} style={{ display: 'block', height: '100%' }}>
+                            {show.title}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

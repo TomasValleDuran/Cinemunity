@@ -69,7 +69,7 @@ public class Aplication {
 
         Spark.get("/api/user/wishlist/:userId", userController::getWishlist);
         Spark.post("/api/user/wishlist", userController::addToWishlist);
-        Spark.delete("/api/user/wishlist/:userId", userController::removeFromWishlist);
+        Spark.delete("/api/user/wishlist/:showId", userController::removeFromWishlist);
 
 
         after((request, response) -> closeCurrentEntityManager());

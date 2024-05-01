@@ -7,6 +7,8 @@ import AddReview from "../addForms/addReview/AddReview";
 import withAuth from "../hoc/withAuth";
 import Review from "../shared/review/Review";
 import {IconButton} from "@mui/material";
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
 const Show = () => {
     const { showId } = useParams();
@@ -19,6 +21,7 @@ const Show = () => {
     const [reviews, setReviews] = useState([]);
     const [title, setTitle] = useState('');
     const [reviewsUpdated, setReviewsUpdated] = useState(false);
+    const [isInWishlist, setIsInWishlist] = useState(false);
 
     const fetchShow = async () => {
         try {
@@ -56,13 +59,14 @@ const Show = () => {
     const handleAddToWishlist = async () => {
         try {
             const response = await axios.post(`http://localhost:3333/api/user/wishlist`, {
-                showId: id
+                showId: showId
             }, {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            console.log("información de show:", response.data)
+            console.log("Se agrego: ", response.data.title)
+            setIsInWishlist(true);
             return response.data;
         }
         catch (error) {
@@ -72,25 +76,41 @@ const Show = () => {
 
     }
 
+    const handleRemoveFromWishlist = () => {
+        axios.delete(`http://localhost:3333/api/user/wishlist/${showId}`, {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        })
+            .then(response => {
+                console.log("se borro: " + response.data.title)
+                setIsInWishlist(false);
+            })
+            .catch(error => {
+                console.error('Error deleting review:' + error);
+            });
+    };
 
-    const handleRemoveFromWishlist = async () => {
+    const fetchWishlist = async () => {
         try {
-            const response = await axios.delete(`http://localhost:3333/api/user/wishlist/${id}`, {
+            const response = await axios.get('http://localhost:3333//api/user/currentUser', {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            console.log("borrado")
-            return response.data;
-        }
-        catch (error) {
-            console.error("no se pudo borrar");
+            if (response.data.wishlist.includes(parseFloat(showId))) {
+                setIsInWishlist(true);
+            }
+        } catch (error) {
+            console.error('Error fetching username:', error);
             return null;
         }
     }
 
+
     useEffect(() => {
         console.log("use effect 1")
+        fetchWishlist();
         const fetchShowData = async () => {
             const response = await fetchShow();
             response && setDirector(response.director);
@@ -133,8 +153,9 @@ const Show = () => {
                         <h1> {title} </h1>
                     </div>
                     <div>
-                        <IconButton onClick={handleAddToWishlist} size="large">Add to Wishlist</IconButton>
-                        <IconButton onClick={handleRemoveFromWishlist} size="large">Remove from Wishlist</IconButton>
+                        <IconButton onClick={isInWishlist ? handleRemoveFromWishlist : handleAddToWishlist} size="large">
+                            {isInWishlist ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+                        </IconButton>
                     </div>
                     <div className={"show-separator"}>
                         <div className={"show-card"}>
