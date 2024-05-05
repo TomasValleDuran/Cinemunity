@@ -172,4 +172,10 @@ public class UserController {
             return e.getMessage();
         }
     }
+
+    public String validateToken(Request req, Response res) {
+        String token = req.headers("Authorization");
+        res.type("application/json");
+        return userService.validateToken(token);
+    }
 }

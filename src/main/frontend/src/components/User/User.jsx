@@ -114,11 +114,11 @@ const User = () => {
     };
 
     const handleModifyDialogOpen = () => {
-        navigate('/user/modifyUser', { state: { username: username, email: usermail }});
+        navigate('/user/modifyUser');
     };
 
     const handleChangePassword = () => {
-        navigate('/user/modifyPassword', { state: { username: username }})
+        navigate('/user/modifyPassword')
     }
 
     const handleFollow = async () => {

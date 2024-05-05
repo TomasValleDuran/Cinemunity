@@ -41,6 +41,7 @@ public class Aplication {
 
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
+        Spark.get("/api/user/validateToken", userController::validateToken);
         Spark.get("/api/user/currentUser", userController::getCurrentUser);
         Spark.post("/api/user/signup", userController::signup);
         Spark.post("/api/user/signin", userController::signin);

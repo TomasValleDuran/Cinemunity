@@ -1,21 +1,38 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, IconButton, TextField} from '@mui/material';
 import axios from 'axios';
-import {useLocation, useNavigate} from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import withAuth from "../../hoc/withAuth";
 import "./ModifyUser.css"
 
 function ModifyUser() {
-    const location = useLocation();
-    const { username: initialUsername, email: initialEmail } = location.state;
-
+    const [userId, setUserId] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:3333/api/user/currentUser`, {
+                        headers: {
+                            'Authorization': localStorage.getItem('token')
+                        }
+                    });
+                setUserId(response.data.userId);
+                setUsername(response.data.username);
+                setEmail(response.data.email);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        fetchUserData();
+    }, [userId]);
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -42,7 +59,7 @@ function ModifyUser() {
                 }
             });
             console.log("Updated user succesfully:", response.data);
-            navigate(`/user/${username}`)
+            navigate(`/user/${userId}`)
         } catch (error) {
             if (error.response && error.response.data) {
                 console.error(error.response.data, error);
@@ -56,7 +73,7 @@ function ModifyUser() {
     return (
         <div className={"container"}>
             <div className={"back"}>
-                <IconButton aria-label="back" onClick={() => navigate(`/user/${username}`)}>
+                <IconButton aria-label="back" onClick={() => navigate(`/user/${userId}`)}>
                     <ArrowBackIcon />
                 </IconButton>
             </div>

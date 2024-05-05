@@ -272,4 +272,16 @@ public class UserService {
         users.update(user);
         return "Successfully unfollowed user";
     }
+
+    public String validateToken(String token) {
+        try {
+            Long userId = AuthUtility.getUserIdFromToken(token);
+            if (userId == null) {
+                return "Invalid token";
+            }
+            return "Valid token";
+        } catch (JWTVerificationException exception) {
+            return "Invalid token";
+        }
+    }
 }

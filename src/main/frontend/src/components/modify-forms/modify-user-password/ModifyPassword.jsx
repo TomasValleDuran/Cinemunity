@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, IconButton, TextField} from '@mui/material';
 import axios from 'axios';
-import {useLocation, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import withAuth from "../../hoc/withAuth";
 import './ModifyPassword.css';
 
 function ModifyPassword() {
-    const location = useLocation();
-    const { username } = location.state;
-
+    const [userId, setUserId] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchCurrentUserId = async () => {
+            try {
+                const response = await axios.get('http://localhost:3333/api/user/currentUser', {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                setUserId(response.data.userId);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        fetchCurrentUserId();
+    }, []);
 
     const handleCurrentPasswordChange = (event) => {
         setCurrentPassword(event.target.value);
@@ -45,7 +59,7 @@ function ModifyPassword() {
                 }
             });
             console.log("Updated password succesfully");
-            navigate(`/user/${username}`)
+            navigate(`/user/${userId}`)
         } catch (error) {
             if (error.response && error.response.data) {
                 console.error(error.response.data, error);
@@ -59,7 +73,7 @@ function ModifyPassword() {
     return (
         <div className={"container"}>
             <div className={"back"}>
-                <IconButton aria-label="back" onClick={() => navigate(`/user/${username}`)}>
+                <IconButton aria-label="back" onClick={() => navigate(`/user/${userId}`)}>
                     <ArrowBackIcon />
                 </IconButton>
             </div>

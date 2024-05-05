@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './Review.css';
 import axios from "axios";
-import PopUp from '../pop-up/PopUp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import StarIcon from '@mui/icons-material/Star';
