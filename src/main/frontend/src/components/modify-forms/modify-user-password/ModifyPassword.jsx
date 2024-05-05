@@ -50,7 +50,7 @@ function ModifyPassword() {
                 setErrorMessage("New password and confirm new password do not match");
                 return;
             }
-            const response = await axios.put('http://localhost:3333/api/user/updatePassword', {
+            await axios.put('http://localhost:3333/api/user/updatePassword', {
                 currentPassword,
                 newPassword
             }, {

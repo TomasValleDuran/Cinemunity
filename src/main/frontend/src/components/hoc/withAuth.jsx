@@ -19,9 +19,9 @@ const withAuth = WrappedComponent => {
                     headers: {
                         'Authorization': token
                     }
-                }).then(response => {
+                }).then(() => {
                     setIsLoading(false);
-                }).catch(error => {
+                }).catch(() => {
                     // If the token is invalid, remove it and navigate to the sign-in page
                     localStorage.removeItem('token');
                     navigate('/signin');

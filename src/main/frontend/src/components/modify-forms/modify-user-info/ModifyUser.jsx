@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, IconButton, TextField} from '@mui/material';
 import axios from 'axios';
-import { useNavigate, useParams} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import withAuth from "../../hoc/withAuth";
 import "./ModifyUser.css"
