@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './User.css';
 import Header from '../shared/header/Header';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Sample_User_Icon from "../assets/Sample_User_Icon.png";
 import withAuth from "../hoc/withAuth";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -11,6 +11,10 @@ import { Menu, MenuItem, IconButton, Button } from '@mui/material';
 import ConfirmationDialog from "../shared/confirmation-dialog/ConfirmationDialog";
 
 const User = () => {
+    const { userId } = useParams()
+    const [currentUserId, setCurrentUserId] = useState('');
+    const actual = Number(currentUserId) === Number(userId);
+
     const [username, setUsername] = useState('');
     const [usermail, setUsermail] = useState('');
     const [followers, setFollowers] = useState('');
@@ -19,13 +23,15 @@ const User = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [isFollowing, setIsFollowing] = useState(false);
     const navigate = useNavigate();
 
     // Fetch user data
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get('http://localhost:3333/api/user/currentUser', {
+                const response = await axios.get(
+                    `http://localhost:3333/api/user/get/${userId}`, {
                     headers: {
                         'Authorization': localStorage.getItem('token')
                     }
@@ -42,6 +48,26 @@ const User = () => {
             }
         };
         fetchUserData();
+    }, [userId, isFollowing]);
+
+    useEffect(() => {
+        const fetchCurrentUserId = async () => {
+            try {
+                const response = await axios.get('http://localhost:3333/api/user/currentUser', {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                setCurrentUserId(response.data.userId);
+                console.log("Current user:", response.data);
+                if (response.data.following.includes(Number(userId))) {
+                    setIsFollowing(true);
+                }
+            } catch (error) {
+                console.error('Error fetching current user data:', error);
+            }
+        };
+        fetchCurrentUserId();
     }, []);
 
     const handleAddShow = () => {
@@ -95,6 +121,40 @@ const User = () => {
         navigate('/user/modifyPassword', { state: { username: username }})
     }
 
+    const handleFollow = async () => {
+        try {
+            const response = await axios.post('http://localhost:3333/api/user/follow', {
+                userId: userId
+            }, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("Followed user:", response.data);
+            setIsFollowing(true);
+            navigate(`/user/${userId}`);
+        } catch (error) {
+            console.error('Error following user:', error);
+        }
+    }
+
+    const handleUnfollow = async () => {
+        try {
+            const response = await axios.post('http://localhost:3333/api/user/unfollow', {
+                userId: userId
+            }, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("Unfollowed user:", response.data);
+            setIsFollowing(false);
+            navigate(`/user/${userId}`);
+        } catch (error) {
+            console.error('Error unfollowing user:', error);
+        }
+    }
+
     return (
         <div>
             <Header />
@@ -115,7 +175,7 @@ const User = () => {
                         <h2>Following</h2>
                         <h3>{following}</h3>
                     </div>
-                    <div className={"menu-icon"}>
+                    {actual && <div className={"menu-icon"}>
                         <IconButton onClick={handleMenuOpen} size={"large"}>
                             <MenuIcon />
                         </IconButton>
@@ -130,17 +190,24 @@ const User = () => {
                             <MenuItem className={"menu-item"} onClick={handleSignOut}>Log Out</MenuItem>
                             <MenuItem className={"delete-account-item"} onClick={handleDialogOpen}>Delete Account</MenuItem>
                         </Menu>
-                    </div>
+                    </div> }
                 </div>
                 <div className={"rating-buttons"}>
                     <div className={"rating"}>
                         <FavoriteIcon />
                         <h2>{String(rating)}</h2>
                     </div>
-                    <div className={"buttons"}>
-                        {isAdmin && <Button variant="contained" onClick={handleAddShow}>Add Show</Button>}
-                        {isAdmin && <Button variant="contained" onClick={handleAddCelebrity}>Add Celebrity</Button>}
-                    </div>
+                    {isAdmin && actual && <div className={"buttons"}>
+                        <Button variant="contained" onClick={handleAddShow}>Add Show</Button>
+                        <Button variant="contained" onClick={handleAddCelebrity}>Add Celebrity</Button>
+                    </div>}
+                    {!actual && <div className={"buttons"}>
+                        {isFollowing ? (
+                            <Button variant="contained" onClick={handleUnfollow}>Unfollow</Button>
+                        ) : (
+                            <Button variant="contained" onClick={handleFollow}>Follow</Button>
+                        )}
+                    </div>}
                 </div>
             </div>
             <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDeleteAccount}
@@ -151,3 +218,4 @@ const User = () => {
 
 const ProtectedUser = withAuth(User);
 export default ProtectedUser;
+

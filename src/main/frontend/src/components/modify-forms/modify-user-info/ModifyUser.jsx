@@ -10,8 +10,8 @@ function ModifyUser() {
     const location = useLocation();
     const { username: initialUsername, email: initialEmail } = location.state;
 
-    const [username, setUsername] = useState(initialUsername);
-    const [email, setEmail] = useState(initialEmail);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 

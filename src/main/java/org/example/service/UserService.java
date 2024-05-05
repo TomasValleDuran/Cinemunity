@@ -220,4 +220,56 @@ public class UserService {
         users.update(user);
         return show.asJson();
     }
+
+    public String followUser(String token, Long userId) {
+        Long followerId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid user id");
+        }
+        if (followerId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        if (followerId.equals(userId)) {
+            throw new IllegalArgumentException("Cannot follow yourself");
+        }
+
+        User follower = users.findUserById(followerId);
+        User user = users.findUserById(userId);
+        if (follower.getFollows().contains(user)) {
+            throw new IllegalArgumentException("User is already followed");
+        }
+
+        follower.followUser(user);
+        users.update(follower);
+        users.update(user);
+        return "Successfully followed user";
+    }
+
+    public String unfollowUser(String token, Long userId) {
+        Long followerId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid user id");
+        }
+        if (followerId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        if (followerId.equals(userId)) {
+            throw new IllegalArgumentException("Cannot unfollow yourself");
+        }
+        if (users.findUserById(userId) == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        User follower = users.findUserById(followerId);
+        User user = users.findUserById(userId);
+        if (!follower.getFollows().contains(user)) {
+            throw new IllegalArgumentException("User is not followed");
+
+        }
+
+        follower.unfollowUser(user);
+        users.update(follower);
+        users.update(user);
+        return "Successfully unfollowed user";
+    }
 }

@@ -9,8 +9,8 @@ import logo from "../../assets/logo.png";
 import {IconButton} from "@mui/material";
 
 const Header = () => {
-    const [username, setUsername] = useState(''); // Username of the currently signed-in user
-    const [userid, setUserid] = useState(''); // User ID of the currently signed-in user
+    const [username, setUsername] = useState('');
+    const [userId, setUserid] = useState('');
     const navigate = useNavigate();
 
     const fetchUsername = async () => {
@@ -39,11 +39,11 @@ const Header = () => {
     }, []);
 
     const handleProfileClick = () => {
-        navigate(`/user/${username}`);
+        navigate(`/user/${userId}`);
     };
 
     const handleWishlistClick = () => {
-        navigate(`/user/${username}/wishlist`, { state: { userId: userid } });
+        navigate(`/user/${username}/wishlist`, { state: { userId: userId } });
     }
 
 

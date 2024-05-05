@@ -50,6 +50,8 @@ public class Aplication {
         Spark.put("/api/user/updateUserInfo", userController::updateUser);
         Spark.put("/api/user/updatePassword", userController::updatePassword);
         Spark.get("/api/user/search/:search", userController::getSearchedUsersList);
+        Spark.post("/api/user/follow", userController::followUser);
+        Spark.post("/api/user/unfollow", userController::unfollowUser);
 
         Spark.post("/api/show/addShow", showController::addShow);
         Spark.get("/api/show/get/:showId", showController::getShow);

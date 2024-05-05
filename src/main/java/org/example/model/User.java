@@ -115,13 +115,13 @@ public class User {
 
                         JsonArray followingArray = new JsonArray();
                         for (User user : src.following) {
-                            followingArray.add(user.getUsername());
+                            followingArray.add(user.getUserId());
                         }
                         jsonObject.add("following", followingArray);
 
                         JsonArray followersArray = new JsonArray();
                         for (User user : src.followers) {
-                            followersArray.add(user.getUsername());
+                            followersArray.add(user.getUserId());
                         }
                         jsonObject.add("followers", followersArray);
 
@@ -201,4 +201,18 @@ public class User {
     }
 
     public void removeFromWishlist(Show show) { wishlist.remove(show); }
+
+    public void followUser(User user) {
+        following.add(user);
+        user.followers.add(this);
+    }
+
+    public void unfollowUser(User user) {
+        following.remove(user);
+        user.followers.remove(this);
+    }
+
+    public List<User> getFollows() {
+        return following;
+    }
 }

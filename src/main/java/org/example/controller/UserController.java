@@ -146,4 +146,30 @@ public class UserController {
         res.type("application/json");
         return userService.removeFromWishlist(token, showId);
     }
+
+    public String followUser(Request req, Response res) {
+        String token = req.headers("Authorization");
+        FollowDto followDto = gson.fromJson(req.body(), FollowDto.class);
+        Long userId = Long.valueOf(followDto.getUserId());
+        res.type("application/json");
+        try {
+            return userService.followUser(token, userId);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
+
+    public String unfollowUser(Request req, Response res) {
+        String token = req.headers("Authorization");
+        FollowDto followDto = gson.fromJson(req.body(), FollowDto.class);
+        Long userId = Long.valueOf(followDto.getUserId());
+        res.type("application/json");
+        try {
+            return userService.unfollowUser(token, userId);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
 }
