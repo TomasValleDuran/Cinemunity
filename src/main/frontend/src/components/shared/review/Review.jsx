@@ -8,13 +8,15 @@ import StarIcon from '@mui/icons-material/Star';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
+import {useNavigate} from "react-router-dom";
 
-const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
+const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
     const currentUsername = localStorage.getItem('username');
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
     const rating = reviewRating;
     const [dialogOpen, setDialogOpen] = useState(false); // State for confirmation dialog
+    const navigate = useNavigate();
 
 
     const fetchLikes = async () => {
@@ -95,17 +97,21 @@ const Review = ({ id , username, reviewText, reviewRating, initialLikes, onRemov
         setDialogOpen(false);
     };
 
+    const handleUserSearch = () => {
+        navigate(`/user/${userId}`);
+    }
+
     return (
         <div className="review-container">
             <div className="review-header">
                 <div className = "name-and-stars">
-                    <h2>{username}</h2>
-                    {Array.from({length: rating}).map((_, index) => <StarIcon className={"start-icon"}/>)}
+                    <h2 onClick={handleUserSearch} className={"username"}>{username}</h2>
+                    {Array.from({length: rating}).map((_, index) => <StarIcon key={index} className={"start-icon"}/>)}
                 </div>
                 <div>
                     {(currentUsername === username || currentUsername === "admin") &&
-                        <IconButton aria-label="delete" className={"delete-icon"}>
-                            <DeleteIcon onClick={handleDialogOpen}/>
+                        <IconButton aria-label="delete" className={"delete-icon"} onClick={handleDialogOpen}>
+                            <DeleteIcon/>
                         </IconButton>
                     }
                 </div>

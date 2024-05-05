@@ -152,11 +152,6 @@ const Show = () => {
                     <div className={"show-title"}>
                         <h1> {title} </h1>
                     </div>
-                    <div>
-                        <IconButton onClick={isInWishlist ? handleRemoveFromWishlist : handleAddToWishlist} size="large">
-                            {isInWishlist ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-                        </IconButton>
-                    </div>
                     <div className={"show-separator"}>
                         <div className={"show-card"}>
                             <img src="https://via.placeholder.com/200" alt="show"/>
@@ -173,6 +168,12 @@ const Show = () => {
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <IconButton onClick={isInWishlist ? handleRemoveFromWishlist : handleAddToWishlist}
+                                    size="large">
+                            {isInWishlist ? <BookmarkIcon/> : <BookmarkBorderIcon/>}
+                        </IconButton>
+                    </div>
                 </div>
                 <div className={"review-show-container"}>
                     <h2>Reviews</h2>
@@ -180,10 +181,12 @@ const Show = () => {
                         onRemove={handleShowRemoveReview}
                         showTitle={title}/>}
                     <div>
-                        {sortedReviews.map((review, index) => (
+                    {sortedReviews.map((review, index) => (
                             <Review
+                                key={review.reviewId}
                                 id={review.reviewId}
                                 username={review.username}
+                                userId={review.userId}
                                 reviewText={review.review_text}
                                 reviewRating={review.review_rating}
                                 initialLikes={+review.likes}

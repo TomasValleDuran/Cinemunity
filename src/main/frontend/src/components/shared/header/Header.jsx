@@ -3,10 +3,10 @@ import {Link, useNavigate} from 'react-router-dom';
 import './Header.css';
 import axios from "axios";
 import SearchBar from "./search-bar/SearchBar";
-import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from "../../assets/logo.png";
 import {IconButton} from "@mui/material";
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 const Header = () => {
     const [username, setUsername] = useState('');
@@ -58,8 +58,12 @@ const Header = () => {
                 <SearchBar/>
             </div>
             <div className={'header-right-buttons'}>
-                <IconButton onClick={handleWishlistClick} size="large">Wishlist</IconButton>
-                <AccountCircleIcon onClick={handleProfileClick} fontSize={'large'} className={'btn'}/>
+                <IconButton onClick={handleWishlistClick} size='medium'>
+                    <BookmarkIcon fontSize={'large'} className={'btn'}/>
+                </IconButton>
+                <IconButton onClick={handleProfileClick} size='medium'>
+                    <AccountCircleIcon fontSize={'large'} className={'btn'}/>
+                </IconButton>
             </div>
         </div>
     );
