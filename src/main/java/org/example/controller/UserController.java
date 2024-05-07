@@ -45,6 +45,19 @@ public class UserController {
         }
     }
 
+    public String recoverPassword(Request req, Response res){
+        RecoverPasswordDto recoverPasswordDto = gson.fromJson(req.body(), RecoverPasswordDto.class);
+        String email = recoverPasswordDto.getEmail();
+
+        res.type("application/json");
+        try {
+            return userService.recoverPassword(email);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
+
     public String getUser(Request req, Response res) {
         Long userId = Long.valueOf(req.params(":userId"));
 

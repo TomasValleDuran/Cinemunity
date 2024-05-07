@@ -49,6 +49,9 @@ const SignIn = ()=>{
                 <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                            placeholder="Password"/>
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
+                <div className='link'>
+                    Forgot password? <Link to={"/forgotpassword"}>Recover Password</Link>
+                </div>
                 <SendFormButton onClick={handleSignIn}>Sign In</SendFormButton>
             </form>
             <div className='link'>

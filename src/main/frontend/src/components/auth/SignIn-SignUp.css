@@ -78,3 +78,13 @@ html, body {
     font-weight: 600;
     text-decoration: none;
 }
+
+.success-message {
+    background-color: #D4EDDA;
+    color: #155724;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px 0;
+    border: 1px solid #C3E6CB;
+}

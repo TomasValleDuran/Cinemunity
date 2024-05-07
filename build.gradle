@@ -24,6 +24,7 @@ dependencies {
     implementation 'com.auth0:java-jwt:3.18.2'
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+    implementation 'org.apache.commons:commons-email:1.5'
 }
 
 test {

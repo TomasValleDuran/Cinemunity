@@ -4,7 +4,7 @@ import org.hsqldb.persist.HsqlProperties;
 
 public class Database {
 
-    final String dbLocation = "../hsqldb-2.7.2/hsqldb/db/";
+    final String dbLocation = "C:/Users/iacov/cinemunityDB";
     org.hsqldb.server.Server server;
 
     public void startDBServer() {
