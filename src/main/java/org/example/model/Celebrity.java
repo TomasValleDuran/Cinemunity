@@ -16,7 +16,7 @@ public class Celebrity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column()
+    @Column(length = 1500)
     private String bio;
 
     @ManyToMany(mappedBy = "actors")
