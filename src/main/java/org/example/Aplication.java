@@ -4,6 +4,7 @@ import org.example.controller.CelebrityController;
 import org.example.controller.ShowController;
 import org.example.controller.UserController;
 import org.example.controller.ReviewController;
+import org.example.s3.ImageController;
 import spark.*;
 
 import javax.persistence.EntityManagerFactory;
@@ -22,6 +23,7 @@ public class Aplication {
         final ShowController showController = new ShowController();
         final CelebrityController celebrityController = new CelebrityController();
         final ReviewController reviewController = new ReviewController();
+        final ImageController ImageController = new ImageController();
 
         Spark.port(3333);
 
@@ -73,6 +75,8 @@ public class Aplication {
         Spark.get("/api/user/wishlist/:userId", userController::getWishlist);
         Spark.post("/api/user/wishlist", userController::addToWishlist);
         Spark.delete("/api/user/wishlist/:showId", userController::removeFromWishlist);
+
+        Spark.post("/api/upload", ImageController::generatePresignedUrl);
 
 
         after((request, response) -> closeCurrentEntityManager());

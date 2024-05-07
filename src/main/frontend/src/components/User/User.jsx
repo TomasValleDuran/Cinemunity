@@ -3,12 +3,13 @@ import './User.css';
 import Header from '../shared/header/Header';
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
-import Sample_User_Icon from "../assets/Sample_User_Icon.png";
 import withAuth from "../hoc/withAuth";
 import MenuIcon from '@mui/icons-material/Menu';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Menu, MenuItem, IconButton, Button } from '@mui/material';
 import ConfirmationDialog from "../shared/confirmation-dialog/ConfirmationDialog";
+import ProfilePicture from "../shared/profile-pic/ProfilePicture";
+import NoProfilePicture from "../assets/no-profile-pic.jpg";
 
 const User = () => {
     const { userId } = useParams()
@@ -19,6 +20,7 @@ const User = () => {
     const [usermail, setUsermail] = useState('');
     const [followers, setFollowers] = useState('');
     const [following, setFollowing] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
     const [rating, setRating] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -43,6 +45,7 @@ const User = () => {
                 setFollowers(response.data.followers.length);
                 setFollowing(response.data.following.length);
                 setRating(response.data.user_rating);
+                setProfilePicture(response.data.userImage);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
@@ -161,7 +164,7 @@ const User = () => {
             <div className={"user-data-container"}>
                 <div className={"user-header"}>
                     <div className={"user-image"}>
-                        <img src={Sample_User_Icon} alt={"User"} />
+                        <ProfilePicture src={profilePicture ? profilePicture : NoProfilePicture} alt={"profile picture"}/>
                     </div>
                     <div className={"username-mail"}>
                         <h1>{username}</h1>

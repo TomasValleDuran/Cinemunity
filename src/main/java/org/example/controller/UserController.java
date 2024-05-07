@@ -89,10 +89,11 @@ public class UserController {
         String username = modifyAccountDto.getUsername();
         String email = modifyAccountDto.getEmail();
         String password = modifyAccountDto.getPassword();
+        String imageUrl = modifyAccountDto.getImageUrl();
 
         res.type("application/json");
         try {
-            return userService.updateUser(token, username, email, password);
+            return userService.updateUser(token, username, email, password, imageUrl);
         } catch (Exception e) {
             res.status(401);
             return e.getMessage();

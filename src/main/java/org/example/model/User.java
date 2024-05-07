@@ -34,6 +34,9 @@ public class User {
     @Column()
     private Boolean is_verified;
 
+    @Column()
+    private String userImage;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
@@ -137,6 +140,8 @@ public class User {
                         }
                         jsonObject.add("wishlist", wishlistArray);
 
+                        jsonObject.addProperty("userImage", src.userImage);
+
                         return jsonObject;
                     }
                 })
@@ -214,5 +219,9 @@ public class User {
 
     public List<User> getFollows() {
         return following;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.userImage = imageUrl;
     }
 }

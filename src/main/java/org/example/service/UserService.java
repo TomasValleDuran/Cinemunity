@@ -134,7 +134,7 @@ public class UserService {
         return "User deleted";
     }
 
-    public String updateUser(String token, String username, String email, String password) {
+    public String updateUser(String token, String username, String email, String password, String imageUrl) {
         Long userId = AuthUtility.getUserIdFromToken(token);
         if (userId == null) {
             throw new IllegalArgumentException("Invalid token");
@@ -158,6 +158,10 @@ public class UserService {
 
         if (!password.equals(user.getPassword())) {
             throw new IllegalArgumentException("Invalid password");
+        }
+
+        if (imageUrl != null) {
+            user.setImageUrl(imageUrl);
         }
 
         users.update(user);

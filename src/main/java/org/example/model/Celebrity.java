@@ -19,6 +19,9 @@ public class Celebrity {
     @Column()
     private String bio;
 
+    @Column
+    private String celebrityImage;
+
     @ManyToMany(mappedBy = "actors")
     private List<Show> actedShows = new ArrayList<>();
 
@@ -34,6 +37,10 @@ public class Celebrity {
 
     public String getName() {
         return name;
+    }
+
+    public void setCelebrityImage(String celebrityImage) {
+        this.celebrityImage = celebrityImage;
     }
 
     public void addDirectedShow(Show show) {

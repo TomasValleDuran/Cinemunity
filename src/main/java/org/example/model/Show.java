@@ -26,6 +26,9 @@ public class Show {
     @Column
     private String show_type;
 
+    @Column
+    private String showImage;
+
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
@@ -98,6 +101,10 @@ public class Show {
         season.setShow(null);
     }
 
+    public void setShowImage(String showImage) {
+        this.showImage = showImage;
+    }
+
     public String asJson() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Show.class, new JsonSerializer<Show>() {
@@ -129,6 +136,8 @@ public class Show {
                             seasonsArray.add(season.getSeasonNumber());
                         }
                         jsonObject.add("seasons", seasonsArray);
+
+                        jsonObject.addProperty("showImage", src.showImage);
 
                         return jsonObject;
                     }
