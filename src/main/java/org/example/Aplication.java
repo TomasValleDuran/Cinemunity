@@ -77,6 +77,7 @@ public class Aplication {
         Spark.delete("/api/user/wishlist/:showId", userController::removeFromWishlist);
 
         Spark.post("/api/upload", ImageController::generatePresignedUrl);
+        Spark.put("/api/user/updateUserImage", userController::updateImage);
 
 
         after((request, response) -> closeCurrentEntityManager());

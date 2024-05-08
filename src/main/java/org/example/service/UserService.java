@@ -25,6 +25,18 @@ public class UserService {
         this.shows = new Shows();
     }
 
+    public String updateImage(String token, String fullObjectKey) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+
+        User user = users.findUserById(userId);
+        user.setUserImage(fullObjectKey);
+        users.update(user);
+        return user.asJson();
+    }
+
     public String signup(String email, String username, String password) {
         // Validate user data
         if (email == null || username == null || password == null) {
@@ -134,7 +146,7 @@ public class UserService {
         return "User deleted";
     }
 
-    public String updateUser(String token, String username, String email, String password, String imageUrl) {
+    public String updateUser(String token, String username, String email, String password) {
         Long userId = AuthUtility.getUserIdFromToken(token);
         if (userId == null) {
             throw new IllegalArgumentException("Invalid token");
@@ -158,10 +170,6 @@ public class UserService {
 
         if (!password.equals(user.getPassword())) {
             throw new IllegalArgumentException("Invalid password");
-        }
-
-        if (imageUrl != null) {
-            user.setImageUrl(imageUrl);
         }
 
         users.update(user);

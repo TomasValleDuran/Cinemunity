@@ -4,16 +4,14 @@ public class ModifyAccountDto {
     private String email;
     private String username;
     private String password;
-    private String imageUrl;
 
     public ModifyAccountDto() {
     }
 
-    public ModifyAccountDto(String email, String username, String password, String imageUrl) {
+    public ModifyAccountDto(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
-        this.imageUrl = imageUrl;
     }
 
     public String getEmail() {
@@ -26,8 +24,5 @@ public class ModifyAccountDto {
 
     public String getPassword() {
         return password;
-    }
-    public String getImageUrl() {
-        return imageUrl;
     }
 }

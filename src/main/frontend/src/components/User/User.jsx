@@ -9,7 +9,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Menu, MenuItem, IconButton, Button } from '@mui/material';
 import ConfirmationDialog from "../shared/confirmation-dialog/ConfirmationDialog";
 import ProfilePicture from "../shared/profile-pic/ProfilePicture";
-import NoProfilePicture from "../assets/no-profile-pic.jpg";
 
 const User = () => {
     const { userId } = useParams()
@@ -164,7 +163,7 @@ const User = () => {
             <div className={"user-data-container"}>
                 <div className={"user-header"}>
                     <div className={"user-image"}>
-                        <ProfilePicture src={profilePicture ? profilePicture : NoProfilePicture} alt={"profile picture"}/>
+                        <ProfilePicture src={profilePicture} alt={"profile picture"}/>
                     </div>
                     <div className={"username-mail"}>
                         <h1>{username}</h1>

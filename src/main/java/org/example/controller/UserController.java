@@ -89,11 +89,10 @@ public class UserController {
         String username = modifyAccountDto.getUsername();
         String email = modifyAccountDto.getEmail();
         String password = modifyAccountDto.getPassword();
-        String imageUrl = modifyAccountDto.getImageUrl();
 
         res.type("application/json");
         try {
-            return userService.updateUser(token, username, email, password, imageUrl);
+            return userService.updateUser(token, username, email, password);
         } catch (Exception e) {
             res.status(401);
             return e.getMessage();
@@ -178,5 +177,13 @@ public class UserController {
         String token = req.headers("Authorization");
         res.type("application/json");
         return userService.validateToken(token);
+    }
+
+    public String updateImage(Request req, Response res) {
+        String token = req.headers("Authorization");
+        FullObjectKeyDto fullObjectKeyDto = gson.fromJson(req.body(), FullObjectKeyDto.class);
+        String fullObjectKey = fullObjectKeyDto.getFullObjectKey();
+        res.type("application/json");
+        return userService.updateImage(token, fullObjectKey);
     }
 }

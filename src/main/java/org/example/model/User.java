@@ -75,6 +75,7 @@ public class User {
         this.user_rating = 0;
         this.is_admin = false;
         this.is_verified = false;
+        this.userImage = "https://cinemunitybucket.s3.amazonaws.com/no-profile-pic.jpg";
     }
 
     public Long getUserId() {
@@ -109,6 +110,7 @@ public class User {
                         jsonObject.addProperty("user_rating", src.getUser_rating());
                         jsonObject.addProperty("is_admin", src.is_admin);
                         jsonObject.addProperty("is_verified", src.is_verified);
+                        jsonObject.addProperty("userImage", src.userImage);
 
                         JsonArray reviewsArray = new JsonArray();
                         for (Review review : src.reviews) {
@@ -139,8 +141,6 @@ public class User {
                             wishlistArray.add(show.getShowId());
                         }
                         jsonObject.add("wishlist", wishlistArray);
-
-                        jsonObject.addProperty("userImage", src.userImage);
 
                         return jsonObject;
                     }
@@ -221,7 +221,7 @@ public class User {
         return following;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.userImage = imageUrl;
+    public void setUserImage(String fullObjectKey) {
+        this.userImage = "https://cinemunitybucket.s3.amazonaws.com/" + fullObjectKey;
     }
 }

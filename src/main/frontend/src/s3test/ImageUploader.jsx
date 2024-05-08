@@ -41,15 +41,18 @@ function ImageUploader() {
             });
 
             // Get the presigned URL from the response
-            const presignedUrl = response.data;
+            const presignedUrl = response.data.url;
             console.log(presignedUrl)
 
+            console.log("hola")
             // Upload the file to S3
             await axios.put(presignedUrl, selectedFile);
 
             console.log('File uploaded successfully');
 
+            console.log("Pre image URL:", imageUrl)
             setImageUrl(presignedUrl);
+            console.log("Image URL:", imageUrl)
         } catch (error) {
             console.error('Error uploading file:', error);
         }
