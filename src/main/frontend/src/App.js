@@ -15,6 +15,7 @@ import SearchBar from "./components/shared/header/search-bar/SearchBar";
 import ModifyUser from "./components/modify-forms/modify-user-info/ModifyUser";
 import ModifyPassword from "./components/modify-forms/modify-user-password/ModifyPassword";
 import Wishlist from "./components/Wishlist/Wishlist";
+import ForgotPassword from "./components/auth/ForgotPwd/ForgotPassword";
 import ImageUploader from "./s3test/ImageUploader";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
                     <Route path="/" element={<SignIn/>}/>
                     <Route path="/signin" element={<SignIn/>}/>
                     <Route path="/signup" element={<SignUp/>}/>
+                    <Route path="/forgotpassword" element={<ForgotPassword/>}/>
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/user/:userId" element={<User/>}/>
                     <Route path="/user/modifyUser" element={<ModifyUser/>}/>

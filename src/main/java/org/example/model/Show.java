@@ -20,7 +20,7 @@ public class Show {
     @Column
     private Integer rating;
 
-    @Column
+    @Column (length = 1500)
     private String show_desc;
 
     @Column

@@ -14,6 +14,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.Calendar;
+import org.apache.commons.mail.*;
 
 
 public class UserService {
@@ -295,5 +296,36 @@ public class UserService {
         } catch (JWTVerificationException exception) {
             return "Invalid token";
         }
+    }
+
+    public String recoverPassword(String email) {
+        User user = users.findUserByEmail(email);
+        if (user == null) throw new IllegalArgumentException("No users with that email");
+        String host = "smtp.gmail.com";
+        int port = 587;
+        String username = "cinemunityofficial@gmail.com";
+        String password = "ftap umii bcnz wcav";
+
+        // Creación del objeto Email
+        Email myEmail = new SimpleEmail();
+        myEmail.setHostName(host);
+        myEmail.setSmtpPort(port);
+        myEmail.setAuthenticator(new DefaultAuthenticator(username, password));
+        myEmail.setStartTLSEnabled(true);
+
+        try {
+            // Configuración del remitente, destinatario, asunto y cuerpo del mensaje
+            myEmail.setFrom(username);
+            myEmail.setSubject("Asunto del correo");
+            myEmail.setMsg("Hola, esto es un mensaje de prueba desde Java.");
+            myEmail.addTo(email);
+
+            // Envío del correo electrónico
+            myEmail.send();
+            System.out.println("¡Correo electrónico enviado correctamente!");
+        } catch (EmailException e) {
+            e.printStackTrace();
+        }
+        return "ok";
     }
 }

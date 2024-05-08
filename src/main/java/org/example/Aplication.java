@@ -55,6 +55,7 @@ public class Aplication {
         Spark.get("/api/user/search/:search", userController::getSearchedUsersList);
         Spark.post("/api/user/follow", userController::followUser);
         Spark.post("/api/user/unfollow", userController::unfollowUser);
+        Spark.post("/api/user/forgotpassword", userController::recoverPassword);
 
         Spark.post("/api/show/addShow", showController::addShow);
         Spark.get("/api/show/get/:showId", showController::getShow);

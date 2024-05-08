@@ -14,7 +14,7 @@ public class Review {
     @GeneratedValue(generator = "userGen", strategy = GenerationType.SEQUENCE)
     private Long reviewId;
 
-    @Column()
+    @Column(length = 1000)
     private String review_text;
 
     @Column()
