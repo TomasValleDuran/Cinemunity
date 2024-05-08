@@ -1,7 +1,6 @@
 package org.example.model;
 
 import com.google.gson.*;
-import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.lang.reflect.Type;
