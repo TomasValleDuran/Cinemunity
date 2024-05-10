@@ -58,15 +58,6 @@ input[type="radio"] {
     color: #ffc107; /* Gold color when selected */
 }
 
-input[type="text"], button[type="submit"] {
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    width: 30%;
-    box-sizing: border-box;
-}
-
 button[type="submit"] {
     background-color: #007BFF;
     color: white;

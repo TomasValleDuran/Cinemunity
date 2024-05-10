@@ -3,7 +3,6 @@ package org.example.service;
 import org.example.model.Celebrity;
 import org.example.repository.Celebrities;
 
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +14,21 @@ public class CelerbrityService {
         this.celebrities = new Celebrities();
     }
 
-    public String addCelebrity(String name, String biography) {
+    public String addCelebrity(String name, String biography, String objectKey) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
         if (biography == null || biography.isEmpty()) {
             throw new IllegalArgumentException("Biography cannot be empty");
         }
+        if (objectKey == null || objectKey.isEmpty()) {
+            throw new IllegalArgumentException("Object key cannot be empty");
+        }
 
-        Celebrity celebrity = new Celebrity(name, biography);
-        celebrities.saveCelebrity(celebrity);
+
+
+        Celebrity celebrity = new Celebrity(name, biography, objectKey);
+        celebrities.save(celebrity);
         return celebrity.asJson();
     }
 
@@ -44,5 +48,12 @@ public class CelerbrityService {
             returnList.add(celebrity.asJson());
         }
         return returnList;
+    }
+
+    public String updateImage(String objectKey, Long id) {
+        Celebrity celebrity = celebrities.findCelebrityById(id);
+        celebrity.setImage(objectKey);
+        celebrities.update(celebrity);
+        return celebrity.asJson();
     }
 }

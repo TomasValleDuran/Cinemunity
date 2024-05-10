@@ -3,7 +3,6 @@ package org.example.repository;
 import org.example.model.Celebrity;
 import org.example.model.Show;
 import org.example.model.Season;
-import org.example.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -68,14 +67,14 @@ public class Shows {
         return query.getSingleResult();
     }
 
-    public void saveShow(Show show) {
+    public void save(Show show) {
         EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(show);
         entityManager.getTransaction().commit();
     }
 
-    public void deleteShow(Show show) {
+    public void delete(Show show) {
         EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
         entityManager.remove(show);
@@ -90,5 +89,12 @@ public class Shows {
         query.setParameter("search", search + "%");
         query.setParameter("type", type);
         return query.getResultList();
+    }
+
+    public void update(Show show) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(show);
+        entityManager.getTransaction().commit();
     }
 }

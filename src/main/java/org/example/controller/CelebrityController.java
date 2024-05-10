@@ -2,8 +2,10 @@ package org.example.controller;
 
 import com.google.gson.Gson;
 import org.example.dto.AddCelebrityDto;
+import org.example.dto.FullObjectKeyDto;
 import org.example.service.CelerbrityService;
 import org.example.utility.AuthUtility;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 import spark.Request;
 import spark.Response;
 
@@ -25,10 +27,11 @@ public class CelebrityController {
         AddCelebrityDto addCelebrityDto = gson.fromJson(req.body(), AddCelebrityDto.class);
         String name = addCelebrityDto.getName();
         String biography = addCelebrityDto.getBiography();
+        String objectKey = addCelebrityDto.getObjectKey();
 
         res.type("application/json");
         try {
-            return celebrityService.addCelebrity(name, biography);
+            return celebrityService.addCelebrity(name, biography, objectKey);
         } catch (IllegalArgumentException e) {
             res.status(400);
             return e.getMessage();
@@ -47,5 +50,16 @@ public class CelebrityController {
 
         res.type("application/json");
         return celebrityService.getSearchedCelebrityList(search);
+    }
+
+    public String updateImage(Request req, Response res) {
+        String admin = AuthUtility.validateAdmin(req, res);
+        if (!admin.equals("Admin")) return admin;
+
+        FullObjectKeyDto fullObjectKeyDto = gson.fromJson(req.body(), FullObjectKeyDto.class);
+        String objectKey = fullObjectKeyDto.getFullObjectKey();
+        Long id = fullObjectKeyDto.getId();
+        res.type("application/json");
+        return celebrityService.updateImage(objectKey, id);
     }
 }

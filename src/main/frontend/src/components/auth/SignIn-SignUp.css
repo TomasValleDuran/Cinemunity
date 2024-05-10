@@ -6,22 +6,16 @@ html, body {
     background-attachment: fixed; /* Keep the background fixed in place */
 }
 
-.container {
+.container-signin {
     display: flex;
     flex-direction: column;
     align-items: center;
     background: #fff;
-    width: 650px;
+    width: 50%;
     padding: 40px 20px;
     margin: 80px auto 20px auto;
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
 }
 
 .header {
@@ -87,4 +81,14 @@ html, body {
     text-align: center;
     margin: 10px 0;
     border: 1px solid #C3E6CB;
+}
+
+.header-img img {
+    height: 60px;
+    width: auto;
+}
+
+.container img {
+    height: 60px;
+    width: auto;
 }

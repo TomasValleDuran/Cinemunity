@@ -1,7 +1,7 @@
 // ConfirmationDialog.js
 import React from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import './ConfirmationDialog.css'; // Import the CSS file
+import './ConfirmationDialog.css';
 
 function ConfirmationDialog({ open, onClose, onConfirm, information, isAdmin }) {
     return (

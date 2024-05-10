@@ -34,7 +34,7 @@ public class User {
     private Boolean is_verified;
 
     @Column()
-    private String userImage;
+    private String image;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
@@ -74,7 +74,6 @@ public class User {
         this.user_rating = 0;
         this.is_admin = false;
         this.is_verified = false;
-        this.userImage = "https://cinemunitybucket.s3.amazonaws.com/no-profile-pic.jpg";
     }
 
     public Long getUserId() {
@@ -109,7 +108,7 @@ public class User {
                         jsonObject.addProperty("user_rating", src.getUser_rating());
                         jsonObject.addProperty("is_admin", src.is_admin);
                         jsonObject.addProperty("is_verified", src.is_verified);
-                        jsonObject.addProperty("userImage", src.userImage);
+                        jsonObject.addProperty("image", src.image);
 
                         JsonArray reviewsArray = new JsonArray();
                         for (Review review : src.reviews) {
@@ -220,7 +219,7 @@ public class User {
         return following;
     }
 
-    public void setUserImage(String fullObjectKey) {
-        this.userImage = "https://cinemunitybucket.s3.amazonaws.com/" + fullObjectKey;
+    public void setImage(String fullObjectKey) {
+        this.image = "https://cinemunitybucket.s3.amazonaws.com/" + fullObjectKey;
     }
 }

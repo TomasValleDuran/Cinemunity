@@ -196,7 +196,8 @@ public class UserController {
         String token = req.headers("Authorization");
         FullObjectKeyDto fullObjectKeyDto = gson.fromJson(req.body(), FullObjectKeyDto.class);
         String fullObjectKey = fullObjectKeyDto.getFullObjectKey();
+        Long id = fullObjectKeyDto.getId();
         res.type("application/json");
-        return userService.updateImage(token, fullObjectKey);
+        return userService.updateImage(token, fullObjectKey, id);
     }
 }

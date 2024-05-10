@@ -1,7 +1,6 @@
 package org.example.model;
 
 import com.google.gson.*;
-import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.lang.reflect.Type;
@@ -27,7 +26,7 @@ public class Show {
     private String show_type;
 
     @Column
-    private String showImage;
+    private String image;
 
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
@@ -51,6 +50,14 @@ public class Show {
 
 
     public Show() {}
+
+    public Show(String movie_name, String movie_desc, String show_type, String objectKey) {
+        this.title = movie_name;
+        this.rating = 0;
+        this.show_desc = movie_desc;
+        this.show_type = show_type;
+        this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
+    }
 
     public Show(String movie_name, String movie_desc, String show_type) {
         this.title = movie_name;
@@ -101,10 +108,6 @@ public class Show {
         season.setShow(null);
     }
 
-    public void setShowImage(String showImage) {
-        this.showImage = showImage;
-    }
-
     public String asJson() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Show.class, new JsonSerializer<Show>() {
@@ -116,6 +119,7 @@ public class Show {
                         jsonObject.addProperty("rating", src.rating);
                         jsonObject.addProperty("show_desc", src.show_desc);
                         jsonObject.addProperty("show_type", src.show_type);
+                        jsonObject.addProperty("image", src.image);
 
                         JsonArray reviewsArray = new JsonArray();
                         for (Review review : src.reviews) {
@@ -137,13 +141,15 @@ public class Show {
                         }
                         jsonObject.add("seasons", seasonsArray);
 
-                        jsonObject.addProperty("showImage", src.showImage);
-
                         return jsonObject;
                     }
                 })
                 .create();
 
         return gson.toJson(this);
+    }
+
+    public void setImage(String objectKey) {
+        this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
     }
 }

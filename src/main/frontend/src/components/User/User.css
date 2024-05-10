@@ -1,6 +1,21 @@
-.user-data-container {
+.user-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    background: #fff;
+    width: 50%;
+    padding: 40px 20px;
+    margin: 80px auto 20px auto;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.user-container img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    align-self: center;
+
 }
 
 h1, h2, h3, h4 {
@@ -12,8 +27,10 @@ h1, h2, h3, h4 {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
 }
+
 .user-image img{
     width: 150px;
     height: 150px;
@@ -25,7 +42,7 @@ h1, h2, h3, h4 {
     flex-direction: row;
 }
 
-.username-mail {
+.username-rating {
     display: flex;
     flex-direction: column;
     margin: 10px;
@@ -38,11 +55,9 @@ h1, h2, h3, h4 {
 }
 
 .menu-icon {
-    padding-top: 10px;
-    width: 30px;
     height: 30px;
-    margin: 10px;
     cursor: pointer;
+    align-self: flex-end;
 }
 
 .menu-icon img {
@@ -56,11 +71,10 @@ h1, h2, h3, h4 {
     align-items: center;
     justify-content: space-between;
 }
-.rating {
+.rating-user {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 30px;
 }
 
 .rating img {
@@ -81,4 +95,65 @@ h1, h2, h3, h4 {
 .delete-account-item:hover {
     color: red;
     font-weight: bold;
+}
+
+.profile-picture-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-picture-container:hover img {
+    opacity: 0.7;
+}
+
+.edit-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-picture-container:hover .edit-icon {
+    opacity: 1;
+}
+
+/* ConfirmationDialog.css */
+.dialog {
+    font-family: Arial, sans-serif;
+}
+
+.dialog-title {
+    background-color: #2196f3;
+    color: white;
+    font-weight: bold !important;
+    padding-bottom: 30px !important;
+}
+
+.dialog-content {
+    padding: 20px !important;
+}
+
+.dialog-actions {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.redButton {
+    background-color: red !important;
+    color: white;
+    font-weight: bold;
+}
+
+.menus {
+    display: flex;
+    flexDirection: row;
+    align-self: flex-end;
+}
+
+.favorite-icon-user {
+    color: red;
 }

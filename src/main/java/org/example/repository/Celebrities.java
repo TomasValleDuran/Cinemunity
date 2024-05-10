@@ -2,7 +2,6 @@ package org.example.repository;
 
 import org.example.model.Celebrity;
 import org.example.model.Show;
-import org.example.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -49,17 +48,24 @@ public class Celebrities {
         return query.getResultList();
     }
 
-    public void saveCelebrity(Celebrity celebrity) {
+    public void save(Celebrity celebrity) {
         EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(celebrity);
         entityManager.getTransaction().commit();
     }
 
-    public void deleteCelebrity(Celebrity celebrity) {
+    public void delete(Celebrity celebrity) {
         EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
         entityManager.remove(celebrity);
+        entityManager.getTransaction().commit();
+    }
+
+    public void update(Celebrity celebrity) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(celebrity);
         entityManager.getTransaction().commit();
     }
 

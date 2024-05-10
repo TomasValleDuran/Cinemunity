@@ -9,14 +9,19 @@ public class AddShowDto {
     private final String director;
     private final String seasons;
     private final List<String> actors;
+    private final String objectKey;
 
-    public AddShowDto(String title, String description, String show_type, String seasons, String director, List<String> actors) {
+    public AddShowDto(String title, String description,
+                      String show_type, String seasons,
+                      String director, List<String> actors,
+                      String objectKey) {
         this.title = title;
         this.description = description;
         this.show_type = show_type;
         this.director = director;
         this.seasons = seasons;
         this.actors = actors;
+        this.objectKey = objectKey;
     }
 
     public String getTitle() {
@@ -41,5 +46,9 @@ public class AddShowDto {
 
     public Integer getSeasons() {
         return seasons.isEmpty() ? null : Integer.parseInt(seasons);
+    }
+
+    public String getObjectKey() {
+        return objectKey;
     }
 }

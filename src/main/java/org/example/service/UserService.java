@@ -26,14 +26,17 @@ public class UserService {
         this.shows = new Shows();
     }
 
-    public String updateImage(String token, String fullObjectKey) {
+    public String updateImage(String token, String fullObjectKey, Long id) {
         Long userId = AuthUtility.getUserIdFromToken(token);
         if (userId == null) {
             throw new IllegalArgumentException("Invalid token");
         }
+        if (!userId.equals(id)) {
+            throw new IllegalArgumentException("Cant modify image from another user");
+        }
 
-        User user = users.findUserById(userId);
-        user.setUserImage(fullObjectKey);
+        User user = users.findUserById(id);
+        user.setImage(fullObjectKey);
         users.update(user);
         return user.asJson();
     }

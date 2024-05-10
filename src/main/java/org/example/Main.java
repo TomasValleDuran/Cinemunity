@@ -18,11 +18,11 @@ public class Main {
         final EntityManager entityManager = factory.createEntityManager();
 
         createAdminUser(entityManager);
-        createRegularUsers(entityManager);
+        /*createRegularUsers(entityManager);
         createNumberUsers(entityManager);
         Map<String, Celebrity> celebrities = createCelebriries(entityManager);
         createMovies(entityManager, celebrities);
-        createTVShows(entityManager, celebrities);
+        createTVShows(entityManager, celebrities);*/
 
         entityManager.close();
 

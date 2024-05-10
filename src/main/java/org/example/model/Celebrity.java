@@ -20,7 +20,7 @@ public class Celebrity {
     private String bio;
 
     @Column
-    private String celebrityImage;
+    private String image;
 
     @ManyToMany(mappedBy = "actors")
     private List<Show> actedShows = new ArrayList<>();
@@ -35,12 +35,14 @@ public class Celebrity {
         this.bio = bio;
     }
 
-    public String getName() {
-        return name;
+    public Celebrity(String name, String bio, String objectKey) {
+        this.name = name;
+        this.bio = bio;
+        this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
     }
 
-    public void setCelebrityImage(String celebrityImage) {
-        this.celebrityImage = celebrityImage;
+    public String getName() {
+        return name;
     }
 
     public void addDirectedShow(Show show) {
@@ -60,6 +62,7 @@ public class Celebrity {
                         jsonObject.addProperty("celebrityId", src.celebrityId);
                         jsonObject.addProperty("name", src.name);
                         jsonObject.addProperty("bio", src.bio);
+                        jsonObject.addProperty("image", src.image);
 
                         JsonArray actedShowsArray = new JsonArray();
                         for (Show show : src.actedShows) {
@@ -79,5 +82,9 @@ public class Celebrity {
                 .create();
 
         return gson.toJson(this);
+    }
+
+    public void setImage(String objectKey) {
+        this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
     }
 }

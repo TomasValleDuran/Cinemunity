@@ -47,7 +47,7 @@
     align-items: center;
     justify-content: flex-start;
 
-    max-width: 400px; /* Adjust this width as necessary */
+    max-width: 300px; /* Adjust this width as necessary */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -62,6 +62,10 @@
     list-style-type: none;
     padding-left: 0;
     margin-top: 10px;
+}
+
+.actor-list li {
+    width: 280px;
 }
 
 .delete-actor {
@@ -86,4 +90,32 @@
     transition: background-color 0.2s, transform 0.2s;
     display: inline-block;
     background-color: #007bff;
+}
+
+.container img {
+    width:200px;
+    height:200px;
+    object-fit: contain;
+    align-self: center;
+}
+
+.image-preview img {
+    width:200px;
+    height:200px;
+    object-fit: contain;
+}
+
+.add-actor-package {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.add-actor-package Button {
+    margin-left: 10px;
+}
+
+.add-actor-package TextField {
+    flex-grow: 1;
 }

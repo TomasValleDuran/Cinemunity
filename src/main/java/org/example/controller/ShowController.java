@@ -2,6 +2,7 @@ package org.example.controller;
 
 import com.google.gson.Gson;
 import org.example.dto.AddShowDto;
+import org.example.dto.FullObjectKeyDto;
 import org.example.utility.AuthUtility;
 import org.example.service.ShowService;
 import spark.Request;
@@ -32,10 +33,11 @@ public class ShowController {
         String director = addShowDto.getDirector();
         List<String> actors = addShowDto.getActors();
         Integer seasons = addShowDto.getSeasons();
-        res.type("application/json");
+        String objectKey = addShowDto.getObjectKey();
 
+        res.type("application/json");
         try {
-            return showService.addShow(title, description, show_type, director, actors, seasons);
+            return showService.addShow(title, description, show_type, director, actors, seasons, objectKey);
         } catch (Exception e) {
             res.status(400);
             return e.getMessage();
@@ -59,5 +61,16 @@ public class ShowController {
     public List<String> getAllShows(Request req, Response res) {
         res.type("application/json");
         return showService.getAllShows();
+    }
+
+    public String updateImage(Request req, Response res) {
+        String admin = AuthUtility.validateAdmin(req, res);
+        if (!admin.equals("Admin")) return admin;
+
+        FullObjectKeyDto fullObjectKeyDto = gson.fromJson(req.body(), FullObjectKeyDto.class);
+        String objectKey = fullObjectKeyDto.getFullObjectKey();
+        Long id = fullObjectKeyDto.getId();
+        res.type("application/json");
+        return showService.updateImage(objectKey, id);
     }
 }

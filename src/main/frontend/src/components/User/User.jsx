@@ -6,9 +6,13 @@ import {useNavigate, useParams} from "react-router-dom";
 import withAuth from "../hoc/withAuth";
 import MenuIcon from '@mui/icons-material/Menu';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Menu, MenuItem, IconButton, Button } from '@mui/material';
+import {Menu, MenuItem, IconButton, Button, DialogContent, DialogTitle, Dialog} from '@mui/material';
 import ConfirmationDialog from "../shared/confirmation-dialog/ConfirmationDialog";
 import ProfilePicture from "../shared/profile-pic/ProfilePicture";
+import NoProfilePicture from "../assets/no-profile-pic.jpg";
+import ModifyImage from "../modify-forms/modify-image/ModifyImage";
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import AddIcon from '@mui/icons-material/Add';
 
 const User = () => {
     const { userId } = useParams()
@@ -19,36 +23,40 @@ const User = () => {
     const [usermail, setUsermail] = useState('');
     const [followers, setFollowers] = useState('');
     const [following, setFollowing] = useState('');
-    const [profilePicture, setProfilePicture] = useState('');
+    const [currentImage, setCurrentImage] = useState('');
     const [rating, setRating] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+
+    const [anchorElAdd, setAnchorElAdd] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
     const navigate = useNavigate();
+    const [imageDialog, setImageDialog] = useState(false);
 
-    // Fetch user data
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get(
-                    `http://localhost:3333/api/user/get/${userId}`, {
+
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:3333/api/user/get/${userId}`, {
                     headers: {
                         'Authorization': localStorage.getItem('token')
                     }
                 });
-                console.log("User information:", response.data);
-                setUsername(response.data.username);
-                setUsermail(response.data.email);
-                setIsAdmin(response.data.is_admin);
-                setFollowers(response.data.followers.length);
-                setFollowing(response.data.following.length);
-                setRating(response.data.user_rating);
-                setProfilePicture(response.data.userImage);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
+            console.log("User information:", response.data);
+            setUsername(response.data.username);
+            setUsermail(response.data.email);
+            setIsAdmin(response.data.is_admin);
+            setFollowers(response.data.followers.length);
+            setFollowing(response.data.following.length);
+            setRating(response.data.user_rating);
+            setCurrentImage(response.data.image);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
+    // Fetch user data
+    useEffect(() => {
         fetchUserData();
     }, [userId, isFollowing]);
 
@@ -88,6 +96,14 @@ const User = () => {
         setAnchorEl(null);
     };
 
+    const handleMenuAddOpen = (event) => {
+        setAnchorElAdd(event.currentTarget);
+    };
+
+    const handleMenuAddClose = () => {
+        setAnchorElAdd(null);
+    };
+
     const handleSignOut = () => {
         localStorage.removeItem('token');
         navigate('/signin');
@@ -121,6 +137,22 @@ const User = () => {
 
     const handleChangePassword = () => {
         navigate('/user/modifyPassword')
+    }
+
+    const handleImageDialogOpen = () => {
+        if (actual) {
+            setImageDialog(true);
+        }
+    }
+
+    const handleImageDialogClose = () => {
+        setImageDialog(false);
+    }
+
+    const handleImageChange = (newImageUrl) => {
+        if (newImageUrl !== currentImage) {
+            fetchUserData();
+        }
     }
 
     const handleFollow = async () => {
@@ -160,52 +192,76 @@ const User = () => {
     return (
         <div>
             <Header />
-            <div className={"user-data-container"}>
-                <div className={"user-header"}>
-                    <div className={"user-image"}>
-                        <ProfilePicture src={profilePicture} alt={"profile picture"}/>
+            <div className={"user-container"}>
+                {actual &&
+                    <div className={"menus"}>
+                        {isAdmin &&
+                            <div className={"menu-icon"}>
+                                <IconButton onClick={handleMenuAddOpen} size={"large"}>
+                                    <AddIcon/>
+                                </IconButton>
+                                <Menu
+                                    anchorEl={anchorElAdd}
+                                    keepMounted
+                                    open={Boolean(anchorElAdd)}
+                                    onClose={handleMenuAddClose}
+                                >
+                                    <MenuItem className={"menu-item"} onClick={handleAddShow}>Add Show</MenuItem>
+                                    <MenuItem className={"menu-item"} onClick={handleAddCelebrity}>Add Celebrity</MenuItem>
+                                </Menu>
+                            </div>
+                        }
+                        <div className={"menu-icon"}>
+                            <IconButton onClick={handleMenuOpen} size={"large"}>
+                                <MenuIcon/>
+                            </IconButton>
+                            <Menu
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                            >
+                                <MenuItem className={"menu-item"} onClick={handleModifyDialogOpen}>Modify Account
+                                    Information</MenuItem>
+                                <MenuItem className={"menu-item"} onClick={handleChangePassword}>Change Password</MenuItem>
+                                <MenuItem className={"menu-item"} onClick={handleSignOut}>Log Out</MenuItem>
+                                <MenuItem className={"delete-account-item"} onClick={handleDialogOpen}>Delete
+                                    Account</MenuItem>
+                            </Menu>
+                        </div>
                     </div>
-                    <div className={"username-mail"}>
+                }
+                <div className={"user-header"}>
+                    <div className="profile-picture-container">
+                        <Button onClick={handleImageDialogOpen}>
+                            <ProfilePicture
+                                src={currentImage ? currentImage : NoProfilePicture}
+                                alt={"profile picture"}
+                            />
+                        </Button>
+                        {actual && <ModeEditIcon className="edit-icon"/>}
+                    </div>
+                    <div className={"username-rating"}>
                         <h1>{username}</h1>
-                        <h4>{usermail}</h4>
+                        <div className={"rating-user"}>
+                            <FavoriteIcon className={"favorite-icon-user"}/>
+                            <h2>{String(rating)}</h2>
+                        </div>
                     </div>
                     <div className={"followers"}>
-                        <h2>Followers</h2>
-                        <h3>{followers}</h3>
+                        <h3>Followers</h3>
+                        <h4>{followers}</h4>
                     </div>
                     <div className={"following"}>
-                        <h2>Following</h2>
-                        <h3>{following}</h3>
+                        <h3>Following</h3>
+                        <h4>{following}</h4>
                     </div>
-                    {actual && <div className={"menu-icon"}>
-                        <IconButton onClick={handleMenuOpen} size={"large"}>
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                        >
-                            <MenuItem className={"menu-item"} onClick={handleModifyDialogOpen}>Modify Account Information</MenuItem>
-                            <MenuItem className={"menu-item"} onClick={handleChangePassword}>Change Password</MenuItem>
-                            <MenuItem className={"menu-item"} onClick={handleSignOut}>Log Out</MenuItem>
-                            <MenuItem className={"delete-account-item"} onClick={handleDialogOpen}>Delete Account</MenuItem>
-                        </Menu>
-                    </div> }
+
                 </div>
                 <div className={"rating-buttons"}>
-                    <div className={"rating"}>
-                        <FavoriteIcon />
-                        <h2>{String(rating)}</h2>
-                    </div>
-                    {isAdmin && actual && <div className={"buttons"}>
-                        <Button variant="contained" onClick={handleAddShow}>Add Show</Button>
-                        <Button variant="contained" onClick={handleAddCelebrity}>Add Celebrity</Button>
-                    </div>}
                     {!actual && <div className={"buttons"}>
                         {isFollowing ? (
-                            <Button variant="contained" onClick={handleUnfollow}>Unfollow</Button>
+                            <Button variant="outlined" onClick={handleUnfollow}>Unfollow</Button>
                         ) : (
                             <Button variant="contained" onClick={handleFollow}>Follow</Button>
                         )}
@@ -214,6 +270,17 @@ const User = () => {
             </div>
             <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDeleteAccount}
                                 information={"Account"} isAdmin={isAdmin}/>
+            <Dialog open={imageDialog} onClose={handleImageDialogClose} className="dialog">
+                <DialogTitle className="dialog-title">Modify Profile Picture</DialogTitle>
+                <DialogContent className="dialog-content">
+                    <ModifyImage
+                        type="user"
+                        folder="Users/"
+                        id={currentUserId}
+                        currentImage={currentImage}
+                        onImageChange={handleImageChange}/>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

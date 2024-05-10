@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './AddReview.css';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
-import { TextField } from '@mui/material';
+import {Button, TextField} from '@mui/material';
 
 const AddReview = ({ showTitle, onRemove }) => {
 
@@ -59,7 +59,9 @@ const AddReview = ({ showTitle, onRemove }) => {
 
                 <TextField placeholder={"Write your review..."} className="review-input"
                 multiline={true} onChange={(e) => setReview(e.target.value)}/>
-                <button type="submit">Submit Review</button>
+                <Button variant="contained" type="submit" color="primary">
+                    Submit Review
+                </Button>
             </form>
 
         </div>

@@ -78,3 +78,43 @@
 .show-elements h3{
     margin-right: 10px;
 }
+
+.show-card img {
+    width:200px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.profile-picture-container-, .profile-picture-container-admin {
+    position: relative;
+    display: inline-block;
+} {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-picture-container- img {
+    opacity: 1;
+    cursor: default;
+}
+
+.profile-picture-container-admin img {
+    cursor: pointer;
+}
+
+.profile-picture-container-admin:hover img {
+    opacity: 0.7;
+}
+
+.profile-picture-container-admin:hover .edit-icon {
+    opacity: 1;
+}
+
+.edit-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}

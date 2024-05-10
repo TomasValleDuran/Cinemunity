@@ -1,6 +1,5 @@
 package org.example.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.model.Celebrity;
 import org.example.model.Season;
 import org.example.model.Show;
@@ -20,7 +19,9 @@ public class ShowService {
         this.celebrities = new Celebrities();
     }
 
-    public String addShow(String title, String description, String show_type, String director, List<String> actors, Integer seasons) {
+    public String addShow(String title, String description,
+                          String show_type, String director,
+                          List<String> actors, Integer seasons, String objectKey) {
         if (title == null || title.isEmpty()) {
             throw new IllegalArgumentException("Title cannot be empty");
         }
@@ -28,16 +29,18 @@ public class ShowService {
             throw new IllegalArgumentException("Show type must be Movie or TVShow");
         }
 
-        Show show = new Show(title, description, show_type);
+        Show show = new Show(title, description, show_type, objectKey);
 
+        Celebrity directorCeleb = null;
         try {
-            show.setDirector(celebrities.findCelebrityByName(director));
+            directorCeleb = celebrities.findCelebrityByName(director);
+            show.setDirector(directorCeleb);
         } catch (Exception e) {
             throw new IllegalArgumentException("Director not found");
         }
 
+        List<Celebrity> actorList = new ArrayList<>();
         try{
-            List<Celebrity> actorList = new ArrayList<>();
             for (String actor : actors) {
                 actorList.add(celebrities.findCelebrityByName(actor));
             }
@@ -61,7 +64,13 @@ public class ShowService {
             }
         }
 
-        shows.saveShow(show);
+        for (Celebrity actor : actorList) {
+            actor.addActedShow(show);
+            celebrities.update(actor);
+        }
+        directorCeleb.addDirectedShow(show);
+        celebrities.update(directorCeleb);
+        shows.save(show);
         return show.asJson();
     }
 
@@ -90,5 +99,12 @@ public class ShowService {
             returnShows.add(show.asJson());
         }
         return returnShows;
+    }
+
+    public String updateImage(String objectKey, Long id) {
+        Show show = shows.findShowById(id);
+        show.setImage(objectKey);
+        shows.update(show);
+        return show.asJson();
     }
 }

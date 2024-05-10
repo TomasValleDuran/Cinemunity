@@ -16,7 +16,6 @@ import ModifyUser from "./components/modify-forms/modify-user-info/ModifyUser";
 import ModifyPassword from "./components/modify-forms/modify-user-password/ModifyPassword";
 import Wishlist from "./components/Wishlist/Wishlist";
 import ForgotPassword from "./components/auth/ForgotPwd/ForgotPassword";
-import ImageUploader from "./s3test/ImageUploader";
 
 function App() {
     return (
@@ -50,8 +49,6 @@ function App() {
                     <Route path="/celebrity/:celebrityId" element={<Celebrity/>}/>
 
                     <Route path="/error" element={<NotAdmin/>}/>
-
-                    <Route path="/Images" element={<ImageUploader/>} />
                 </Routes>
         </div>
     );

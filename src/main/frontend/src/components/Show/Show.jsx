@@ -6,9 +6,11 @@ import axios from "axios";
 import AddReview from "../addForms/addReview/AddReview";
 import withAuth from "../hoc/withAuth";
 import Review from "../shared/review/Review";
-import {IconButton} from "@mui/material";
+import {Button, Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import EditIcon from '@mui/icons-material/Edit';
+import ModifyImage from "../modify-forms/modify-image/ModifyImage";
 
 const Show = () => {
     const { showId } = useParams();
@@ -20,8 +22,16 @@ const Show = () => {
     const [showAddReview, setShowAddReview] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [title, setTitle] = useState('');
+    const [image, setImage] = useState('');
+
     const [reviewsUpdated, setReviewsUpdated] = useState(false);
     const [isInWishlist, setIsInWishlist] = useState(false);
+    const [imageDialog, setImageDialog] = useState(false);
+
+    const [userId, setUserId] = useState('');
+    const [username, setUsername] = useState('');
+    const [admin, setAdmin] = useState(false);
+
 
     const fetchShow = async () => {
         try {
@@ -91,7 +101,7 @@ const Show = () => {
             });
     };
 
-    const fetchWishlist = async () => {
+    const fetchCurrentUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3333//api/user/currentUser', {
                 headers: {
@@ -101,6 +111,9 @@ const Show = () => {
             if (response.data.wishlist.includes(parseFloat(showId))) {
                 setIsInWishlist(true);
             }
+            setUserId(response.data.userId);
+            setAdmin(response.data.is_admin);
+            setUsername(response.data.username);
         } catch (error) {
             console.error('Error fetching username:', error);
             return null;
@@ -109,8 +122,7 @@ const Show = () => {
 
 
     useEffect(() => {
-        console.log("use effect 1")
-        fetchWishlist();
+        fetchCurrentUserData();
         const fetchShowData = async () => {
             const response = await fetchShow();
             response && setDirector(response.director);
@@ -119,6 +131,7 @@ const Show = () => {
             response && setActors(response.actors);
             response && setSeasons(response.seasons);
             response && setTitle(response.title);
+            response && setImage(response.image);
             if (response && response.reviews) {
                 const reviewsResponse = await fetchReviewsByIds(response.reviews);
                 setReviews(reviewsResponse);
@@ -137,10 +150,26 @@ const Show = () => {
         setReviewsUpdated(!reviewsUpdated);
     }
 
+    const handleImageDialogOpen = () => {
+        if (admin) {
+            setImageDialog(true);
+        }
+    }
+
+    const handleImageDialogClose = () => {
+        setImageDialog(false);
+    }
+
+    const handleImageChange = async (newImageUrl) => {
+        if (newImageUrl !== image) {
+            const response = await fetchShow();
+            response && setImage(response.image);
+        }
+    }
+
     // Sort reviews by likes and user
-    const currentUser = localStorage.getItem('username');
-    const currentUserReviews = reviews.filter(review => review.username === currentUser);
-    const otherReviews = reviews.filter(review => review.username !== currentUser);
+    const currentUserReviews = reviews.filter(review => review.username === username);
+    const otherReviews = reviews.filter(review => review.username !== username);
     otherReviews.sort((a, b) => b.likes - a.likes);
     const sortedReviews = currentUserReviews.concat(otherReviews);
 
@@ -148,15 +177,24 @@ const Show = () => {
         <div>
             <Header/>
             <div className={"page-container"}>
-                <div className="show-container">
-                    <div className={"show-title"}>
-                        <h1> {title} </h1>
-                    </div>
+                <div className="container">
                     <div className={"show-separator"}>
                         <div className={"show-card"}>
-                            <img src="https://via.placeholder.com/200" alt="show"/>
+                            <div className={`profile-picture-container-${admin ? 'admin' : ''}`}>
+                                <Button onClick={handleImageDialogOpen} size={"large"}>
+                                    <img src={image ? image : "https://via.placeholder.com/200"} alt="show"/>
+                                </Button>
+                                {admin && <div className="edit-icon">
+                                    <EditIcon/>
+                                </div>}
+                            </div>
                         </div>
                         <div className={"show-info"}>
+                            <div className={"header"}>
+                                <div className="title">
+                                    <div className="tittle-text">{title}</div>
+                                </div>
+                            </div>
                             <div className={"show-bio"}>
                                 <p> {description}</p>
                             </div>
@@ -197,6 +235,17 @@ const Show = () => {
                 </div>
                 <button className="floating-button" onClick={handleShowAddReview}>+</button>
             </div>
+            <Dialog open={imageDialog} onClose={handleImageDialogClose} className="dialog">
+                <DialogTitle className="dialog-title">Modify Profile Picture</DialogTitle>
+                <DialogContent className="dialog-content">
+                    <ModifyImage
+                        type="show"
+                        folder="Shows/"
+                        id={showId}
+                        currentImage={image}
+                        onImageChange={handleImageChange}/>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

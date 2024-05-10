@@ -23,7 +23,7 @@ public class Aplication {
         final ShowController showController = new ShowController();
         final CelebrityController celebrityController = new CelebrityController();
         final ReviewController reviewController = new ReviewController();
-        final ImageController ImageController = new ImageController();
+        final ImageController imageController = new ImageController();
 
         Spark.port(3333);
 
@@ -77,8 +77,11 @@ public class Aplication {
         Spark.post("/api/user/wishlist", userController::addToWishlist);
         Spark.delete("/api/user/wishlist/:showId", userController::removeFromWishlist);
 
-        Spark.post("/api/upload", ImageController::generatePresignedUrl);
-        Spark.put("/api/user/updateUserImage", userController::updateImage);
+        Spark.post("/api/upload", imageController::generatePresignedUrl);
+        Spark.put("/api/user/updateImage", userController::updateImage);
+        Spark.put("/api/celebrity/updateImage", celebrityController::updateImage);
+        Spark.put("/api/show/updateImage", showController::updateImage);
+        Spark.delete("/api/deleteImage", imageController::deleteImage);
 
 
         after((request, response) -> closeCurrentEntityManager());
