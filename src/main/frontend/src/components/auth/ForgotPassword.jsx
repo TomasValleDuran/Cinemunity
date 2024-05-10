@@ -2,9 +2,9 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {useState} from "react";
 import axios from "axios";
-import '../SignIn-SignUp.css'
-import {FormInput, SendFormButton} from "../../shared/form-input/FormInput";
-import logo from "../../assets/logo.png";
+import './SignIn-SignUp.css'
+import logo from "../assets/logo.png";
+import {Button, TextField} from "@mui/material";
 
 
 const ForgotPassword = () => {
@@ -29,6 +29,11 @@ const ForgotPassword = () => {
             }
         }
     }
+
+    function handleEmailChange(event) {
+        setEmail(event.target.value)
+    }
+
     return (
         <div className="container">
             <div className='header'>
@@ -40,10 +45,17 @@ const ForgotPassword = () => {
                 </div>
             </div>
             {!success &&
-                <form className='inputs'>
-                    <FormInput placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                    <SendFormButton onClick={(e) => sendEmail(e)}>Send Email</SendFormButton>
+                <form className='inputs' onSubmit={sendEmail}>
+                    <TextField
+                        type={"email"}
+                        value={email}
+                        label={"Email"}
+                        onChange={handleEmailChange}
+                    />
                     {error && <div className="error-message">{error}</div>}
+                    <Button variant="contained" type="submit" color="primary">
+                        Send Email
+                    </Button>
                 </form>
             }
             {success &&

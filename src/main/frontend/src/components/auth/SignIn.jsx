@@ -2,14 +2,14 @@ import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import axios from "axios";
-import '../SignIn-SignUp.css'
-import {FormInput, SendFormButton} from "../../shared/form-input/FormInput";
-import logo from "../../assets/logo.png";
+import './SignIn-SignUp.css'
+import logo from "../assets/logo.png";
+import {Button, TextField} from "@mui/material";
 
 const SignIn = ()=>{
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState(""); // Add this line
+    const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
 
@@ -22,9 +22,6 @@ const SignIn = ()=>{
             });
 
             localStorage.setItem('token', response.data.token);
-            console.log("Token:", localStorage.getItem('token'));
-            localStorage.setItem('username', username);
-            console.log("Username:", localStorage.getItem('username'));
             console.log("Inicio de sesión exitoso:", response.data.token);
             navigate('/home');
         } catch (error) {
@@ -32,6 +29,14 @@ const SignIn = ()=>{
             setErrorMessage(error.response.data);
         }
     };
+
+    function handleUsernameChange(event) {
+        setUsername(event.target.value)
+    }
+
+    function handlePasswordChange(event) {
+        setPassword(event.target.value)
+    }
 
     return (
         <div className="container-signin">
@@ -44,19 +49,27 @@ const SignIn = ()=>{
                 </div>
             </div>
             <form onSubmit={handleSignIn} className='inputs'>
-                <FormInput value={username} onChange={(e) => setUsername(e.target.value)}
-                           placeholder="Username"/>
-                <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                           placeholder="Password"/>
+                <TextField
+                    value={username}
+                    label={"Username"}
+                    onChange={handleUsernameChange}
+                />
+                <TextField
+                    type={"password"}
+                    value={password}
+                    label={"Password"}
+                    onChange={handlePasswordChange}
+                />
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
-
-                <SendFormButton onClick={handleSignIn}>Sign In</SendFormButton>
+                <Button variant="contained" type="submit" color="primary">
+                    Log In
+                </Button>
             </form>
             <div className='link'>
                 Don't have an account? <Link to={"/signup"}>Sign Up Here</Link>
             </div>
             <div className='link'>
-                Forgot password? <Link to={"/forgotpassword"}>Recover Password</Link>
+                Forgot your password? <Link to={"/forgotpassword"}>Recover Password</Link>
             </div>
         </div>
     )

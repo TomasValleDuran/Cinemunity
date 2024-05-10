@@ -3,7 +3,7 @@ import './Show.css';
 import {useParams} from "react-router-dom";
 import Header from '../shared/header/Header';
 import axios from "axios";
-import AddReview from "../addForms/addReview/AddReview";
+import AddReview from "../add-forms/addReview/AddReview";
 import withAuth from "../hoc/withAuth";
 import Review from "../shared/review/Review";
 import {Button, Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";

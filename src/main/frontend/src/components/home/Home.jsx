@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import './Home.css';
 import Header from '../shared/header/Header';
 import axios from "axios";
-import {Link} from "react-router-dom";
 import withAuth from '../hoc/withAuth';
+import ShowPreviewCarrousel from "../shared/show-preview/ShowPreviewCarrousel";
 
 const Home = () => {
 
@@ -39,15 +39,7 @@ const Home = () => {
         <div className="home-container">
             <Header />
             <h1>Shows</h1>
-            <ul>
-                {posts.map(post => (
-                    <li key={post.title}>
-                        <Link to={`/show/${post.showId}`} style={{ display: 'block', height: '100%' }}>
-                            {post.title}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+            <ShowPreviewCarrousel posts={posts}/>
         </div>
     );
 };

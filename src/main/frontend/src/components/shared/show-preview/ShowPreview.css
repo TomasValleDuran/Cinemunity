@@ -1,0 +1,24 @@
+.show-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    height: 300px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.show-image-preview img{
+    width: 200px;
+    height: 300px;
+    object-fit: contain;
+
+}
+
+.show-preview:hover {
+    cursor: pointer;
+    transform: scale(1.1) perspective(700px) rotateX(5deg);
+}

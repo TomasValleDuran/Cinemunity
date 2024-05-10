@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link, useLocation} from "react-router-dom";
 import Header from "../shared/header/Header";
+import ShowPreviewCarrousel from "../shared/show-preview/ShowPreviewCarrousel";
 const Wishlist = () => {
 
     const [wishlist, setWishlist] = useState([]);
@@ -37,15 +38,7 @@ const Wishlist = () => {
         <div>
             <Header />
             <h1>Wishlist</h1>
-            <ul>
-                {wishlist.map(show => (
-                    <li key={show.title}>
-                        <Link to={`/show/${show.showId}`} style={{ display: 'block', height: '100%' }}>
-                            {show.title}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+            <ShowPreviewCarrousel posts={wishlist}/>
         </div>
     );
 }
