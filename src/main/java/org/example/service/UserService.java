@@ -139,13 +139,9 @@ public class UserService {
         return user.asJson();
     }
 
-    public String deleteUser(String token) {
-        Long userId = AuthUtility.getUserIdFromToken(token);
-        if (userId == null) {
-            return "Invalid token";
-        }
-
+    public String deleteUser(Long userId) {
         User user = users.findUserById(userId);
+        users.removeUserFromFollowings(user);
         users.delete(user);
         return "User deleted";
     }

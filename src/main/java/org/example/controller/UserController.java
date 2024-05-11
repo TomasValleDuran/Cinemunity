@@ -87,9 +87,10 @@ public class UserController {
         if (token == null) {
             return "Not signed in";
         }
+        Long userId = Long.valueOf(req.params(":userId"));
 
         res.type("application/json");
-        return userService.deleteUser(token);
+        return userService.deleteUser(userId);
     }
 
     public String updateUser(Request req, Response res) {

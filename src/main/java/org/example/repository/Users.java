@@ -120,6 +120,14 @@ public class Users {
         entityManager.getTransaction().commit();
     }
 
+    public void removeUserFromFollowings(User user){
+        List<User> followers = user.getFollows();
+        for (User follower : followers) {
+            follower.unfollowUser(user);
+            update(follower);
+        }
+    }
+
     public List<User> getUsersWithPrefix(String search) {
         TypedQuery<User> query = currentEntityManager().createQuery("SELECT u " +
                 "FROM User u " +
