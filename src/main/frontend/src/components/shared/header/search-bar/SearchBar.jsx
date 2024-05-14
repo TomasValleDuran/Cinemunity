@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Select from 'react-select';
 import searchIcon from '../../../assets/search-icon.png';
 import {useNavigate} from 'react-router-dom';
@@ -71,8 +71,6 @@ const SearchTextBox = ({value, onChange, onKeyPress, placeholder, addon1, addon2
     </div>
 );
 
-
-
 const SearchBar = () => {
     const options = [
         { value: "Movie", label: 'Movie' },
@@ -84,7 +82,7 @@ const SearchBar = () => {
     const [searchInput, setSearchInput] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
-
+    const resultsRef = useRef(null);
 
     const handleSelect = selectedOption => {
         setSearchType(selectedOption);
@@ -135,11 +133,11 @@ const SearchBar = () => {
         const fetchSearchResults = async () => {
             try {
                 let response;
-                    response = await axios.get(`http://localhost:3333/api/${searchType.value}/search/${searchInput}`, {
-                        headers: {
-                            'Authorization': localStorage.getItem('token')
-                        }
-                    });
+                response = await axios.get(`http://localhost:3333/api/${searchType.value}/search/${searchInput}`, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
                 setSearchResults(response.data);
             } catch (error) {
                 console.error(`ERROR: Could not fetch search results:`, error);
@@ -165,6 +163,18 @@ const SearchBar = () => {
         window.location.reload();
     };
 
+    const handleClickOutside = (event) => {
+        if (resultsRef.current && !resultsRef.current.contains(event.target)) {
+            setSearchResults([]);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <div>
@@ -183,9 +193,13 @@ const SearchBar = () => {
                     />}
             />
             {searchResults.length > 0 && (
-                <div className="search-results">
+                <div className="search-results" ref={resultsRef}>
                     {searchResults.map((result) => (
-                        <div key={searchType.value === 'celebrity' ? result.name : searchType.value === 'user' ? result.username : result.id} onClick={() => handleResultClick(result)}>
+                        <div
+                            key={searchType.value === 'celebrity' ? result.name : searchType.value === 'user' ? result.username : result.id}
+                            onClick={() => handleResultClick(result)}
+                            className="search-result-item"
+                        >
                             {searchType.value === 'celebrity' ? result.name : searchType.value === 'user' ? result.username : result.title}
                         </div>
                     ))}
