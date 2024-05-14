@@ -1,6 +1,7 @@
 .header-menu {
-    padding: 20px; /* Add padding for breathing space */
-    height: 60px;
+    padding: 20px;
+    height: 40px;
+    width: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -24,8 +25,6 @@
     position: fixed;
     flex-grow: 6;
 }
-
-
 
 .header-logo img {
     height: 50px;
