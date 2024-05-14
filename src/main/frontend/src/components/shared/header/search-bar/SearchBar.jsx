@@ -4,9 +4,9 @@ import searchIcon from '../../../assets/search-icon.png';
 import {useNavigate} from 'react-router-dom';
 import './SearchBar.css';
 import axios from "axios";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 const DropdownStyles = {
-
     control: (provided, state) => ({
         ...provided,
         backgroundColor: '#dedada',
@@ -18,7 +18,6 @@ const DropdownStyles = {
         },
         borderRadius: '50px'
     }),
-
     option: (provided, state) => ({
         ...provided,
         color: state.isSelected ? 'white' : 'black',
@@ -27,7 +26,6 @@ const DropdownStyles = {
             backgroundColor: 'lightgray',
         }
     }),
-
     dropdownIndicator: (provided, state) => ({
         ...provided,
         color: 'gray',
@@ -38,7 +36,6 @@ const DropdownStyles = {
         padding: 5,
         alignItems: 'center'
     }),
-
     clearIndicator: (provided, state) => ({
         ...provided,
         color: 'red',
@@ -132,8 +129,7 @@ const SearchBar = () => {
     useEffect(() => {
         const fetchSearchResults = async () => {
             try {
-                let response;
-                response = await axios.get(`http://localhost:3333/api/${searchType.value}/search/${searchInput}`, {
+                const response = await axios.get(`http://localhost:3333/api/${searchType.value}/search/${searchInput}`, {
                     headers: {
                         'Authorization': localStorage.getItem('token')
                     }
@@ -200,6 +196,7 @@ const SearchBar = () => {
                             onClick={() => handleResultClick(result)}
                             className="search-result-item"
                         >
+                            <img src={result.image} alt={result.title || result.name || result.username} className="result-image"/>
                             {searchType.value === 'celebrity' ? result.name : searchType.value === 'user' ? result.username : result.title}
                         </div>
                     ))}
