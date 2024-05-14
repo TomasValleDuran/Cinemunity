@@ -20,11 +20,12 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
 
     const fetchLikes = async () => {
         try {
-            const response = await axios.get(`http://localhost:3333/api/user/getLikedReviews/${currentUsername}`, {
+            const response = await axios.get(`http://localhost:3333/api/user/currentUser`, {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
             });
+            console.log(response.data);
             return response.data.likes;
         } catch (error) {
             console.error('Error fetching likes:', error);
@@ -33,7 +34,7 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
 
     useEffect(() => {
         fetchLikes().then((likes) => {
-            if (likes.includes(id)) {
+            if (likes && likes.includes(id)) {
                 setLiked(true);
             }
         });

@@ -130,8 +130,8 @@ public class UserService {
         }
     }
 
-    public String getLikedReviews(String username) {
-        User user = users.findUserByUsername(username);
+    public String getLikedReviews(String userId) {
+        User user = users.findUserById(Long.valueOf(userId));
         if (user == null) {
             return "User not found";
         }
