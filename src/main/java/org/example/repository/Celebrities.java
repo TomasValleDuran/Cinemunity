@@ -72,8 +72,8 @@ public class Celebrities {
     public List<Celebrity> getCelebrityWithPrefix(String search) {
         TypedQuery<Celebrity> query = currentEntityManager().createQuery("SELECT c " +
                 "FROM Celebrity c " +
-                "WHERE c.name LIKE :search", Celebrity.class);
-        query.setParameter("search", search + "%");
+                "WHERE LOWER(c.name) LIKE LOWER(:search)", Celebrity.class);
+        query.setParameter("search", search.toLowerCase() + "%");
         return query.getResultList();
     }
 

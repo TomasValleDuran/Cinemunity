@@ -84,12 +84,13 @@ public class Shows {
     public List<Show> getShowsWithPrefix(String search, String type) {
         TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
                 "FROM Show s " +
-                "WHERE s.title LIKE :search " +
-                "AND s.show_type LIKE :type", Show.class);
-        query.setParameter("search", search + "%");
-        query.setParameter("type", type);
+                "WHERE LOWER(s.title) LIKE LOWER(:search) " +
+                "AND LOWER(s.show_type) LIKE LOWER(:type)", Show.class);
+        query.setParameter("search", search.toLowerCase() + "%");
+        query.setParameter("type", type.toLowerCase());
         return query.getResultList();
     }
+
 
     public void update(Show show) {
         EntityManager entityManager = currentEntityManager();

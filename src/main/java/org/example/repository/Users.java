@@ -131,8 +131,8 @@ public class Users {
     public List<User> getUsersWithPrefix(String search) {
         TypedQuery<User> query = currentEntityManager().createQuery("SELECT u " +
                 "FROM User u " +
-                "WHERE u.username LIKE :search", User.class);
-        query.setParameter("search", search + "%");
+                "WHERE LOWER(u.username) LIKE LOWER(:search)", User.class);
+        query.setParameter("search", search.toLowerCase() + "%");
         return query.getResultList();
     }
 }
