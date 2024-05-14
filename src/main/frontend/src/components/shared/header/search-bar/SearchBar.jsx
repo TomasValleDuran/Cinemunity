@@ -1,10 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Select from 'react-select';
 import searchIcon from '../../../assets/search-icon.png';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './SearchBar.css';
 import axios from "axios";
-import {wait} from "@testing-library/user-event/dist/utils";
 
 const DropdownStyles = {
     control: (provided, state) => ({
@@ -53,7 +52,7 @@ const Dropdown = ({ value, onChange, options }) => (
     />
 );
 
-const SearchTextBox = ({value, onChange, onKeyPress, placeholder, addon1, addon2}) => (
+const SearchTextBox = ({ value, onChange, onKeyPress, placeholder, addon1, addon2 }) => (
     <div className="search-bar">
         {addon1}
         <input
@@ -80,6 +79,18 @@ const SearchBar = () => {
     const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
     const resultsRef = useRef(null);
+    const debounceTimeout = useRef(null);
+
+    const debounce = (func, delay) => {
+        return (...args) => {
+            if (debounceTimeout.current) {
+                clearTimeout(debounceTimeout.current);
+            }
+            debounceTimeout.current = setTimeout(() => {
+                func(...args);
+            }, delay);
+        };
+    };
 
     const handleSelect = selectedOption => {
         setSearchType(selectedOption);
@@ -126,26 +137,28 @@ const SearchBar = () => {
         }
     };
 
-    useEffect(() => {
-        const fetchSearchResults = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3333/api/${searchType.value}/search/${searchInput}`, {
-                    headers: {
-                        'Authorization': localStorage.getItem('token')
-                    }
-                });
-                setSearchResults(response.data);
-            } catch (error) {
-                console.error(`ERROR: Could not fetch search results:`, error);
-            }
-        };
+    const fetchSearchResults = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/${searchType.value}/search/${searchInput}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            setSearchResults(response.data);
+        } catch (error) {
+            console.error(`ERROR: Could not fetch search results:`, error);
+        }
+    };
 
+    const debouncedFetchSearchResults = useCallback(debounce(fetchSearchResults, 500), [searchInput, searchType]);
+
+    useEffect(() => {
         if (searchInput) {
-            fetchSearchResults();
+            debouncedFetchSearchResults();
         } else {
             setSearchResults([]);
         }
-    }, [searchInput, searchType]);
+    }, [searchInput, searchType, debouncedFetchSearchResults]);
 
     const handleResultClick = (result) => {
         console.log(result)
@@ -179,7 +192,7 @@ const SearchBar = () => {
                 onChange={(e) => setSearchInput(e.target.value)}
                 onKeyPress={handleEnterPress}
                 placeholder="Search"
-                addon1={<Dropdown value={searchType} onChange={handleSelect} options={options}/>}
+                addon1={<Dropdown value={searchType} onChange={handleSelect} options={options} />}
                 addon2={
                     <img
                         src={searchIcon}
@@ -196,7 +209,7 @@ const SearchBar = () => {
                             onClick={() => handleResultClick(result)}
                             className="search-result-item"
                         >
-                            <img src={result.image} alt={result.title || result.name || result.username} className="result-image"/>
+                            <img src={result.image} alt={result.title || result.name || result.username} className="result-image" />
                             {searchType.value === 'celebrity' ? result.name : searchType.value === 'user' ? result.username : result.title}
                         </div>
                     ))}
