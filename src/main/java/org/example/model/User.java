@@ -219,7 +219,19 @@ public class User {
         return following;
     }
 
+    public List<User> getFollowers() {
+        return followers;
+    }
+
     public void setImage(String fullObjectKey) {
         this.image = "https://cinemunitybucket.s3.amazonaws.com/" + fullObjectKey;
+    }
+
+    public void overrideEmptyFollowing() {
+        this.following = new ArrayList<>();
+    }
+
+    public void overrideEmptyFollowers() {
+        this.followers = new ArrayList<>();
     }
 }

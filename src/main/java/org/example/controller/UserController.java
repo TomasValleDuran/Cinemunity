@@ -90,7 +90,8 @@ public class UserController {
         Long userId = Long.valueOf(req.params(":userId"));
 
         res.type("application/json");
-        return userService.deleteUser(userId);
+        String ret = userService.deleteUser(userId);
+        return ret;
     }
 
     public String updateUser(Request req, Response res) {

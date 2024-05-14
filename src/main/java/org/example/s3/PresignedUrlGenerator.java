@@ -38,8 +38,9 @@ public class PresignedUrlGenerator {
                         .withExpiration(expiration);
         URL url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
 
+        String urlBeforeQuestionMark = url.toString().split("\\?")[0];
 
-        PresignedUrlResponseDto responseDto = new PresignedUrlResponseDto(url.toString(), fullObjectKey);
+        PresignedUrlResponseDto responseDto = new PresignedUrlResponseDto(urlBeforeQuestionMark, fullObjectKey);
         return gson.toJson(responseDto);
 
 

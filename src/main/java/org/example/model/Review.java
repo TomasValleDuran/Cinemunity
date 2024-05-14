@@ -64,6 +64,10 @@ public class Review {
         return likedBy.size();
     }
 
+    public List<User> getLikedBy() {
+        return likedBy;
+    }
+
     public String asJson() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Review.class, new JsonSerializer<Review>() {

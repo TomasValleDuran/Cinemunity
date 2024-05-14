@@ -5,6 +5,7 @@ import org.example.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.Collection;
 import java.util.List;
 import static org.example.utility.EntityManagerUtil.currentEntityManager;
 
@@ -121,10 +122,39 @@ public class Users {
     }
 
     public void removeUserFromFollowings(User user){
-        List<User> followers = user.getFollows();
+        List<User> followings = user.getFollows();
+        for (User follow : followings){
+            follow.getFollowers().remove(user);
+        }
+        user.overrideEmptyFollowing();
+
+        List<User> followers = user.getFollowers();
         for (User follower : followers) {
-            follower.unfollowUser(user);
-            update(follower);
+            follower.getFollows().remove(user);
+        }
+        user.overrideEmptyFollowers();
+        update(user);
+    }
+
+    public void removeLikesFromReviews(User user){
+        List<Review> reviews = user.getReviews();
+        for (int i = 0; i < reviews.size(); i++) {
+            Review review = reviews.get(i);
+            List<User> likedBy = review.getLikedBy();
+            for (int j = 0; j < likedBy.size(); j++) {
+                User liker = likedBy.get(j);
+                liker.unlikeReview(review);
+                review.unlikeReview(liker);
+                update(liker);
+            }
+            update(user);
+        }
+        Collection<Review> likes = user.getLikes();
+        for (int i = 0; i < likes.size(); i++) {
+            Review like = (Review) likes.toArray()[i];
+            like.unlikeReview(user);
+            user.unlikeReview(like);
+            update(user);
         }
     }
 

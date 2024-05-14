@@ -51,7 +51,6 @@ const User = () => {
             console.log("User information:", response.data);
             setUsername(response.data.username);
             setUsermail(response.data.email);
-            setIsAdmin(response.data.is_admin);
             setFollowers(response.data.followers.length);
             setFollowing(response.data.following.length);
             setRating(response.data.user_rating);
@@ -74,6 +73,7 @@ const User = () => {
                     }
                 });
                 setCurrentUserId(response.data.userId);
+                setIsAdmin(response.data.is_admin);
                 console.log("Current user:", response.data);
                 if (response.data.following.includes(Number(userId))) {
                     setIsFollowing(true);
@@ -126,14 +126,18 @@ const User = () => {
 
     // Handle account deletion
     const handleDeleteAccount = async () => {
-        const response = await axios.delete('http://localhost:3333/api/user/deleteUser', {
+        const response = await axios.delete(`http://localhost:3333/api/user/deleteUser/${userId}`, {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
         });
         console.log("Deleted user:", response.data);
-        localStorage.removeItem('token');
-        navigate('/signin');
+        if (actual) {
+            localStorage.removeItem('token');
+            navigate('/signin');
+        } else {
+            navigate('/home');
+        }
     };
 
     const handleModifyDialogOpen = () => {
@@ -236,6 +240,24 @@ const User = () => {
                         </div>
                     </div>
                 }
+                {!actual && isAdmin &&
+                    <div className={"menus"}>
+                        <div className={"menu-icon"}>
+                            <IconButton onClick={handleMenuOpen} size={"large"}>
+                                <MenuIcon/>
+                            </IconButton>
+                            <Menu
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                            >
+                                <MenuItem className={"delete-account-item"} onClick={handleDialogOpen}>Delete
+                                    Account</MenuItem>
+                            </Menu>
+                        </div>
+                    </div>
+                }
                 <div className={"user-header"}>
                     <div className="profile-picture-container">
                         <Button onClick={handleImageDialogOpen}>
@@ -276,7 +298,7 @@ const User = () => {
                 </div>
             </div>
             <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDeleteAccount}
-                                information={"Account"} isAdmin={isAdmin}/>
+                                information={"Account"} isAdmin={isAdmin && actual}/>
             <Dialog open={imageDialog} onClose={handleImageDialogClose} className="dialog">
                 <DialogTitle className="dialog-title">Modify Profile Picture</DialogTitle>
                 <DialogContent className="dialog-content">
