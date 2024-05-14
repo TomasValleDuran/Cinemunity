@@ -48,7 +48,6 @@ public class Aplication {
         Spark.post("/api/user/signup", userController::signup);
         Spark.post("/api/user/signin", userController::signin);
         Spark.get("/api/user/get/:userId", userController::getUser);
-        //Spark.get("/api/user/getLikedReviews/:userId", userController::getLikedReviews);
         Spark.delete("/api/user/deleteUser/:userId", userController::deleteUser);
         Spark.put("/api/user/updateUserInfo", userController::updateUser);
         Spark.put("/api/user/updatePassword", userController::updatePassword);
@@ -66,6 +65,8 @@ public class Aplication {
         Spark.post("/api/celebrity/addCelebrity", celebrityController::addCelebrity);
         Spark.get("/api/celebrity/get/:celebrityId", celebrityController::getCelebrity);
         Spark.get("/api/celebrity/search/:search", celebrityController::getSearchedCelebrityList);
+        Spark.get("/api/celebrity/directedShows/:celebrityId", celebrityController::getDirectedShows);
+        Spark.get("/api/celebrity/actedShows/:celebrityId", celebrityController::getActedShows);
 
         Spark.post("/api/review/addReview", reviewController::addReview);
         Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);

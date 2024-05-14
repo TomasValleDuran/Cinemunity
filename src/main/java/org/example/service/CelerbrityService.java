@@ -1,7 +1,11 @@
 package org.example.service;
 
 import org.example.model.Celebrity;
+import org.example.model.Show;
 import org.example.repository.Celebrities;
+import org.example.repository.Shows;
+import org.example.utility.AuthUtility;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,5 +59,23 @@ public class CelerbrityService {
         celebrity.setImage(objectKey);
         celebrities.update(celebrity);
         return celebrity.asJson();
+    }
+
+    public List<String> getDirectedShows(Long celebrityId) {
+        List<Show> showsList = celebrities.getDirectedShows(celebrityId);
+        List<String> result = new ArrayList<>();
+        for (Show show : showsList) {
+            result.add(show.asJson());
+        }
+        return result;
+    }
+
+    public List<String> getActedShows(Long celebrityId) {
+        List<Show> showsList = celebrities.getActedShows(celebrityId);
+        List<String> result = new ArrayList<>();
+        for (Show show : showsList) {
+            result.add(show.asJson());
+        }
+        return result;
     }
 }

@@ -10,8 +10,8 @@ const ShowPreview = ({ id, title, image, rating, reviews }) => {
     }
 
     return (
-        <div className="show-preview">
-            <div className="show-image-preview" onClick={handleClick}>
+        <div className="show-preview" onClick={handleClick}>
+            <div className="show-image-preview">
                 <img src={image} alt={title}/>
             </div>
         </div>

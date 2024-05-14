@@ -9,6 +9,7 @@ import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 import spark.Request;
 import spark.Response;
 
+import java.sql.Struct;
 import java.util.List;
 
 public class CelebrityController {
@@ -61,5 +62,19 @@ public class CelebrityController {
         Long id = fullObjectKeyDto.getId();
         res.type("application/json");
         return celebrityService.updateImage(objectKey, id);
+    }
+
+    public List<String> getDirectedShows(Request req, Response res) {
+        Long celebrityId = Long.valueOf(req.params(":celebrityId"));
+
+        res.type("application/json");
+        return celebrityService.getDirectedShows(celebrityId);
+    }
+
+    public List<String> getActedShows(Request req, Response res) {
+        Long celebrityId = Long.valueOf(req.params(":celebrityId"));
+
+        res.type("application/json");
+        return celebrityService.getActedShows(celebrityId);
     }
 }

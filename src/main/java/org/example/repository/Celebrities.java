@@ -76,4 +76,21 @@ public class Celebrities {
         query.setParameter("search", search + "%");
         return query.getResultList();
     }
+
+    public List<Show> getDirectedShows(Long celebrityId) {
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
+                "FROM Show s " +
+                "WHERE s.director.id = :celebrityId", Show.class);
+        query.setParameter("celebrityId", celebrityId);
+        return query.getResultList();
+    }
+
+    public List<Show> getActedShows(Long celebrityId) {
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
+                "FROM Show s " +
+                "JOIN s.actors c " +
+                "WHERE c.id = :celebrityId", Show.class);
+        query.setParameter("celebrityId", celebrityId);
+        return query.getResultList();
+    }
 }

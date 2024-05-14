@@ -8,6 +8,7 @@ import {Button, Dialog, DialogContent, DialogTitle} from "@mui/material";
 import ModifyImage from "../modify-forms/modify-image/ModifyImage";
 import EditIcon from "@mui/icons-material/Edit";
 import {wait} from "@testing-library/user-event/dist/utils";
+import ShowPreviewCarrousel from "../shared/show-preview/ShowPreviewCarrousel";
 
 const Celebrity = () => {
 
@@ -18,6 +19,10 @@ const Celebrity = () => {
 
     const [imageDialog, setImageDialog] = useState(false);
     const [admin, setAdmin] = useState(false);
+
+    const [directedActed, setDirectedActed] = useState(false);
+    const[directedShows, setDirectedShows] = useState([]);
+    const [actedShows, setActedShows] = useState([]);
 
     const fetchCelebrity = async () => {
         try {
@@ -38,9 +43,40 @@ const Celebrity = () => {
 
     }
 
+    const fetchDirectedShows = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/celebrity/directedShows/${celebrityId}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            setDirectedShows(response.data);
+        } catch (error) {
+            console.error('Error fetching directed shows:', error);
+            return null;
+        }
+    }
+
+    const fetchActedShows = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/celebrity/actedShows/${celebrityId}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            setActedShows(response.data);
+        } catch (error) {
+            console.error('Error fetching acted shows:', error);
+            return null;
+        }
+    }
+
+
     useEffect(() => {
-        fetchCurrentUserData().then(console.log("is admin?", admin))
+        fetchCurrentUserData();
         fetchCelebrity();
+        fetchDirectedShows();
+        fetchActedShows();
     }, []);
 
     const fetchCurrentUserData = async () => {
@@ -74,9 +110,13 @@ const Celebrity = () => {
         }
     }
 
+    const handleSwitch = () => {
+        setDirectedActed(!directedActed);
+    }
+
     return (
         <div className="home-container">
-            <Header />
+            <Header/>
             <div className="container">
                 <div className={"celebrity-container"}>
                     <div className={"celebrity-image"}>
@@ -97,6 +137,20 @@ const Celebrity = () => {
                         </div>
                         <p>{bio}</p>
                     </div>
+                </div>
+            </div>
+            <div className="shows-container">
+                <div className={"header-switcher"}>
+                    <Button variant={directedActed ? "contained" : "outlined"}
+                            onClick={handleSwitch}>
+                        Directed Shows</Button>
+                    <Button variant={directedActed ? "outlined" : "contained"}
+                            onClick={handleSwitch}>Acted Shows</Button>
+                </div>
+                <div className={"show-boolean-preview"}>
+                    {directedActed ? <div>Acted Shows</div> : <div>Directed Shows</div>}
+                    {directedActed ? <ShowPreviewCarrousel posts={actedShows}/>
+                        : <ShowPreviewCarrousel posts={directedShows}/> }
                 </div>
             </div>
             <Dialog open={imageDialog} onClose={handleImageDialogClose} className="dialog">
