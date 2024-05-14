@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import './AddReview.css';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
-import {Button, TextField} from '@mui/material';
+import {Button, IconButton, TextField} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const AddReview = ({ showTitle, onRemove }) => {
 
@@ -38,7 +39,9 @@ const AddReview = ({ showTitle, onRemove }) => {
 
     return (
         <div className="add-review-container">
-            <button className="close-button" onClick={onRemove}>X</button>
+            <IconButton className={"close-button"} onClick={onRemove}>
+                <CloseIcon/>
+            </IconButton>
             <form onSubmit={handleSubmit}>
                 <div className="rating">
                     {[...Array(5)].map((star, index) => {

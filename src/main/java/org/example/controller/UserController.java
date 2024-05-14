@@ -76,10 +76,10 @@ public class UserController {
     }
 
     public String getLikedReviews(Request req, Response res) {
-        String username = req.params(":username");
+        String userId = req.params(":userId");
 
         res.type("application/json");
-        return userService.getLikedReviews(username);
+        return userService.getLikedReviews(userId);
     }
 
     public String deleteUser(Request req, Response res) {
