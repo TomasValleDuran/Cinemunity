@@ -157,3 +157,12 @@ h1, h2, h3, h4 {
 .favorite-icon-user {
     color: red;
 }
+
+.followers-following {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}

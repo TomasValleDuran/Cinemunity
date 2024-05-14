@@ -1,18 +1,23 @@
+// External libraries
 import React, { useEffect, useState } from 'react';
-import './User.css';
-import Header from '../shared/header/Header';
 import axios from "axios";
-import {useNavigate, useParams} from "react-router-dom";
-import withAuth from "../hoc/withAuth";
+import { useNavigate, useParams } from "react-router-dom";
+import { Menu, MenuItem, IconButton, Button, DialogContent, DialogTitle, Dialog } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import {Menu, MenuItem, IconButton, Button, DialogContent, DialogTitle, Dialog} from '@mui/material';
-import ConfirmationDialog from "../shared/confirmation-dialog/ConfirmationDialog";
-import ProfilePicture from "../shared/profile-pic/ProfilePicture";
-import NoProfilePicture from "../assets/no-profile-pic.jpg";
-import ModifyImage from "../modify-forms/modify-image/ModifyImage";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AddIcon from '@mui/icons-material/Add';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
+import Header from '../shared/header/Header';
+import withAuth from "../hoc/withAuth";
+import ConfirmationDialog from "../shared/confirmation-dialog/ConfirmationDialog";
+import ProfilePicture from "../shared/profile-pic/ProfilePicture";
+import ModifyImage from "../modify-forms/modify-image/ModifyImage";
+
+import './User.css';
+import NoProfilePicture from "../assets/no-profile-pic.jpg";
 
 const User = () => {
     const { userId } = useParams()
@@ -248,13 +253,15 @@ const User = () => {
                             <h2>{String(rating)}</h2>
                         </div>
                     </div>
-                    <div className={"followers"}>
-                        <h3>Followers</h3>
-                        <h4>{followers}</h4>
-                    </div>
-                    <div className={"following"}>
-                        <h3>Following</h3>
-                        <h4>{following}</h4>
+                    <div className={"followers-following"}>
+                        <div className={"followers"}>
+                            <h3>Followers</h3>
+                            <h4>{followers}</h4>
+                        </div>
+                        <div className={"following"}>
+                            <h3>Following</h3>
+                            <h4>{following}</h4>
+                        </div>
                     </div>
 
                 </div>
