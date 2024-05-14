@@ -46,9 +46,8 @@
 .search-results {
     position: absolute;
     background: white;
-    width: 36vh;
-    margin-top: 10px;
-    z-index: 1000;
+    width: 100%;
+    z-index: 999;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

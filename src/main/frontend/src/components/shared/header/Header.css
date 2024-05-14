@@ -20,6 +20,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    position: fixed;
     flex-grow: 6;
 }
 
