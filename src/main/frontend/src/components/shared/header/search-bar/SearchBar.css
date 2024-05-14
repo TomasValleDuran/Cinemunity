@@ -7,7 +7,6 @@
     border: 2px solid #0d2b4d;
     border-radius: 50px;
     position: relative;
-    z-index: 1;
 }
 
 .search-input, .search-dropdown, .btn-search {
@@ -47,7 +46,7 @@
     position: absolute;
     background: white;
     width: 100%;
-    z-index: 999;
+    margin-top: 5px;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
