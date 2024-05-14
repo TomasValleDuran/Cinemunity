@@ -20,7 +20,7 @@ const Celebrity = () => {
     const [imageDialog, setImageDialog] = useState(false);
     const [admin, setAdmin] = useState(false);
 
-    const [directedActed, setDirectedActed] = useState(false);
+    const [directedActed, setDirectedActed] = useState(true);
     const[directedShows, setDirectedShows] = useState([]);
     const [actedShows, setActedShows] = useState([]);
 
@@ -110,8 +110,12 @@ const Celebrity = () => {
         }
     }
 
-    const handleSwitch = () => {
-        setDirectedActed(!directedActed);
+    const handleSwitchOn = () => {
+        setDirectedActed(true);
+    }
+
+    const handleSwitchOff = () => {
+        setDirectedActed(false);
     }
 
     return (
@@ -141,16 +145,20 @@ const Celebrity = () => {
             </div>
             <div className="shows-container">
                 <div className={"header-switcher"}>
-                    <Button variant={directedActed ? "contained" : "outlined"}
-                            onClick={handleSwitch}>
-                        Directed Shows</Button>
                     <Button variant={directedActed ? "outlined" : "contained"}
-                            onClick={handleSwitch}>Acted Shows</Button>
+                            onClick={handleSwitchOn}>
+                        Directed Shows</Button>
+                    <Button variant={directedActed ? "contained" : "outlined"}
+                            onClick={handleSwitchOff}>Acted Shows</Button>
                 </div>
                 <div className={"show-boolean-preview"}>
-                    {directedActed ? <div>Acted Shows</div> : <div>Directed Shows</div>}
-                    {directedActed ? <ShowPreviewCarrousel posts={actedShows}/>
-                        : <ShowPreviewCarrousel posts={directedShows}/> }
+                    {directedActed ? <div className="title">
+                        <div className="tittle-text">Directed Shows</div>
+                    </div> : <div className="title">
+                        <div className="tittle-text">Acted Shows</div>
+                    </div>}
+                    {directedActed ? <ShowPreviewCarrousel posts={directedShows}/>
+                        : <ShowPreviewCarrousel posts={actedShows}/>}
                 </div>
             </div>
             <Dialog open={imageDialog} onClose={handleImageDialogClose} className="dialog">

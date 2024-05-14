@@ -72,3 +72,15 @@
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
 }
+
+.shows-container Button {
+    flex-grow: 1;
+    width: 50%;
+}
+
+.header-switcher {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    width: 100%;
+}

@@ -7,6 +7,7 @@ import org.example.repository.Users;
 import org.example.utility.AuthUtility;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -314,17 +315,33 @@ public class UserService {
 
         try {
             // Configuración del remitente, destinatario, asunto y cuerpo del mensaje
+            user.setPassword(generateRandomPassword());
             myEmail.setFrom(username);
-            myEmail.setSubject("Asunto del correo");
-            myEmail.setMsg("Hola, esto es un mensaje de prueba desde Java.");
+            myEmail.setSubject("Password Recovery");
+            myEmail.setMsg("Hello! We have received a request to recover your password. Your password is: "
+                    + user.getPassword()
+                    + "\n\nCinemunity Team");
             myEmail.addTo(email);
 
             // Envío del correo electrónico
             myEmail.send();
             System.out.println("¡Correo electrónico enviado correctamente!");
+            users.update(user);
         } catch (EmailException e) {
             e.printStackTrace();
         }
         return "ok";
+    }
+
+    public String generateRandomPassword() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random rnd = new Random();
+        StringBuilder password = new StringBuilder(8);
+
+        for (int i = 0; i < 8; i++) {
+            password.append(characters.charAt(rnd.nextInt(characters.length())));
+        }
+
+        return password.toString();
     }
 }
