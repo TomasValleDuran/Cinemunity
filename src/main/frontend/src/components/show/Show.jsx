@@ -195,6 +195,11 @@ const Show = () => {
 
             <div className={"page-container"}>
                 <div className="container">
+                    <div className={"header"}>
+                        <div className="title">
+                            <div className="tittle-text">{title}</div>
+                        </div>
+                    </div>
                     <div className={"show-separator"}>
                         <div className={"show-card"}>
                             <div className={`profile-picture-container-${admin ? 'admin' : ''}`}>
@@ -212,11 +217,6 @@ const Show = () => {
                             </div>
                         </div>
                         <div className={"show-info"}>
-                            <div className={"header"}>
-                                <div className="title">
-                                    <div className="tittle-text">{title}</div>
-                                </div>
-                            </div>
                             <div className={"show-bio"}>
                                 <p> {description}</p>
                             </div>
@@ -224,7 +224,7 @@ const Show = () => {
                                 <h3> Director: {director}</h3>
                                 <h3> Cast: {actors.join(", ")}</h3>
                                 <h3> Show Type: {show_type}</h3>
-                                {seasons.length > 0 && <h3> seasons: {seasons[seasons.length - 1]}</h3>}
+                                {seasons.length > 0 && <h3> Seasons: {seasons[seasons.length - 1]}</h3>}
                             </div>
                         </div>
                     </div>

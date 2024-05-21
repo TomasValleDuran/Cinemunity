@@ -53,6 +53,10 @@ public class Celebrity {
         actedShows.add(show);
     }
 
+    public String getId() {
+        return celebrityId.toString();
+    }
+
     public String asJson() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Celebrity.class, new JsonSerializer<Celebrity>() {

@@ -129,11 +129,11 @@ public class Show {
 
                         JsonArray actorsArray = new JsonArray();
                         for (Celebrity actor : src.actors) {
-                            actorsArray.add(actor.getName());
+                            actorsArray.add(actor.getId());
                         }
                         jsonObject.add("actors", actorsArray);
 
-                        jsonObject.addProperty("director", src.director.getName());
+                        jsonObject.addProperty("director", src.director.getId());
 
                         JsonArray seasonsArray = new JsonArray();
                         for (Season season : src.seasons) {

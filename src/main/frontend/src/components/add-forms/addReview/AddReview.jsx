@@ -8,12 +8,10 @@ import CloseIcon from '@mui/icons-material/Close';
 const AddReview = ({ showTitle, onRemove }) => {
 
     const [review, setReview] = useState('');
-    const [rating, setRating] = useState('0');
+    const [rating, setRating] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        console.log(rating);
         try {
             const response = await axios.post('http://localhost:3333/api/review/addReview', {
                 review: review,
@@ -62,7 +60,8 @@ const AddReview = ({ showTitle, onRemove }) => {
 
                 <TextField placeholder={"Write your review..."} className="review-input"
                 multiline={true} onChange={(e) => setReview(e.target.value)}/>
-                <Button variant="contained" type="submit" color="primary">
+                <Button variant="contained" type="submit" color="primary"
+                        disabled={!(review && rating)}>
                     Submit Review
                 </Button>
             </form>
