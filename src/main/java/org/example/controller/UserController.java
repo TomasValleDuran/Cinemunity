@@ -3,6 +3,7 @@ package org.example.controller;
 import com.google.gson.Gson;
 import org.example.dto.*;
 import org.example.service.UserService;
+import org.example.utility.AuthUtility;
 import spark.Request;
 import spark.Response;
 import java.util.List;
@@ -201,5 +202,21 @@ public class UserController {
         Long id = fullObjectKeyDto.getId();
         res.type("application/json");
         return userService.updateImage(token, fullObjectKey, id);
+    }
+
+    public String verifyUser(Request req, Response res) {
+        String token = req.headers("Authorization");
+        Long userId = Long.valueOf(req.params(":userId"));
+
+        if (!AuthUtility.validateAdmin(req, res).equals("Admin")) {
+            throw new RuntimeException("User is not an admin");
+        }
+
+        try {
+            return userService.verifyUser(userId);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
     }
 }
