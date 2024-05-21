@@ -11,6 +11,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import EditIcon from '@mui/icons-material/Edit';
 import ModifyImage from "../modify-forms/modify-image/ModifyImage";
+import StarIcon from "@mui/icons-material/Star";
 
 const Show = () => {
     const { showId } = useParams();
@@ -18,6 +19,8 @@ const Show = () => {
     const [show_type, setShow_type] = useState('');
     const [description, setDescription] = useState('');
     const [actors, setActors] = useState([]);
+    const [averageRating, setAverageRating] = useState(0);
+    const [averageStars, setAverageStars] = useState(0);
     const [seasons, setSeasons] = useState('');
     const [showAddReview, setShowAddReview] = useState(false);
     const [reviews, setReviews] = useState([]);
@@ -31,7 +34,6 @@ const Show = () => {
     const [userId, setUserId] = useState('');
     const [username, setUsername] = useState('');
     const [admin, setAdmin] = useState(false);
-
 
     const fetchShow = async () => {
         try {
@@ -120,6 +122,15 @@ const Show = () => {
         }
     }
 
+    const calculateAverageRating = (reviews) => {
+        if (reviews.length === 0) {
+            setAverageRating(0);
+            return;
+        }
+        const total = reviews.reduce((acc, review) => acc + review.review_rating, 0);
+        setAverageRating(total / reviews.length);
+        setAverageStars(Math.round(total / reviews.length));
+    };
 
     useEffect(() => {
         fetchCurrentUserData();
@@ -135,6 +146,7 @@ const Show = () => {
             if (response && response.reviews) {
                 const reviewsResponse = await fetchReviewsByIds(response.reviews);
                 setReviews(reviewsResponse);
+                calculateAverageRating(reviewsResponse);
             }
         };
 
@@ -176,6 +188,7 @@ const Show = () => {
     return (
         <div>
             <Header/>
+
             <div className={"page-container"}>
                 <div className="container">
                     <div className={"show-separator"}>
@@ -187,6 +200,11 @@ const Show = () => {
                                 {admin && <div className="edit-icon">
                                     <EditIcon/>
                                 </div>}
+                            </div>
+                            <div className={"review-average"}>
+                                <h2>Rating: {averageRating.toFixed(1)}</h2>
+                                {Array.from({length: averageStars}).map((_, index) => <StarIcon key={index}
+                                                                                                className={"start-icon"}/>)}
                             </div>
                         </div>
                         <div className={"show-info"}>
@@ -219,7 +237,7 @@ const Show = () => {
                         onRemove={handleShowRemoveReview}
                         showTitle={title}/>}
                     <div>
-                    {sortedReviews.map((review, index) => (
+                        {sortedReviews.map((review, index) => (
                             <Review
                                 key={review.reviewId}
                                 id={review.reviewId}
