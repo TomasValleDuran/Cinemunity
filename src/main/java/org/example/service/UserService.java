@@ -346,4 +346,11 @@ public class UserService {
 
         return password.toString();
     }
+
+    public String verifyUser(Long userId) {
+        User user = users.findUserById(userId);
+        user.changeVerified();
+        users.update(user);
+        return "change verification";
+    }
 }

@@ -92,8 +92,8 @@ public class User {
         return is_admin;
     }
 
-    public void setIs_verified() {
-        is_verified = true;
+    public void changeVerified() {
+        is_verified = !is_verified;
     }
 
     public String asJson() {

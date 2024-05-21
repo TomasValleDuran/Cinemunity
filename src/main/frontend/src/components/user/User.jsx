@@ -25,12 +25,12 @@ const User = () => {
     const actual = Number(currentUserId) === Number(userId);
 
     const [username, setUsername] = useState('');
-    const [usermail, setUsermail] = useState('');
     const [followers, setFollowers] = useState('');
     const [following, setFollowing] = useState('');
     const [currentImage, setCurrentImage] = useState('');
     const [rating, setRating] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [isVerify, setIsVerify] = useState(false);
 
     const [anchorElAdd, setAnchorElAdd] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -50,11 +50,11 @@ const User = () => {
                 });
             console.log("User information:", response.data);
             setUsername(response.data.username);
-            setUsermail(response.data.email);
             setFollowers(response.data.followers.length);
             setFollowing(response.data.following.length);
             setRating(response.data.user_rating);
             setCurrentImage(response.data.image);
+            setIsVerify(response.data.is_verified);
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -198,6 +198,22 @@ const User = () => {
         }
     }
 
+    const handleVerify = async () => {
+        if (!isAdmin) {return;}
+        try {
+            const response = await axios.put(`http://localhost:3333/api/user/verify/${userId}`,
+                {userId: userId},
+                {headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+            console.log(response);
+            setIsVerify(!isVerify);
+        } catch (error) {
+            console.error('Error unfollowing user:', error);
+        }
+    }
+
     return (
         <div>
             <Header />
@@ -267,6 +283,12 @@ const User = () => {
                             />
                         </Button>
                         {actual && <ModeEditIcon className="edit-icon"/>}
+                        {(isVerify || isAdmin) && <div className={"verify-container"}>
+                            <IconButton onClick={handleVerify}>
+                                {isVerify ? <CheckCircleIcon className={"verify-button"}/>
+                                    : <CheckCircleOutlineIcon/>}
+                            </IconButton>
+                        </div>}
                     </div>
                     <div className={"username-rating"}>
                         <h1>{username}</h1>
@@ -285,7 +307,6 @@ const User = () => {
                             <h4>{following}</h4>
                         </div>
                     </div>
-
                 </div>
                 <div className={"rating-buttons"}>
                     {!actual && <div className={"buttons"}>
