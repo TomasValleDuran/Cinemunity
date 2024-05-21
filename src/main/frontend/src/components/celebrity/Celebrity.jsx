@@ -118,6 +118,10 @@ const Celebrity = () => {
         setDirectedActed(false);
     }
 
+    function errorImage() {
+        setImage("https://via.placeholder.com/200");
+    }
+
     return (
         <div className="home-container">
             <Header/>
@@ -126,7 +130,7 @@ const Celebrity = () => {
                     <div className={"celebrity-image"}>
                         <div className={`profile-picture-container-${admin ? 'admin' : ''}`}>
                             <Button onClick={handleImageDialogOpen} size={"large"}>
-                                <img src={image ? image : "https://via.placeholder.com/200"} alt="celebrity image"/>
+                                <img src={image} alt="celebrity image" onError={errorImage}/>
                             </Button>
                             {admin && <div className="edit-icon">
                                 <EditIcon/>

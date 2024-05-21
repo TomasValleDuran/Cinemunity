@@ -185,6 +185,10 @@ const Show = () => {
     otherReviews.sort((a, b) => b.likes - a.likes);
     const sortedReviews = currentUserReviews.concat(otherReviews);
 
+    function errorImage() {
+        setImage("https://via.placeholder.com/200");
+    }
+
     return (
         <div>
             <Header/>
@@ -195,7 +199,7 @@ const Show = () => {
                         <div className={"show-card"}>
                             <div className={`profile-picture-container-${admin ? 'admin' : ''}`}>
                                 <Button onClick={handleImageDialogOpen} size={"large"}>
-                                    <img src={image ? image : "https://via.placeholder.com/200"} alt="show"/>
+                                    <img src={image} alt="show" onError={errorImage}/>
                                 </Button>
                                 {admin && <div className="edit-icon">
                                     <EditIcon/>
