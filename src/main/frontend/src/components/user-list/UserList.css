@@ -1,0 +1,12 @@
+.user-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    width: fit-content;
+    min-width: 55%;
+    padding: 40px 20px;
+    margin: 80px auto 20px auto;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}

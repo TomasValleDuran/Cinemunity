@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.example.dto.*;
 import org.example.service.UserService;
 import org.example.utility.AuthUtility;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 import spark.Request;
 import spark.Response;
 import java.util.List;
@@ -214,6 +215,32 @@ public class UserController {
 
         try {
             return userService.verifyUser(userId);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
+
+    public String getFollowers(Request req, Response res) {
+        String token = req.headers("Authorization");
+        Long userId = Long.valueOf(req.params(":userId"));
+
+        res.type("application/json");
+        try {
+            return userService.getFollowers(token, userId);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
+
+    public String getFollowing(Request req, Response res) {
+        String token = req.headers("Authorization");
+        Long userId = Long.valueOf(req.params(":userId"));
+
+        res.type("application/json");
+        try {
+            return userService.getFollowing(token, userId);
         } catch (Exception e) {
             res.status(401);
             return e.getMessage();

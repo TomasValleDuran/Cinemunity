@@ -214,6 +214,10 @@ const User = () => {
         }
     }
 
+    const handleFollowLink = (type) => {
+        navigate(`/user/${type}/${userId}`);
+    }
+
     return (
         <div>
             <Header />
@@ -299,11 +303,15 @@ const User = () => {
                     </div>
                     <div className={"followers-following"}>
                         <div className={"followers"}>
-                            <h3>Followers</h3>
+                            <h3 className={"follow-link"}
+                                onClick={(event) => handleFollowLink("followers")}>
+                                Followers</h3>
                             <h4>{followers}</h4>
                         </div>
                         <div className={"following"}>
-                            <h3>Following</h3>
+                            <h3 className={"follow-link"}
+                                onClick={(event) =>handleFollowLink("following")}>
+                                Following</h3>
                             <h4>{following}</h4>
                         </div>
                     </div>

@@ -353,4 +353,38 @@ public class UserService {
         users.update(user);
         return "change verification";
     }
+
+    public String getFollowers(String token, Long userId) {
+        Long currentUserId = AuthUtility.getUserIdFromToken(token);
+        if (currentUserId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        User user = users.findUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        List<User> followers = user.getFollowers();
+        List<String> jsonList = new ArrayList<>();
+        for (User follower : followers) {
+            jsonList.add(follower.asJson());
+        }
+        return jsonList.toString();
+    }
+
+    public String getFollowing(String token, Long userId) {
+        Long currentUserId = AuthUtility.getUserIdFromToken(token);
+        if (currentUserId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        User user = users.findUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        List<User> following = user.getFollows();
+        List<String> jsonList = new ArrayList<>();
+        for (User followed : following) {
+            jsonList.add(followed.asJson());
+        }
+        return jsonList.toString();
+    }
 }

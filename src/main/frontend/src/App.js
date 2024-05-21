@@ -16,6 +16,7 @@ import ModifyUser from "./components/modify-forms/modify-user-info/ModifyUser";
 import ModifyPassword from "./components/modify-forms/modify-user-password/ModifyPassword";
 import Wishlist from "./components/wishlist/Wishlist";
 import ForgotPassword from "./components/auth/ForgotPassword";
+import UserList from "./components/user-list/UserList.jsx";
 
 function App() {
     return (
@@ -32,6 +33,8 @@ function App() {
                     <Route path="/user/modifyUser" element={<ModifyUser/>}/>
                     <Route path="/user/modifyPassword" element={<ModifyPassword/>}/>
                     <Route path="/user/:username/wishlist" element={<Wishlist/>}/>
+                    <Route path="/user/following/:userId" element={<UserList listType="following" />} />
+                    <Route path="/user/followers/:userId" element={<UserList listType="followers" />} />
 
                     <Route path="/addShow" element={
                         <ProtectedRoute>
