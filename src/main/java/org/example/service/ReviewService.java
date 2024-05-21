@@ -18,16 +18,16 @@ public class ReviewService {
         this.users = new Users();
     }
 
-    public String addReview(User user, Show movie, String review_text, String rating) {
+    public String addReview(User user, Show movie, String review_text, int rating) {
         if (review_text == null || review_text.isEmpty()) {
-            return "Review is required";
+            throw new IllegalArgumentException("Review is empty!");
         }
 
-        if (rating == null || rating.isEmpty()) {
-            return "Rating is required";
+        if (rating == 0) {
+            throw new IllegalArgumentException("Rating is required");
         }
 
-        Review review = new Review(user, movie, review_text, Integer.parseInt(rating));
+        Review review = new Review(user, movie, review_text, rating);
 
         reviews.saveReview(review);
         return review.asJson();

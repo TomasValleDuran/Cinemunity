@@ -17,12 +17,19 @@ public class Main {
         final EntityManagerFactory factory = Persistence.createEntityManagerFactory("cinemunityDB");
         final EntityManager entityManager = factory.createEntityManager();
 
+        Map<String, Celebrity> celebrities = new HashMap<>();
+        List<User> users = new ArrayList<>();
+        List<Show> shows = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+
         createAdminUser(entityManager);
-        /*createRegularUsers(entityManager);
-        createNumberUsers(entityManager);
-        Map<String, Celebrity> celebrities = createCelebriries(entityManager);
-        createMovies(entityManager, celebrities);
-        createTVShows(entityManager, celebrities);*/
+        createRegularUsers(entityManager, users);
+        createNumberUsers(entityManager, users);
+        createCelebriries(entityManager, celebrities);
+        createMovies(entityManager, shows, celebrities);
+        createTVShows(entityManager, shows, celebrities);
+        createReviews(entityManager, shows, users, reviews);
+        likeRandomReviews(entityManager, reviews, users);
 
         entityManager.close();
 
@@ -37,9 +44,7 @@ public class Main {
         entityManager.getTransaction().commit();
     }
 
-    public static void createRegularUsers(EntityManager entityManager) {
-        List<User> users = new ArrayList<>();
-
+    public static void createRegularUsers(EntityManager entityManager, List<User> users) {
         users.add(new User("santos@gmail.com", "santos", "santos123"));
         users.add(new User("pomo@gmail.com", "pomo", "pomo1234"));
         users.add(new User("bruno@gmail.com", "bruno", "bruno123"));
@@ -53,17 +58,17 @@ public class Main {
         }
     }
 
-    public static void createNumberUsers(EntityManager entityManager) {
+    public static void createNumberUsers(EntityManager entityManager, List<User> users) {
         for (int i = 0; i < 10; i++) {
             User user = new User("user" + i + "@gmail.com", "user" + i, "user1234");
+            users.add(user);
             entityManager.getTransaction().begin();
             entityManager.persist(user);
             entityManager.getTransaction().commit();
         }
     }
 
-    public static Map<String, Celebrity> createCelebriries(EntityManager entityManager){
-        Map<String, Celebrity> celebrities = new HashMap<>();
+    public static void createCelebriries(EntityManager entityManager, Map<String, Celebrity> celebrities) {
 
         celebrities.put("Francis Ford Coppola", new Celebrity("Francis Ford Coppola",
                 "Francis Ford Coppola is an American film director, producer, and screenwriter. He was a central figure in the New Hollywood filmmaking movement of the 1960s and 1970s, and is widely considered to be one of the greatest filmmakers of all time."));
@@ -314,12 +319,9 @@ public class Main {
             entityManager.persist(celebrity);
             entityManager.getTransaction().commit();
         }
-
-        return celebrities;
     }
 
-    public static void createMovies(EntityManager entityManager, Map<String, Celebrity> celebrities) {
-        List<Show> shows = new ArrayList<>();
+    public static void createMovies(EntityManager entityManager, List<Show> shows, Map<String, Celebrity> celebrities) {
 
         Show godfather1 = new Show("The Godfather",
                 "It is the first installment in The Godfather trilogy",
@@ -357,10 +359,7 @@ public class Main {
 
     }
 
-    public static void createTVShows(EntityManager entityManager, Map<String, Celebrity> celebrities) {
-        ShowService showService = new ShowService();
-
-        List<Show> shows = new ArrayList<>();
+    public static void createTVShows(EntityManager entityManager, List<Show> shows, Map<String, Celebrity> celebrities) {
 
         Show breakingBad = new Show("Breaking Bad",
                 "A high school chemistry teacher turned methamphetamine manufacturing drug dealer",
@@ -420,6 +419,41 @@ public class Main {
         for(Show show : shows) {
             entityManager.getTransaction().begin();
             entityManager.persist(show);
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    public static void createReviews(EntityManager entityManager, List<Show> shows, List<User> users, List<Review> reviews) {
+        //Create ficticious reviews
+        for (Show show : shows) {
+            reviews.add(new Review(users.get(0), show, "Great movie, I loved it!", 5));
+            reviews.add(new Review(users.get(1), show, "I didn't like it, it was too long", 2));
+            reviews.add(new Review(users.get(2), show, "I loved the acting, it was amazing", 4));
+            reviews.add(new Review(users.get(3), show, "I didn't like the story, it was too violent", 1));
+            reviews.add(new Review(users.get(4), show, "I loved the movie, it was a masterpiece", 5));
+        }
+
+        for(Review review : reviews) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(review);
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    public static void likeRandomReviews(EntityManager entityManager, List<Review> reviews, List<User> users) {
+        for (int i = 0; i < 200; i++) {
+            int randomReviewId = (int) (Math.random() * reviews.size());
+            int randomUserID = (int) (Math.random() * users.size());
+
+            Review review = reviews.get(randomReviewId);
+            User user = users.get(randomUserID);
+
+            review.likeReview(user);
+            user.likeReview(review);
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(user);
+            entityManager.persist(review);
             entityManager.getTransaction().commit();
         }
     }
