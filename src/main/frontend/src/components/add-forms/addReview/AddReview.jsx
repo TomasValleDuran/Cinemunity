@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 const AddReview = ({ showTitle, onRemove }) => {
 
     const [review, setReview] = useState('');
-    const [rating, setRating] = useState('');
+    const [rating, setRating] = useState('0');
 
     const handleSubmit = async (event) => {
         event.preventDefault();

@@ -17,12 +17,19 @@ public class Main {
         final EntityManagerFactory factory = Persistence.createEntityManagerFactory("cinemunityDB");
         final EntityManager entityManager = factory.createEntityManager();
 
+        Map<String, Celebrity> celebrities = new HashMap<>();
+        List<User> users = new ArrayList<>();
+        List<Show> shows = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+
         createAdminUser(entityManager);
-        /*createRegularUsers(entityManager);
-        createNumberUsers(entityManager);
-        Map<String, Celebrity> celebrities = createCelebriries(entityManager);
-        createMovies(entityManager, celebrities);
-        createTVShows(entityManager, celebrities);*/
+        createRegularUsers(entityManager, users);
+        createNumberUsers(entityManager, users);
+        createCelebriries(entityManager, celebrities);
+        createMovies(entityManager, shows, celebrities);
+        createTVShows(entityManager, shows, celebrities);
+        createReviews(entityManager, shows, users, reviews);
+        likeRandomReviews(entityManager, reviews, users);
 
         entityManager.close();
 
@@ -37,9 +44,7 @@ public class Main {
         entityManager.getTransaction().commit();
     }
 
-    public static void createRegularUsers(EntityManager entityManager) {
-        List<User> users = new ArrayList<>();
-
+    public static void createRegularUsers(EntityManager entityManager, List<User> users) {
         users.add(new User("santos@gmail.com", "santos", "santos123"));
         users.add(new User("pomo@gmail.com", "pomo", "pomo1234"));
         users.add(new User("bruno@gmail.com", "bruno", "bruno123"));
@@ -53,17 +58,17 @@ public class Main {
         }
     }
 
-    public static void createNumberUsers(EntityManager entityManager) {
+    public static void createNumberUsers(EntityManager entityManager, List<User> users) {
         for (int i = 0; i < 10; i++) {
             User user = new User("user" + i + "@gmail.com", "user" + i, "user1234");
+            users.add(user);
             entityManager.getTransaction().begin();
             entityManager.persist(user);
             entityManager.getTransaction().commit();
         }
     }
 
-    public static Map<String, Celebrity> createCelebriries(EntityManager entityManager){
-        Map<String, Celebrity> celebrities = new HashMap<>();
+    public static void createCelebriries(EntityManager entityManager, Map<String, Celebrity> celebrities) {
 
         celebrities.put("Francis Ford Coppola", new Celebrity("Francis Ford Coppola",
                 "Francis Ford Coppola is an American film director, producer, and screenwriter. He was a central figure in the New Hollywood filmmaking movement of the 1960s and 1970s, and is widely considered to be one of the greatest filmmakers of all time."));
@@ -314,18 +319,16 @@ public class Main {
             entityManager.persist(celebrity);
             entityManager.getTransaction().commit();
         }
-
-        return celebrities;
     }
 
-    public static void createMovies(EntityManager entityManager, Map<String, Celebrity> celebrities) {
-        List<Show> shows = new ArrayList<>();
+    public static void createMovies(EntityManager entityManager, List<Show> shows, Map<String, Celebrity> celebrities) {
 
         Show godfather1 = new Show("The Godfather",
                 "It is the first installment in The Godfather trilogy",
                 "Movie");
         godfather1.setDirector(celebrities.get("Francis Ford Coppola"));
         godfather1.setActors(List.of(celebrities.get("Marlon Brando"), celebrities.get("Al Pacino"), celebrities.get("James Caan"), celebrities.get("Richard S. Castellano"), celebrities.get("Robert Duvall"), celebrities.get("Sterling Hayden"), celebrities.get("John Marley"), celebrities.get("Richard Conte"), celebrities.get("Diane Keaton")));
+        godfather1.setImage("Shows/2024-05-21T13:37:03.364853Z-The_Godfather.jpg");
         shows.add(godfather1);
 
         Show godfather2 = new Show("The Godfather Part II",
@@ -333,12 +336,14 @@ public class Main {
                 "Movie");
         godfather2.setDirector(celebrities.get("Francis Ford Coppola"));
         godfather2.setActors(List.of(celebrities.get("Al Pacino"), celebrities.get("Robert Duvall"), celebrities.get("Diane Keaton"), celebrities.get("Robert De Niro"), celebrities.get("John Cazale"), celebrities.get("Talia Shire"), celebrities.get("Lee Strasberg"), celebrities.get("Michael V. Gazzo")));
+        godfather2.setImage("Shows/2024-05-21T13:39:15.382612Z-The_Godfather_II.jpg");
         shows.add(godfather2);
 
         Show godfather3 = new Show("The Godfather Part III",
                 "It is the third installment in The Godfather trilogy",
                 "Movie");
         godfather3.setDirector(celebrities.get("Francis Ford Coppola"));
+        godfather3.setImage("Shows/2024-05-21T13:39:58.078726Z-The_Godfather_III.jpg");
         godfather3.setActors(List.of(celebrities.get("Al Pacino"), celebrities.get("Diane Keaton"), celebrities.get("Talia Shire"), celebrities.get("Andy Garcia"), celebrities.get("Eli Wallach"), celebrities.get("Joe Mantegna"), celebrities.get("George Hamilton"), celebrities.get("Bridget Fonda"), celebrities.get("Sofia Coppola")));
         shows.add(godfather3);
 
@@ -347,6 +352,7 @@ public class Main {
                 "Movie");
         titanic.setDirector(celebrities.get("James Cameron"));
         titanic.setActors(List.of(celebrities.get("Leonardo DiCaprio"), celebrities.get("Kate Winslet"), celebrities.get("Billy Zane"), celebrities.get("Kathy Bates"), celebrities.get("Frances Fisher"), celebrities.get("Bill Paxton"), celebrities.get("Bernard Hill"), celebrities.get("Jonathan Hyde"), celebrities.get("David Warner")));
+        titanic.setImage("Shows/2024-05-21T13:40:35.461537Z-Titanic.jpeg");
         shows.add(titanic);
 
         for(Show show : shows) {
@@ -357,16 +363,14 @@ public class Main {
 
     }
 
-    public static void createTVShows(EntityManager entityManager, Map<String, Celebrity> celebrities) {
-        ShowService showService = new ShowService();
-
-        List<Show> shows = new ArrayList<>();
+    public static void createTVShows(EntityManager entityManager, List<Show> shows, Map<String, Celebrity> celebrities) {
 
         Show breakingBad = new Show("Breaking Bad",
                 "A high school chemistry teacher turned methamphetamine manufacturing drug dealer",
                 "TVShow");
         breakingBad.setDirector(celebrities.get("Vince Gilligan"));
         breakingBad.setActors(List.of(celebrities.get("Bryan Cranston"), celebrities.get("Aaron Paul"), celebrities.get("Anna Gunn"), celebrities.get("Dean Norris"), celebrities.get("Betsy Brandt"), celebrities.get("RJ Mitte"), celebrities.get("Bob Odenkirk"), celebrities.get("Giancarlo Esposito"), celebrities.get("Jonathan Banks")));
+        breakingBad.setImage("Shows/2024-05-21T13:50:28.651982Z-Breaking_Bad.jpg");
         for(int i = 1; i <= 5; i++) {
             Season season = new Season(i, breakingBad);
             breakingBad.addSeason(season);
@@ -378,6 +382,7 @@ public class Main {
                 "TVShow");
         gameOfThrones.setDirector(celebrities.get("David Benioff"));
         gameOfThrones.setActors(List.of(celebrities.get("Emilia Clarke"), celebrities.get("Kit Harington"), celebrities.get("Sophie Turner"), celebrities.get("Maisie Williams"), celebrities.get("Lena Headey"), celebrities.get("Nikolaj Coster-Waldau"), celebrities.get("Peter Dinklage"), celebrities.get("Iain Glen"), celebrities.get("Alfie Allen")));
+        gameOfThrones.setImage("Shows/2024-05-21T13:45:25.495022Z-Game_Of_Thrones.jpg");
         for(int i = 1; i <= 8; i++) {
             Season season = new Season(i, gameOfThrones);
             gameOfThrones.addSeason(season);
@@ -389,6 +394,7 @@ public class Main {
                 "TVShow");
         theOffice.setDirector(celebrities.get("Greg Daniels"));
         theOffice.setActors(List.of(celebrities.get("Steve Carell"), celebrities.get("Rainn Wilson"), celebrities.get("John Krasinski"), celebrities.get("Jenna Fischer"), celebrities.get("B.J. Novak"), celebrities.get("Mindy Kaling"), celebrities.get("Ellie Kemper"), celebrities.get("Ed Helms"), celebrities.get("Angela Kinsey")));
+        theOffice.setImage("Shows/2024-05-21T13:46:30.883347Z-The_Office.webp");
         for(int i = 1; i <= 9; i++) {
             Season season = new Season(i, theOffice);
             theOffice.addSeason(season);
@@ -400,6 +406,7 @@ public class Main {
                 "TVShow");
         friends.setDirector(celebrities.get("David Crane"));
         friends.setActors(List.of(celebrities.get("Jennifer Aniston"), celebrities.get("Courteney Cox"), celebrities.get("Lisa Kudrow"), celebrities.get("Matt LeBlanc"), celebrities.get("Matthew Perry"), celebrities.get("David Schwimmer"), celebrities.get("James Michael Tyler"), celebrities.get("Elliott Gould"), celebrities.get("Christina Pickles")));
+        friends.setImage("Shows/2024-05-21T13:47:34.573012Z-Friends.jpg");
         for(int i = 1; i <= 10; i++) {
             Season season = new Season(i, friends);
             friends.addSeason(season);
@@ -411,6 +418,7 @@ public class Main {
                 "TVShow");
         simpsons.setDirector(celebrities.get("James L. Brooks"));
         simpsons.setActors(List.of(celebrities.get("Dan Castellaneta"), celebrities.get("Julie Kavner"), celebrities.get("Nancy Cartwright"), celebrities.get("Yeardley Smith"), celebrities.get("Hank Azaria"), celebrities.get("Harry Shearer"), celebrities.get("Pamela Hayden"), celebrities.get("Tress MacNeille"), celebrities.get("Maggie Roswell")));
+        simpsons.setImage("Shows/2024-05-21T13:48:22.632927Z-The_Simpsons.webp");
         for(int i = 1; i <= 32; i++) {
             Season season = new Season(i, simpsons);
             simpsons.addSeason(season);
@@ -420,6 +428,41 @@ public class Main {
         for(Show show : shows) {
             entityManager.getTransaction().begin();
             entityManager.persist(show);
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    public static void createReviews(EntityManager entityManager, List<Show> shows, List<User> users, List<Review> reviews) {
+        //Create ficticious reviews
+        for (Show show : shows) {
+            reviews.add(new Review(users.get(0), show, "Great movie, I loved it!", 5));
+            reviews.add(new Review(users.get(1), show, "I didn't like it, it was too long", 2));
+            reviews.add(new Review(users.get(2), show, "I loved the acting, it was amazing", 4));
+            reviews.add(new Review(users.get(3), show, "I didn't like the story, it was too violent", 1));
+            reviews.add(new Review(users.get(4), show, "I loved the movie, it was a masterpiece", 5));
+        }
+
+        for(Review review : reviews) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(review);
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    public static void likeRandomReviews(EntityManager entityManager, List<Review> reviews, List<User> users) {
+        for (int i = 0; i < 200; i++) {
+            int randomReviewId = (int) (Math.random() * reviews.size());
+            int randomUserID = (int) (Math.random() * users.size());
+
+            Review review = reviews.get(randomReviewId);
+            User user = users.get(randomUserID);
+
+            review.likeReview(user);
+            user.likeReview(review);
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(user);
+            entityManager.persist(review);
             entityManager.getTransaction().commit();
         }
     }

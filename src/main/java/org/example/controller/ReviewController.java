@@ -44,7 +44,12 @@ public class ReviewController {
 
         Show show = shows.findShowByTitle(addReviewDto.getShow());
         res.type("application/json");
-        return reviewService.addReview(user, show, addReviewDto.getReview(), addReviewDto.getRating());
+        try {
+            return reviewService.addReview(user, show, addReviewDto.getReview(), Integer.parseInt(addReviewDto.getRating()));
+        } catch (Exception e) {
+            res.status(400);
+            return e.getMessage();
+        }
     }
 
     public Object getReviewsByIds(Request req, Response res) throws JsonProcessingException {
