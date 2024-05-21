@@ -328,6 +328,7 @@ public class Main {
                 "Movie");
         godfather1.setDirector(celebrities.get("Francis Ford Coppola"));
         godfather1.setActors(List.of(celebrities.get("Marlon Brando"), celebrities.get("Al Pacino"), celebrities.get("James Caan"), celebrities.get("Richard S. Castellano"), celebrities.get("Robert Duvall"), celebrities.get("Sterling Hayden"), celebrities.get("John Marley"), celebrities.get("Richard Conte"), celebrities.get("Diane Keaton")));
+        godfather1.setImage("Shows/2024-05-21T13:37:03.364853Z-The_Godfather.jpg");
         shows.add(godfather1);
 
         Show godfather2 = new Show("The Godfather Part II",
@@ -335,12 +336,14 @@ public class Main {
                 "Movie");
         godfather2.setDirector(celebrities.get("Francis Ford Coppola"));
         godfather2.setActors(List.of(celebrities.get("Al Pacino"), celebrities.get("Robert Duvall"), celebrities.get("Diane Keaton"), celebrities.get("Robert De Niro"), celebrities.get("John Cazale"), celebrities.get("Talia Shire"), celebrities.get("Lee Strasberg"), celebrities.get("Michael V. Gazzo")));
+        godfather2.setImage("Shows/2024-05-21T13:39:15.382612Z-The_Godfather_II.jpg");
         shows.add(godfather2);
 
         Show godfather3 = new Show("The Godfather Part III",
                 "It is the third installment in The Godfather trilogy",
                 "Movie");
         godfather3.setDirector(celebrities.get("Francis Ford Coppola"));
+        godfather3.setImage("Shows/2024-05-21T13:39:58.078726Z-The_Godfather_III.jpg");
         godfather3.setActors(List.of(celebrities.get("Al Pacino"), celebrities.get("Diane Keaton"), celebrities.get("Talia Shire"), celebrities.get("Andy Garcia"), celebrities.get("Eli Wallach"), celebrities.get("Joe Mantegna"), celebrities.get("George Hamilton"), celebrities.get("Bridget Fonda"), celebrities.get("Sofia Coppola")));
         shows.add(godfather3);
 
@@ -349,6 +352,7 @@ public class Main {
                 "Movie");
         titanic.setDirector(celebrities.get("James Cameron"));
         titanic.setActors(List.of(celebrities.get("Leonardo DiCaprio"), celebrities.get("Kate Winslet"), celebrities.get("Billy Zane"), celebrities.get("Kathy Bates"), celebrities.get("Frances Fisher"), celebrities.get("Bill Paxton"), celebrities.get("Bernard Hill"), celebrities.get("Jonathan Hyde"), celebrities.get("David Warner")));
+        titanic.setImage("Shows/2024-05-21T13:40:35.461537Z-Titanic.jpeg");
         shows.add(titanic);
 
         for(Show show : shows) {
@@ -366,6 +370,7 @@ public class Main {
                 "TVShow");
         breakingBad.setDirector(celebrities.get("Vince Gilligan"));
         breakingBad.setActors(List.of(celebrities.get("Bryan Cranston"), celebrities.get("Aaron Paul"), celebrities.get("Anna Gunn"), celebrities.get("Dean Norris"), celebrities.get("Betsy Brandt"), celebrities.get("RJ Mitte"), celebrities.get("Bob Odenkirk"), celebrities.get("Giancarlo Esposito"), celebrities.get("Jonathan Banks")));
+        breakingBad.setImage("Shows/2024-05-21T13:50:28.651982Z-Breaking_Bad.jpg");
         for(int i = 1; i <= 5; i++) {
             Season season = new Season(i, breakingBad);
             breakingBad.addSeason(season);
@@ -377,6 +382,7 @@ public class Main {
                 "TVShow");
         gameOfThrones.setDirector(celebrities.get("David Benioff"));
         gameOfThrones.setActors(List.of(celebrities.get("Emilia Clarke"), celebrities.get("Kit Harington"), celebrities.get("Sophie Turner"), celebrities.get("Maisie Williams"), celebrities.get("Lena Headey"), celebrities.get("Nikolaj Coster-Waldau"), celebrities.get("Peter Dinklage"), celebrities.get("Iain Glen"), celebrities.get("Alfie Allen")));
+        gameOfThrones.setImage("Shows/2024-05-21T13:45:25.495022Z-Game_Of_Thrones.jpg");
         for(int i = 1; i <= 8; i++) {
             Season season = new Season(i, gameOfThrones);
             gameOfThrones.addSeason(season);
@@ -388,6 +394,7 @@ public class Main {
                 "TVShow");
         theOffice.setDirector(celebrities.get("Greg Daniels"));
         theOffice.setActors(List.of(celebrities.get("Steve Carell"), celebrities.get("Rainn Wilson"), celebrities.get("John Krasinski"), celebrities.get("Jenna Fischer"), celebrities.get("B.J. Novak"), celebrities.get("Mindy Kaling"), celebrities.get("Ellie Kemper"), celebrities.get("Ed Helms"), celebrities.get("Angela Kinsey")));
+        theOffice.setImage("Shows/2024-05-21T13:46:30.883347Z-The_Office.webp");
         for(int i = 1; i <= 9; i++) {
             Season season = new Season(i, theOffice);
             theOffice.addSeason(season);
@@ -399,6 +406,7 @@ public class Main {
                 "TVShow");
         friends.setDirector(celebrities.get("David Crane"));
         friends.setActors(List.of(celebrities.get("Jennifer Aniston"), celebrities.get("Courteney Cox"), celebrities.get("Lisa Kudrow"), celebrities.get("Matt LeBlanc"), celebrities.get("Matthew Perry"), celebrities.get("David Schwimmer"), celebrities.get("James Michael Tyler"), celebrities.get("Elliott Gould"), celebrities.get("Christina Pickles")));
+        friends.setImage("Shows/2024-05-21T13:47:34.573012Z-Friends.jpg");
         for(int i = 1; i <= 10; i++) {
             Season season = new Season(i, friends);
             friends.addSeason(season);
@@ -410,6 +418,7 @@ public class Main {
                 "TVShow");
         simpsons.setDirector(celebrities.get("James L. Brooks"));
         simpsons.setActors(List.of(celebrities.get("Dan Castellaneta"), celebrities.get("Julie Kavner"), celebrities.get("Nancy Cartwright"), celebrities.get("Yeardley Smith"), celebrities.get("Hank Azaria"), celebrities.get("Harry Shearer"), celebrities.get("Pamela Hayden"), celebrities.get("Tress MacNeille"), celebrities.get("Maggie Roswell")));
+        simpsons.setImage("Shows/2024-05-21T13:48:22.632927Z-The_Simpsons.webp");
         for(int i = 1; i <= 32; i++) {
             Season season = new Season(i, simpsons);
             simpsons.addSeason(season);
