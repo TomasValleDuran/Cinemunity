@@ -98,4 +98,12 @@ public class Shows {
         entityManager.merge(show);
         entityManager.getTransaction().commit();
     }
+
+    public List<Show> getShowsByPrefix(String prefix) {
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
+                "FROM Show s " +
+                "WHERE LOWER(s.title) LIKE LOWER(:prefix)", Show.class);
+        query.setParameter("prefix", prefix.toLowerCase() + "%");
+        return query.getResultList();
+    }
 }

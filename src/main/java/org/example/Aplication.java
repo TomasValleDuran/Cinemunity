@@ -59,6 +59,9 @@ public class Aplication {
         Spark.get("/api/user/:userId/followers", userController::getFollowers);
         Spark.get("/api/user/:userId/following", userController::getFollowing);
 
+        Spark.get("/api/search/peopleWithPrefix/:prefix", userController::getPeopleWithPrefix);
+        Spark.get("/api/search/showsWithPrefix/:prefix", showController::getShowsByPrefix);
+
         Spark.post("/api/show/addShow", showController::addShow);
         Spark.get("/api/show/get/:showId", showController::getShow);
         Spark.get("/api/show/getAll", showController::getAllShows);

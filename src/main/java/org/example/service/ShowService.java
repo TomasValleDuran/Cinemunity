@@ -108,4 +108,13 @@ public class ShowService {
         shows.update(show);
         return show.asJson();
     }
+
+    public String getShowsByPrefix(String prefix) {
+        List<Show> showsList = shows.getShowsByPrefix(prefix);
+        List<String> returnShows = new ArrayList<>();
+        for (Show show : showsList) {
+            returnShows.add(show.asJson());
+        }
+        return returnShows.toString();
+    }
 }

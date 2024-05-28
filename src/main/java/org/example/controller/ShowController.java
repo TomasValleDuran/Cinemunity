@@ -73,4 +73,10 @@ public class ShowController {
         res.type("application/json");
         return showService.updateImage(objectKey, id);
     }
+
+    public String getShowsByPrefix(Request req, Response res) {
+        String prefix = req.params(":prefix");
+        res.type("application/json");
+        return showService.getShowsByPrefix(prefix);
+    }
 }

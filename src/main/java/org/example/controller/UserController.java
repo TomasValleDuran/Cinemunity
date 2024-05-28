@@ -246,4 +246,11 @@ public class UserController {
             return e.getMessage();
         }
     }
+
+    public String getPeopleWithPrefix(Request req, Response res) {
+        String prefix = req.params(":prefix");
+
+        res.type("application/json");
+        return userService.getPeopleWithPrefix(prefix);
+    }
 }

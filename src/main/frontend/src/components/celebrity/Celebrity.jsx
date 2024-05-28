@@ -149,10 +149,10 @@ const Celebrity = () => {
             </div>
             <div className="shows-container">
                 <div className={"header-switcher"}>
-                    <Button variant={directedActed ? "outlined" : "contained"}
+                    <Button variant={directedActed ? "contained": "outlined"}
                             onClick={handleSwitchOn}>
                         Directed Shows</Button>
-                    <Button variant={directedActed ? "contained" : "outlined"}
+                    <Button variant={directedActed ? "outlined" : "contained"}
                             onClick={handleSwitchOff}>Acted Shows</Button>
                 </div>
                 <div className={"show-boolean-preview"}>

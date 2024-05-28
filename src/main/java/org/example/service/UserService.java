@@ -1,7 +1,9 @@
 package org.example.service;
 
+import org.example.model.Celebrity;
 import org.example.model.Show;
 import org.example.model.User;
+import org.example.repository.Celebrities;
 import org.example.repository.Shows;
 import org.example.repository.Users;
 import org.example.utility.AuthUtility;
@@ -21,10 +23,12 @@ import org.apache.commons.mail.*;
 public class UserService {
     private final Users users;
     private final Shows shows;
+    private final Celebrities celebrities;
 
     public UserService() {
         this.users = new Users();
         this.shows = new Shows();
+        this.celebrities = new Celebrities();
     }
 
     public String updateImage(String token, String fullObjectKey, Long id) {
@@ -386,5 +390,18 @@ public class UserService {
             jsonList.add(followed.asJson());
         }
         return jsonList.toString();
+    }
+
+    public String getPeopleWithPrefix(String prefix) {
+        List<User> userList = users.getUsersWithPrefix(prefix);
+        List<String> resultList = new ArrayList<>();
+        for (User user : userList) {
+            resultList.add(user.asJson());
+        }
+        List<Celebrity> celebrityList = celebrities.getCelebrityWithPrefix(prefix);
+        for (Celebrity celebrity : celebrityList) {
+            resultList.add(celebrity.asJson());
+        }
+        return resultList.toString();
     }
 }
