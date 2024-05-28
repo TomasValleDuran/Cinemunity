@@ -249,6 +249,7 @@ public class UserController {
 
     public String getPeopleWithPrefix(Request req, Response res) {
         String prefix = req.params(":prefix");
+        prefix = prefix.trim();
 
         res.type("application/json");
         return userService.getPeopleWithPrefix(prefix);

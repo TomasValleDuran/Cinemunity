@@ -76,6 +76,8 @@ public class ShowController {
 
     public String getShowsByPrefix(Request req, Response res) {
         String prefix = req.params(":prefix");
+        prefix = prefix.trim();
+
         res.type("application/json");
         return showService.getShowsByPrefix(prefix);
     }
