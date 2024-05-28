@@ -84,6 +84,12 @@ public class UserController {
         return userService.getLikedReviews(userId);
     }
 
+    public List<String> getUserReviews(Request req, Response res){
+        Long userId = Long.valueOf(req.params(":userId"));
+        res.type("application/json");
+        return userService.getUserReviews(userId);
+    }
+
     public String deleteUser(Request req, Response res) {
         String token = req.headers("Authorization");
         if (token == null) {

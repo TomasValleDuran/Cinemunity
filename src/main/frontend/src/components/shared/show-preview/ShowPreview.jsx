@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigate} from "react-router-dom";
 import './ShowPreview.css';
 
-const ShowPreview = ({ id, title, image, rating, reviews }) => {
+const ShowPreview = ({ id, title, image }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {

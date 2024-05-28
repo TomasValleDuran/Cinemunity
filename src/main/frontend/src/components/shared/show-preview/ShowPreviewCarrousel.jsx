@@ -7,7 +7,7 @@ const PreviewCarousel = ({ posts }) => {
         <div className={'preview-carrousel'}>
             {posts.map(post => (
                 <ShowPreview key={post.showId} id={post.showId} title={post.title}
-                             image={post.image} rating={post.rating} reviews={post.reviews}
+                             image={post.image}
                 />
             ))}
         </div>
