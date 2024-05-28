@@ -25,7 +25,6 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            console.log(response.data);
             return response.data.likes;
         } catch (error) {
             console.error('Error fetching likes:', error);

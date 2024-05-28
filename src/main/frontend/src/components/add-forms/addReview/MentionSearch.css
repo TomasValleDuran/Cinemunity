@@ -1,4 +1,4 @@
-.search-bar {
+.mention-search-bar {
     width: 100%;
     height: 50px;
     display: flex;
@@ -9,43 +9,36 @@
     position: relative;
 }
 
-.search-input, .search-dropdown, .btn-search {
-    border: none; /* Remove individual borders */
-    background-color: transparent; /* Blend with the search bar */
+.mention-search-input, .mention-search-dropdown {
+    border: none;
+    background-color: transparent;
 }
 
-.search-dropdown {
+.mention-search-dropdown {
     min-width: 125px;
     font-size: 16px;
 }
 
-.btn-search {
-    height: 25px;
-    margin-right: 15px;
-    cursor: pointer;
-}
-
-.search-input {
+.mention-search-input {
     outline: none;
     flex-grow: 1; /* Ensure the input takes up available space */
 }
 
-.search-input::placeholder {
+.mention-search-input::placeholder {
     color: #151313;
     opacity: 40%;
     font-size: 19px;
 }
 
-.search-input:focus, .search-input:not(:focus), .search-input:active, .search-input:hover, .search-input:visited,
-.search-input:active, .search-input:hover, .search-input:visited {
+.mention-search-input:focus, .mention-search-input:not(:focus), .mention-search-input:active, .mention-search-input:hover, .mention-search-input:visited,
+.mention-search-input:active, .mention-search-input:hover, .mention-search-input:visited {
     outline: none;
     border: none;
 }
 
-.search-results {
-    position: absolute;
+.mention-search-results {
     background: white;
-    width: 100%;
+    width: 80%;
     margin-top: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -55,7 +48,7 @@
     box-sizing: border-box; /* Ensure padding and border are included in the element's total width */
 }
 
-.search-result-item {
+.mention-search-result-item {
     display: flex;
     align-items: center;
     padding: 10px;
@@ -63,19 +56,19 @@
     cursor: pointer;
 }
 
-.search-result-item:hover {
+.mention-search-result-item:hover {
     background: #f0f0f0;
 }
 
-.search-result-item:nth-child(even) {
+.mention-search-result-item:nth-child(even) {
     background: #fafafa;
 }
 
-.search-result-item:nth-child(odd) {
+.mention-search-result-item:nth-child(odd) {
     background: #fff;
 }
 
-.result-image {
+.mention-result-image {
     width: 50px;
     height: 50px;
     object-fit: cover;
