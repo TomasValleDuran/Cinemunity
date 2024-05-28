@@ -3,9 +3,6 @@ package org.example.service;
 import org.example.model.Celebrity;
 import org.example.model.Show;
 import org.example.repository.Celebrities;
-import org.example.repository.Shows;
-import org.example.utility.AuthUtility;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,4 +75,16 @@ public class CelerbrityService {
         }
         return result;
     }
+
+    public List<String> getCelebritiesByIds(List<Long> ids) {
+        List<String> celebrityList = new ArrayList<>();
+
+        for (Long id : ids){
+            Celebrity celebrity = celebrities.findCelebrityById(id);
+            celebrityList.add(celebrity.asJson());
+        }
+
+        return celebrityList;
+    }
+
 }

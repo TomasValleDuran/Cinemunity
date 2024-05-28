@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.model.Celebrity;
+import org.example.model.Review;
 import org.example.model.Show;
 import org.example.model.User;
 import org.example.repository.Celebrities;
@@ -142,6 +143,15 @@ public class UserService {
         }
 
         return user.asJson();
+    }
+
+    public List<String> getUserReviews(Long userId) {
+        User user = users.findUserById(userId);
+        List<String> jsonList = new ArrayList<>();
+        for (Review review : user.getReviews()) {
+            jsonList.add(review.asJson());
+        }
+        return jsonList;
     }
 
     public String deleteUser(Long userId) {

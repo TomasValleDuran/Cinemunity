@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import org.example.model.Celebrity;
+import org.example.model.Review;
 import org.example.model.Show;
 
 import javax.persistence.EntityManager;

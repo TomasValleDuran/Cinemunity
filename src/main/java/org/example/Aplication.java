@@ -58,6 +58,7 @@ public class Aplication {
         Spark.put("/api/user/verify/:userId", userController::verifyUser);
         Spark.get("/api/user/:userId/followers", userController::getFollowers);
         Spark.get("/api/user/:userId/following", userController::getFollowing);
+        Spark.get("/api/user/reviews/:userId", userController::getUserReviews);
 
         Spark.get("/api/search/peopleWithPrefix/:prefix", userController::getPeopleWithPrefix);
         Spark.get("/api/search/showsWithPrefix/:prefix", showController::getShowsByPrefix);
@@ -73,6 +74,7 @@ public class Aplication {
         Spark.get("/api/celebrity/search/:search", celebrityController::getSearchedCelebrityList);
         Spark.get("/api/celebrity/directedShows/:celebrityId", celebrityController::getDirectedShows);
         Spark.get("/api/celebrity/actedShows/:celebrityId", celebrityController::getActedShows);
+        Spark.post("/api/celebrity/getCelebritiesByIds", celebrityController::getCelebritiesByIds);
 
         Spark.post("/api/review/addReview", reviewController::addReview);
         Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);

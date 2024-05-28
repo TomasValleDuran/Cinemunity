@@ -18,6 +18,8 @@ import ModifyImage from "../modify-forms/modify-image/ModifyImage";
 
 import './User.css';
 import NoProfilePicture from "../assets/no-profile-pic.jpg";
+import ShowPreviewCarrousel from "../shared/show-preview/ShowPreviewCarrousel";
+import ReviewPreviewCarrousel from "../shared/review-preview/ReviewPreviewCarrousel";
 
 const User = () => {
     const { userId } = useParams()
@@ -38,6 +40,10 @@ const User = () => {
     const [isFollowing, setIsFollowing] = useState(false);
     const navigate = useNavigate();
     const [imageDialog, setImageDialog] = useState(false);
+
+    const [switchWishlistReviews, setSwitchWishlistReviews] = useState(true)
+    const [userWishlist, setUserWishlist] = useState([]);
+    const [userReviews, setUserReviews] = useState([]);
 
 
     const fetchUserData = async () => {
@@ -81,6 +87,7 @@ const User = () => {
             } catch (error) {
                 console.error('Error fetching current user data:', error);
             }
+            getReviewsAndWishlist();
         };
         fetchCurrentUserId();
     }, []);
@@ -218,9 +225,50 @@ const User = () => {
         navigate(`/user/${type}/${userId}`);
     }
 
+    const handleShowWishlist = () => {
+        setSwitchWishlistReviews(true)
+    }
+
+    const handleShowReviews = () => {
+        setSwitchWishlistReviews(false)
+    }
+
+    const getReviewsAndWishlist = () => {
+        const fetchWishlist = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3333/api/user/wishlist/${userId}`, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                console.log("Wishlist:", response.data);
+                setUserWishlist(response.data);
+            } catch (error) {
+                console.error('Error fetching wishlist:', error);
+            }
+        }
+
+        const fetchReviews = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3333/api/user/reviews/${userId}`, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                setUserReviews(response.data);
+                console.log("Reviews:", response.data);
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        }
+
+        fetchWishlist();
+        fetchReviews();
+    }
+
     return (
         <div>
-            <Header />
+            <Header/>
             <div className={"user-container"}>
                 {actual &&
                     <div className={"menus"}>
@@ -236,7 +284,8 @@ const User = () => {
                                     onClose={handleMenuAddClose}
                                 >
                                     <MenuItem className={"menu-item"} onClick={handleAddShow}>Add Show</MenuItem>
-                                    <MenuItem className={"menu-item"} onClick={handleAddCelebrity}>Add Celebrity</MenuItem>
+                                    <MenuItem className={"menu-item"} onClick={handleAddCelebrity}>Add
+                                        Celebrity</MenuItem>
                                 </Menu>
                             </div>
                         }
@@ -252,7 +301,8 @@ const User = () => {
                             >
                                 <MenuItem className={"menu-item"} onClick={handleModifyDialogOpen}>Modify Account
                                     Information</MenuItem>
-                                <MenuItem className={"menu-item"} onClick={handleChangePassword}>Change Password</MenuItem>
+                                <MenuItem className={"menu-item"} onClick={handleChangePassword}>Change
+                                    Password</MenuItem>
                                 <MenuItem className={"menu-item"} onClick={handleSignOut}>Log Out</MenuItem>
                                 <MenuItem className={"delete-account-item"} onClick={handleDialogOpen}>Delete
                                     Account</MenuItem>
@@ -310,7 +360,7 @@ const User = () => {
                         </div>
                         <div className={"following"}>
                             <h3 className={"follow-link"}
-                                onClick={(event) =>handleFollowLink("following")}>
+                                onClick={(event) => handleFollowLink("following")}>
                                 Following</h3>
                             <h4>{following}</h4>
                         </div>
@@ -339,6 +389,25 @@ const User = () => {
                         onImageChange={handleImageChange}/>
                 </DialogContent>
             </Dialog>
+
+            <div className="user-wishlist-review-container">
+                <div className={"header-switcher"}>
+                    <Button variant={switchWishlistReviews ? "contained" : "outlined"}
+                            onClick={handleShowWishlist}>
+                        WishList</Button>
+                    <Button variant={switchWishlistReviews ? "outlined" : "contained"}
+                            onClick={handleShowReviews}>Reviews</Button>
+                </div>
+                <div className={"show-boolean-preview"}>
+                    {switchWishlistReviews ? <div className="title">
+                        <div className="tittle-text">WishList</div>
+                    </div> : <div className="title">
+                        <div className="tittle-text">Reviews</div>
+                    </div>}
+                    {switchWishlistReviews ? <ShowPreviewCarrousel posts={userWishlist}/>
+                        : <ReviewPreviewCarrousel reviews={userReviews}/>}
+                </div>
+            </div>
         </div>
     );
 };
