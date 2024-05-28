@@ -4,13 +4,19 @@
     background-color: #ffffff;
     padding: 10px;
     margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.review-container:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .review-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    flex-direction: row;
+    align-items: center;
 }
 
 .review-header img {
@@ -19,13 +25,17 @@
 }
 
 .review-header h2 {
-    align-self: center;
     margin-right: 10px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.review-header h2:hover {
+    opacity: 0.7;
 }
 
 .review-body {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     text-align: start;
 }
 
@@ -35,11 +45,21 @@
     align-items: center;
 }
 
+.review-footer .like-container {
+    display: flex;
+    align-items: center;
+}
+
 .review-footer img {
     cursor: pointer;
     margin-right: 5px;
     height: 25px;
     width: 25px;
+    transition: transform 0.3s ease;
+}
+
+.review-footer img:hover {
+    transform: scale(1.1);
 }
 
 .name-and-stars {
@@ -54,6 +74,7 @@
 
 .start-icon {
     color: gold;
+    margin-right: 2px;
 }
 
 .favorite-icon {
@@ -71,4 +92,20 @@
 .username:hover {
     cursor: pointer;
     opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+    .review-container {
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .review-header h2 {
+        font-size: 1.2em;
+    }
+
+    .review-footer img {
+        height: 20px;
+        width: 20px;
+    }
 }
