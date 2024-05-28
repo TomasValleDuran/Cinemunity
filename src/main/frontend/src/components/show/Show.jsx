@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './Show.css';
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import Header from '../shared/header/Header';
 import axios from "axios";
 import AddReview from "../add-forms/addReview/AddReview";
@@ -15,10 +15,16 @@ import StarIcon from "@mui/icons-material/Star";
 
 const Show = () => {
     const { showId } = useParams();
-    const [director, setDirector] = useState('');
+    const navigate = useNavigate();
+    const [directorId, setDirectorId] = useState('');
+
+    const [directorName, setDirectorName] = useState('');
+
     const [show_type, setShow_type] = useState('');
     const [description, setDescription] = useState('');
-    const [actors, setActors] = useState([]);
+    const [celebritiesIds, setCelebritiesIds] = useState([]);
+    const [celebrities, setCelebrities] = useState([]);
+    const [celebritiesNames, setCelebritiesNames] = useState([]);
     const [averageRating, setAverageRating] = useState(0);
     const [averageStars, setAverageStars] = useState(0);
     const [seasons, setSeasons] = useState('');
@@ -55,16 +61,127 @@ const Show = () => {
         try {
             const response = await axios.post(`http://localhost:3333/api/review/getReviewsByIds`,
                 ids, {
-                headers: {
-                    'Authorization': localStorage.getItem('token')
-                }
-            });
-            console.log("reviews:", response.data)
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
             return response.data;
         }
         catch (error) {
             console.error('Error fetching reviews:', error);
             return null;
+        }
+    }
+
+    const fetchCelebritiesByIds = async (ids) => {
+        try {
+            const response = await axios.post(`http://localhost:3333/api/celebrity/getCelebritiesByIds`,
+                ids, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+            return response.data;
+        }
+        catch (error) {
+            console.error('Error fetching celebrities:', error);
+            return null;
+        }
+    }
+
+    const fetchCurrentUserData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3333//api/user/currentUser', {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            if (response.data.wishlist.includes(parseFloat(showId))) {
+                setIsInWishlist(true);
+            }
+            setUserId(response.data.userId);
+            setAdmin(response.data.is_admin);
+            setUsername(response.data.username);
+        } catch (error) {
+            console.error('Error fetching username:', error);
+            return null;
+        }
+    }
+
+    const calculateAverageRating = (reviews) => {
+        if (reviews.length === 0) {
+            setAverageRating(0);
+            return;
+        }
+        const total = reviews.reduce((acc, review) => acc + review.review_rating, 0);
+        setAverageRating(total / reviews.length);
+        setAverageStars(Math.round(total / reviews.length));
+    };
+
+    useEffect(() => {
+        fetchCurrentUserData();
+        const fetchShowData = async () => {
+            const response = await fetchShow();
+            response && setDirectorId(response.director);
+            response && setShow_type(response.show_type);
+            response && setDescription(response.show_desc);
+            response && setCelebritiesIds(response.actors);
+            response && setSeasons(response.seasons);
+            response && setTitle(response.title);
+            response && setImage(response.image);
+
+            if(response && response.director){
+                const directorResponse = await fetchCelebritiesByIds([response.director])
+                setDirectorName(directorResponse[0].name);
+            }
+
+            if(response && response.actors){
+                const celebritiesResponse = await fetchCelebritiesByIds(response.actors)
+                setCelebrities(celebritiesResponse)
+            }
+
+            if(response && response.actors){
+                const celebritiesResponse = await fetchCelebritiesByIds(response.actors)
+                setCelebrities(celebritiesResponse)
+
+                const celebritiesNamesResponse = celebritiesResponse.map(celebrity => celebrity.name);
+                setCelebritiesNames(celebritiesNamesResponse);
+            }
+
+            if (response && response.reviews) {
+                const reviewsResponse = await fetchReviewsByIds(response.reviews);
+                setReviews(reviewsResponse);
+                calculateAverageRating(reviewsResponse);
+            }
+
+        };
+
+        fetchShowData();
+    }, [showAddReview, reviewsUpdated]);
+
+    const handleShowAddReview = () => {
+        setShowAddReview(true);
+    }
+
+    const handleShowRemoveReview = async () => {
+        setShowAddReview(false);
+        setReviewsUpdated(!reviewsUpdated);
+    }
+
+    const handleImageDialogOpen = () => {
+        if (admin) {
+            setImageDialog(true);
+        }
+    }
+
+    const handleImageDialogClose = () => {
+        setImageDialog(false);
+    }
+
+    const handleImageChange = async (newImageUrl) => {
+        if (newImageUrl !== image) {
+            const response = await fetchShow();
+            response && setImage(response.image);
         }
     }
 
@@ -103,80 +220,12 @@ const Show = () => {
             });
     };
 
-    const fetchCurrentUserData = async () => {
-        try {
-            const response = await axios.get('http://localhost:3333//api/user/currentUser', {
-                headers: {
-                    'Authorization': localStorage.getItem('token')
-                }
-            });
-            if (response.data.wishlist.includes(parseFloat(showId))) {
-                setIsInWishlist(true);
-            }
-            setUserId(response.data.userId);
-            setAdmin(response.data.is_admin);
-            setUsername(response.data.username);
-        } catch (error) {
-            console.error('Error fetching username:', error);
-            return null;
-        }
-    }
-
-    const calculateAverageRating = (reviews) => {
-        if (reviews.length === 0) {
-            setAverageRating(0);
-            return;
-        }
-        const total = reviews.reduce((acc, review) => acc + review.review_rating, 0);
-        setAverageRating(total / reviews.length);
-        setAverageStars(Math.round(total / reviews.length));
+    const handleCelebrityClick = (celebrityId) => {
+        navigate(`/celebrity/${celebrityId}`);
     };
 
-    useEffect(() => {
-        fetchCurrentUserData();
-        const fetchShowData = async () => {
-            const response = await fetchShow();
-            response && setDirector(response.director);
-            response && setShow_type(response.show_type);
-            response && setDescription(response.show_desc);
-            response && setActors(response.actors);
-            response && setSeasons(response.seasons);
-            response && setTitle(response.title);
-            response && setImage(response.image);
-            if (response && response.reviews) {
-                const reviewsResponse = await fetchReviewsByIds(response.reviews);
-                setReviews(reviewsResponse);
-                calculateAverageRating(reviewsResponse);
-            }
-        };
-
-        fetchShowData();
-    }, [showAddReview, reviewsUpdated]);
-
-    const handleShowAddReview = () => {
-        setShowAddReview(true);
-    }
-
-    const handleShowRemoveReview = async () => {
-        setShowAddReview(false);
-        setReviewsUpdated(!reviewsUpdated);
-    }
-
-    const handleImageDialogOpen = () => {
-        if (admin) {
-            setImageDialog(true);
-        }
-    }
-
-    const handleImageDialogClose = () => {
-        setImageDialog(false);
-    }
-
-    const handleImageChange = async (newImageUrl) => {
-        if (newImageUrl !== image) {
-            const response = await fetchShow();
-            response && setImage(response.image);
-        }
+    function errorImage() {
+        setImage("https://via.placeholder.com/200");
     }
 
     // Sort reviews by likes and user
@@ -184,10 +233,6 @@ const Show = () => {
     const otherReviews = reviews.filter(review => review.username !== username);
     otherReviews.sort((a, b) => b.likes - a.likes);
     const sortedReviews = currentUserReviews.concat(otherReviews);
-
-    function errorImage() {
-        setImage("https://via.placeholder.com/200");
-    }
 
     return (
         <div>
@@ -221,11 +266,17 @@ const Show = () => {
                                 <p> {description}</p>
                             </div>
                             <div className={"show-elements"}>
-                                <h3> Director: {director}</h3>
-                                <h3> Cast: {actors.join(", ")}</h3>
+                                <h3> Director: <span className="clickable-name" onClick={()=> handleCelebrityClick(directorId)}>{directorName}</span></h3>
+                                {/*Mostrar los actores por el nombre y no por el id*/}
+                                <h3> Cast: {celebrities.map((celebrity, index) => (
+                                    <span key={index} className="clickable-name" onClick={() => handleCelebrityClick(celebrity.celebrityId)}>
+                                        {celebrity.name}{index < celebrities.length - 1 ? ', ' : ''}
+                                    </span>
+                                ))}</h3>
                                 <h3> Show Type: {show_type}</h3>
                                 {seasons.length > 0 && <h3> Seasons: {seasons[seasons.length - 1]}</h3>}
                             </div>
+
                         </div>
                     </div>
                     <div>

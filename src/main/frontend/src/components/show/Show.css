@@ -111,6 +111,7 @@
     opacity: 1;
 }
 
+
 .edit-icon {
     position: absolute;
     top: 50%;
@@ -118,4 +119,12 @@
     color: white;
     opacity: 0;
     transition: opacity 0.3s ease;
+}
+
+.clickable-name {
+    cursor: pointer;
+}
+
+.clickable-name:hover {
+    opacity: 0.5;
 }

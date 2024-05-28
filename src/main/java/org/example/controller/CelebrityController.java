@@ -1,15 +1,16 @@
 package org.example.controller;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import org.example.dto.AddCelebrityDto;
 import org.example.dto.FullObjectKeyDto;
 import org.example.service.CelerbrityService;
 import org.example.utility.AuthUtility;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 import spark.Request;
 import spark.Response;
 
-import java.sql.Struct;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CelebrityController {
@@ -76,5 +77,12 @@ public class CelebrityController {
 
         res.type("application/json");
         return celebrityService.getActedShows(celebrityId);
+    }
+
+    public List<String> getCelebritiesByIds(Request req, Response res) {
+        Type listType = new TypeToken<ArrayList<Long>>(){}.getType();
+        List<Long> celebrityIds = new Gson().fromJson(req.body(), listType);
+        res.type("application/json");
+        return celebrityService.getCelebritiesByIds(celebrityIds);
     }
 }
