@@ -1,0 +1,12 @@
+.review-container img {
+    width: 100%; /* Ajusta este valor según tus necesidades */
+    height: 300px; /* Ajusta este valor según tus necesidades */
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.review-image:hover {
+    cursor: pointer;
+    transform: scale(1.1) perspective(700px) rotateX(5deg);
+    z-index: 0;
+}
