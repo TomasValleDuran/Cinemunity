@@ -137,3 +137,12 @@
 .all-actors-button:hover {
     opacity: 0.6;
 }
+
+.tittle-text-review {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 43px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
