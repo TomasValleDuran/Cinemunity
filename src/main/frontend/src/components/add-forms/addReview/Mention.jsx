@@ -5,8 +5,8 @@ import MentionSearch from "./MentionSearch";
 const Mention = (props) => {
     const { isSearching, setIsSearching } = props;
     const handleSelectedResult = (result) => {
-        console.log(result); // Do something with the result
-        props.onResultSelect(result); // Call the callback function with the selected result
+        console.log(result);
+        props.onResultSelect(result);
     };
 
     return (
