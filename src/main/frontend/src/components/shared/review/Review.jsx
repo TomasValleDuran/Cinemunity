@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import ReactMarkdown from "react-markdown";
 import './Review.css';
 import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -116,7 +117,9 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                 </div>
             </div>
             <div className="review-body">
-                <p>{reviewText}</p>
+                <ReactMarkdown>
+                    {reviewText}
+                </ReactMarkdown>
             </div>
             <div className="review-footer">
                 <div className="like-container">

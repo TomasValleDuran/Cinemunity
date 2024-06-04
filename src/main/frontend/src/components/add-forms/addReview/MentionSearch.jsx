@@ -174,6 +174,7 @@ const SearchBar = (props) => {
         } else {
             name = result.title;
             id = result.showId;
+            type = 'show'
         }
         const selectedResult = { type, name, id };
         props.onResultSelect(selectedResult);

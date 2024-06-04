@@ -1,4 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
+import ReactMarkdown from 'react-markdown';
 import './AddReview.css';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
@@ -42,12 +43,14 @@ const AddReview = ({ showTitle, onRemove }) => {
         if (text.charAt(text.length - 1) === '@'){
             setIsSearching(true);
         }
-        setReview(text);
+        if (!isSearching) {
+            setReview(text);
+        }
     }
 
     const handleSelectedResult = (result) => {
-        setReview(review + result.name);
-        console.log(review)
+        const texto = `[${result.name}](http://localhost:3000/${result.type}/${result.id})`;
+        setReview(review + texto);
         setIsSearching(false);
     };
 
@@ -73,7 +76,6 @@ return (
                     );
                 })}
             </div>
-
             <TextField
                 placeholder={"Write your review..."}
                 className="review-input"
@@ -86,7 +88,7 @@ return (
                 Submit Review
             </Button>
         </form>
-        <Mention onResultSelect={handleSelectedResult}  isSearching={isSearching} setIsSearching={setIsSearching}/>
+        <Mention onResultSelect={handleSelectedResult} isSearching={isSearching} setIsSearching={setIsSearching}/>
     </div>
     );
 };
