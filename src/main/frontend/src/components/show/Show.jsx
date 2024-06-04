@@ -281,13 +281,13 @@ const Show = () => {
                                 </h3>
                                 {/*Mostrar los actores por el nombre y no por el id*/}
                                 <h3> Cast:
-                                    {celebrities.slice(0, 7).map((celebrity, index) => (
+                                    {celebrities.slice(0, 4).map((celebrity, index) => (
                                         <span key={index} className="clickable-name"
                                               onClick={() => handleCelebrityClick(celebrity.celebrityId)}>
                                                 {celebrity.name}{index < celebrities.length - 1 ? ', ' : ''}
                                         </span>
                                     ))}
-                                    {celebrities.length > 7 && (<span className="all-actors-button"
+                                    {celebrities.length > 4 && (<span className="all-actors-button"
                                                                       onClick={handleShowMoreCelebrities}> more </span>)}
                                 </h3>
                                 <h3>
