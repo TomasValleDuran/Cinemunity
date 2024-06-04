@@ -152,4 +152,8 @@ public class Show {
     public void setImage(String objectKey) {
         this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
     }
+
+    public String getImage(){
+        return image;
+    }
 }

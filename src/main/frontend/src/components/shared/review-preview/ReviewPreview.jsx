@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import './Review.css';
+import './ReviewPreview.css';
 import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
@@ -7,9 +7,9 @@ import StarIcon from '@mui/icons-material/Star';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
-const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview, image }) => {
+const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview, showId, image }) => {
     const currentUsername = localStorage.getItem('username');
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
@@ -128,6 +128,9 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                 </div>
                 <p>{likes}</p>
             </div>
+            <Link to={`/show/${showId}`}>
+            <img src={image} alt={username} className="review-image"/>
+            </Link>
             <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDelete}
                                 information={"Review"} isAdmin={false}/>
         </div>
