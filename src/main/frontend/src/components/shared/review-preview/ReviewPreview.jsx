@@ -2,20 +2,15 @@ import React, {useEffect, useState} from 'react';
 import ReactMarkdown from "react-markdown";
 import './ReviewPreview.css';
 import axios from "axios";
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from "@mui/material/IconButton";
 import StarIcon from '@mui/icons-material/Star';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
 import {Link, useNavigate} from "react-router-dom";
 
-const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview, showId, image }) => {
-    const currentUsername = localStorage.getItem('username');
+const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, showId, image }) => {
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
     const rating = reviewRating;
-    const [dialogOpen, setDialogOpen] = useState(false); // State for confirmation dialog
     const navigate = useNavigate();
 
 
@@ -73,31 +68,6 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
         }
     };
 
-    const handleDelete = () => {
-        axios.delete(`http://localhost:3333/api/review/deleteReview/${id}`, {
-            headers: {
-                'Authorization': localStorage.getItem('token')
-            }
-        })
-            .then(response => {
-                console.log(response.data);
-                onRemoveReview();
-                window.location.reload()
-            })
-            .catch(error => {
-                console.error('Error deleting review:', error);
-            });
-    };
-
-    const handleDialogOpen = () => {
-        setDialogOpen(true);
-    };
-
-    // Close confirmation dialog
-    const handleDialogClose = () => {
-        setDialogOpen(false);
-    };
-
     const handleUserSearch = () => {
         navigate(`/user/${userId}`);
     }
@@ -108,13 +78,6 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                 <div className = "name-and-stars">
                     <h2 onClick={handleUserSearch} className={"username"}>{username}</h2>
                     {Array.from({length: rating}).map((_, index) => <StarIcon key={index} className={"start-icon"}/>)}
-                </div>
-                <div>
-                    {(currentUsername === username || currentUsername === "admin") &&
-                        <IconButton aria-label="delete" className={"delete-icon"} onClick={handleDialogOpen}>
-                            <DeleteIcon/>
-                        </IconButton>
-                    }
                 </div>
             </div>
             <div className="review-body">
@@ -134,8 +97,6 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
             <Link to={`/show/${showId}`}>
             <img src={image} alt={username} className="review-image"/>
             </Link>
-            <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDelete}
-                                information={"Review"} isAdmin={false}/>
         </div>
     );
 };
