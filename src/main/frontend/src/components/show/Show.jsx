@@ -33,6 +33,8 @@ const Show = () => {
     const [title, setTitle] = useState('');
     const [image, setImage] = useState('');
 
+    const [showAllCelebrities, setShowAllCelebrities] = useState(false);
+
     const [reviewsUpdated, setReviewsUpdated] = useState(false);
     const [isInWishlist, setIsInWishlist] = useState(false);
     const [imageDialog, setImageDialog] = useState(false);
@@ -117,6 +119,14 @@ const Show = () => {
         setAverageRating(total / reviews.length);
         setAverageStars(Math.round(total / reviews.length));
     };
+
+    const handleShowMoreCelebrities = () => {
+        setShowAllCelebrities(true);
+    }
+
+    const handleCloseMoreCelebrities = () => {
+        setShowAllCelebrities(false);
+    }
 
     useEffect(() => {
         fetchCurrentUserData();
@@ -266,21 +276,30 @@ const Show = () => {
                                 <p> {description}</p>
                             </div>
                             <div className={"show-elements"}>
-                                <h3> Director: <span className="clickable-name" onClick={()=> handleCelebrityClick(directorId)}>{directorName}</span></h3>
+                                <h3> Director: <span className="clickable-name"
+                                                     onClick={() => handleCelebrityClick(directorId)}>{directorName}</span>
+                                </h3>
                                 {/*Mostrar los actores por el nombre y no por el id*/}
-                                <h3> Cast: {celebrities.map((celebrity, index) => (
-                                    <span key={index} className="clickable-name" onClick={() => handleCelebrityClick(celebrity.celebrityId)}>
-                                        {celebrity.name}{index < celebrities.length - 1 ? ', ' : ''}
-                                    </span>
-                                ))}</h3>
-                                <h3> Show Type: {show_type}</h3>
-                                {seasons.length > 0 && <h3> Seasons: {seasons[seasons.length - 1]}</h3>}
+                                <h3> Cast:
+                                    {celebrities.slice(0, 7).map((celebrity, index) => (
+                                        <span key={index} className="clickable-name"
+                                              onClick={() => handleCelebrityClick(celebrity.celebrityId)}>
+                                                {celebrity.name}{index < celebrities.length - 1 ? ', ' : ''}
+                                        </span>
+                                    ))}
+                                    {celebrities.length > 7 && (<span className="all-actors-button"
+                                                                      onClick={handleShowMoreCelebrities}> more </span>)}
+                                </h3>
+                                <h3>
+                                    Type: {show_type}
+                                    {seasons.length > 0 && ` Seasons: ${seasons[seasons.length - 1]}`}
+                                </h3>
                             </div>
 
                         </div>
                     </div>
                     <div>
-                        <IconButton onClick={isInWishlist ? handleRemoveFromWishlist : handleAddToWishlist}
+                    <IconButton onClick={isInWishlist ? handleRemoveFromWishlist : handleAddToWishlist}
                                     size="large">
                             {isInWishlist ? <BookmarkIcon/> : <BookmarkBorderIcon/>}
                         </IconButton>
@@ -317,6 +336,17 @@ const Show = () => {
                         id={showId}
                         currentImage={image}
                         onImageChange={handleImageChange}/>
+                </DialogContent>
+            </Dialog>
+            <Dialog open={showAllCelebrities} onClose={handleCloseMoreCelebrities}>
+                <DialogTitle>All Actors</DialogTitle>
+                <DialogContent>
+                    {celebrities.map((celebrity, index) => (
+                        <p key={index} className="clickable-name" onClick={() => handleCelebrityClick(celebrity.celebrityId)}>
+                            {celebrity.name}
+                        </p>
+                    ))}
+                    <Button onClick={handleCloseMoreCelebrities}>Close</Button>
                 </DialogContent>
             </Dialog>
         </div>

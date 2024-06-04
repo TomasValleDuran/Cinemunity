@@ -128,3 +128,12 @@
 .clickable-name:hover {
     opacity: 0.5;
 }
+
+.all-actors-button{
+    color: #0c8ee1;
+    cursor: pointer;
+}
+
+.all-actors-button:hover {
+    opacity: 0.6;
+}
