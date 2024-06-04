@@ -1,14 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
+import ReactMarkdown from 'react-markdown';
 import './AddReview.css';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
 import {Button, IconButton, TextField} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import Mention from "./Mention";
 
 const AddReview = ({ showTitle, onRemove }) => {
 
     const [review, setReview] = useState('');
     const [rating, setRating] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,38 +38,58 @@ const AddReview = ({ showTitle, onRemove }) => {
         }
     };
 
-    return (
-        <div className="add-review-container">
-            <IconButton className={"close-button"} onClick={onRemove}>
-                <CloseIcon/>
-            </IconButton>
-            <form onSubmit={handleSubmit}>
-                <div className="rating">
-                    {[...Array(5)].map((star, index) => {
-                        const ratingValue = 5 - index;
-                        return (
-                            <label key={index} className={ratingValue <= rating ? "selected" : ""}>
-                                <input
-                                    type="radio"
-                                    name="rating"
-                                    value={ratingValue}
-                                    onClick={() => setRating(ratingValue)}
-                                />
-                                &#9733; {/* Star character */}
-                            </label>
-                        );
-                    })}
-                </div>
+    const handleTextChange = (event) => {
+        const text = event.target.value;
+        if (text.charAt(text.length - 1) === '@'){
+            setIsSearching(true);
+        }
+        if (!isSearching) {
+            setReview(text);
+        }
+    }
 
-                <TextField placeholder={"Write your review..."} className="review-input"
-                multiline={true} onChange={(e) => setReview(e.target.value)}/>
-                <Button variant="contained" type="submit" color="primary"
-                        disabled={!(review && rating)}>
-                    Submit Review
-                </Button>
-            </form>
+    const handleSelectedResult = (result) => {
+        const texto = `[${result.name}](http://localhost:3000/${result.type}/${result.id})`;
+        setReview(review + texto);
+        setIsSearching(false);
+    };
 
-        </div>
+return (
+    <div className="add-review-container">
+        <IconButton className={"close-button"} onClick={onRemove}>
+            <CloseIcon/>
+        </IconButton>
+        <form onSubmit={handleSubmit}>
+            <div className="rating">
+                {[...Array(5)].map((star, index) => {
+                    const ratingValue = 5 - index;
+                    return (
+                        <label key={index} className={ratingValue <= rating ? "selected" : ""}>
+                            <input
+                                type="radio"
+                                name="rating"
+                                value={ratingValue}
+                                onClick={() => setRating(ratingValue)}
+                            />
+                            &#9733; {/* Star character */}
+                        </label>
+                    );
+                })}
+            </div>
+            <TextField
+                placeholder={"Write your review..."}
+                className="review-input"
+                multiline={true}
+                onChange={handleTextChange}
+                value={review}
+            />
+            <Button variant="contained" type="submit" color="primary"
+                    disabled={!(review && rating)}>
+                Submit Review
+            </Button>
+        </form>
+        <Mention onResultSelect={handleSelectedResult} isSearching={isSearching} setIsSearching={setIsSearching}/>
+    </div>
     );
 };
 
