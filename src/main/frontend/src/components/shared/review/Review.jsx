@@ -5,17 +5,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import StarIcon from '@mui/icons-material/Star';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
 import {useNavigate} from "react-router-dom";
 
 const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
-    const currentUsername = localStorage.getItem('username');
+    const [currentUsername, setCurrentUsername] = useState("");
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
     const rating = reviewRating;
     const [dialogOpen, setDialogOpen] = useState(false); // State for confirmation dialog
     const navigate = useNavigate();
+    const [isVerified, setIsVerified] = useState(false);
 
 
     const fetchLikes = async () => {
@@ -25,7 +27,7 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            console.log(response.data);
+            setCurrentUsername(response.data.username);
             return response.data.likes;
         } catch (error) {
             console.error('Error fetching likes:', error);
@@ -33,6 +35,7 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
     }
 
     useEffect(() => {
+        getIsVerified();
         fetchLikes().then((likes) => {
             if (likes && likes.includes(id)) {
                 setLiked(true);
@@ -88,6 +91,21 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
             });
     };
 
+    const getIsVerified = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/user/get/${userId}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            setIsVerified(response.data.is_verified);
+        }
+        catch (error) {
+            console.error('Error getting user:', error);
+        }
+
+    }
+
     const handleDialogOpen = () => {
         setDialogOpen(true);
     };
@@ -106,6 +124,7 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
             <div className="review-header">
                 <div className = "name-and-stars">
                     <h2 onClick={handleUserSearch} className={"username"}>{username}</h2>
+                    {isVerified && <CheckCircleIcon className={"verified-icon"}/>}
                     {Array.from({length: rating}).map((_, index) => <StarIcon key={index} className={"start-icon"}/>)}
                 </div>
                 <div>
