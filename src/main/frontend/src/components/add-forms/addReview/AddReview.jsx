@@ -83,12 +83,16 @@ return (
                 onChange={handleTextChange}
                 value={review}
             />
-            <Button variant="contained" type="submit" color="primary"
+            <Button variant="contained"
+                    type="submit"
+                    color="primary"
                     disabled={!(review && rating)}>
                 Submit Review
             </Button>
         </form>
-        <Mention onResultSelect={handleSelectedResult} isSearching={isSearching} setIsSearching={setIsSearching}/>
+        <Mention onResultSelect={handleSelectedResult}
+                 isSearching={isSearching}
+                 setIsSearching={setIsSearching}/>
     </div>
     );
 };

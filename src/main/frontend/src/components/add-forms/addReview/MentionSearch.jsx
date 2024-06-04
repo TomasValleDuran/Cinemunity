@@ -52,17 +52,19 @@ const Dropdown = ({ value, onChange, options }) => (
 );
 
 const SearchTextBox = ({ value, onChange, onKeyPress, placeholder, addon1, addon2 }) => (
-    <div className="mention-search-bar">
-        {addon1}
-        <input
-            type="text"
-            value={value}
-            onChange={onChange}
-            onKeyPress={onKeyPress}
-            placeholder={placeholder}
-            className="mention-search-input"
-        />
-        {addon2}
+    <div className="mention-search-container">
+        <div className="mention-search-bar">
+            {addon1}
+            <input
+                type="text"
+                value={value}
+                onChange={onChange}
+                onKeyPress={onKeyPress}
+                placeholder={placeholder}
+                className="mention-search-input"
+            />
+            {addon2}
+        </div>
     </div>
 );
 
