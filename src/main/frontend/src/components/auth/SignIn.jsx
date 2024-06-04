@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import axios from "axios";
@@ -37,6 +37,10 @@ const SignIn = ()=>{
     function handlePasswordChange(event) {
         setPassword(event.target.value)
     }
+
+    useEffect(() => {
+        localStorage.removeItem('token');
+    }, []);
 
     return (
         <div className="container-signin">

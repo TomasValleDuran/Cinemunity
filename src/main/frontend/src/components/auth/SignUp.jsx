@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import './SignIn-SignUp.css';
 import {Link, useNavigate} from 'react-router-dom';
@@ -44,7 +44,6 @@ const SignUp = () => {
 
             // Store the token in local storage
             localStorage.setItem('token', response.data.token);
-            localStorage.setItem('username', username);
             console.log("Inicio de sesión exitoso:", response.data.token);
             navigate('/home');
         } catch (error) {
@@ -63,6 +62,10 @@ const SignUp = () => {
     function handlePasswordChange(event) {
         setPassword(event.target.value)
     }
+
+    useEffect(() => {
+        localStorage.removeItem('token');
+    }, []);
 
     return (
         <div className="container-signin">

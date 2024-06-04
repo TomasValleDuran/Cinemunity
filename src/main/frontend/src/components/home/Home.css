@@ -32,3 +32,7 @@ li:hover {
     background-color: #0000ff;
     color: #ffffff;
 }
+
+.home-container{
+    margin-bottom: 50px;
+}

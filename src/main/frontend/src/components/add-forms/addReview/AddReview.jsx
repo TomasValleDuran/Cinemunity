@@ -1,5 +1,4 @@
 import React, {useState, useRef, useEffect} from 'react';
-import ReactMarkdown from 'react-markdown';
 import './AddReview.css';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
@@ -7,7 +6,7 @@ import {Button, IconButton, TextField} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Mention from "./Mention";
 
-const AddReview = ({ showTitle, onRemove }) => {
+const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
 
     const [review, setReview] = useState('');
     const [rating, setRating] = useState('');
@@ -55,7 +54,7 @@ const AddReview = ({ showTitle, onRemove }) => {
     };
 
 return (
-    <div className="add-review-container">
+    <div ref={ref} className="add-review-container">
         <IconButton className={"close-button"} onClick={onRemove}>
             <CloseIcon/>
         </IconButton>
@@ -95,7 +94,7 @@ return (
                  setIsSearching={setIsSearching}/>
     </div>
     );
-};
+});
 
 const ProtectedAddReview = withAuth(AddReview);
 export default ProtectedAddReview;

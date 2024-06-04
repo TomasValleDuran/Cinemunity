@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import './Show.css';
 import {useParams, useNavigate} from "react-router-dom";
 import Header from '../shared/header/Header';
@@ -42,6 +42,8 @@ const Show = () => {
     const [userId, setUserId] = useState('');
     const [username, setUsername] = useState('');
     const [admin, setAdmin] = useState(false);
+
+    const addReviewRef = useRef(null);
 
     const fetchShow = async () => {
         try {
@@ -173,6 +175,12 @@ const Show = () => {
         setShowAddReview(true);
     }
 
+    useEffect(() => {
+        if (showAddReview && addReviewRef.current) {
+            addReviewRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [showAddReview]);
+
     const handleShowRemoveReview = async () => {
         setShowAddReview(false);
         setReviewsUpdated(!reviewsUpdated);
@@ -279,7 +287,6 @@ const Show = () => {
                                 <h3> Director: <span className="clickable-name"
                                                      onClick={() => handleCelebrityClick(directorId)}>{directorName}</span>
                                 </h3>
-                                {/*Mostrar los actores por el nombre y no por el id*/}
                                 <h3> Cast:
                                     {celebrities.slice(0, 4).map((celebrity, index) => (
                                         <span key={index} className="clickable-name"
@@ -298,7 +305,7 @@ const Show = () => {
 
                         </div>
                     </div>
-                    <div>
+                    <div ref={addReviewRef}>
                     <IconButton onClick={isInWishlist ? handleRemoveFromWishlist : handleAddToWishlist}
                                     size="large">
                             {isInWishlist ? <BookmarkIcon/> : <BookmarkBorderIcon/>}
@@ -306,7 +313,11 @@ const Show = () => {
                     </div>
                 </div>
                 <div className={"review-show-container"}>
-                    <h2>Reviews</h2>
+                    <div className={"header"}>
+                        <div className="title">
+                            <div className="tittle-text-review">Reviews</div>
+                        </div>
+                    </div>
                     {showAddReview && <AddReview
                         onRemove={handleShowRemoveReview}
                         showTitle={title}/>}
