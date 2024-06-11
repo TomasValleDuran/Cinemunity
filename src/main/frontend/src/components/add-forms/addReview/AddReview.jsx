@@ -12,12 +12,16 @@ const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState('');
     const [isSearching, setIsSearching] = useState(false);
+    const [myMap, setMyMap] = useState({});
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
+            const updatedReview = await markdownTextifier();
+            console.log(updatedReview);
             const response = await axios.post('http://localhost:3333/api/review/addReview', {
-                review: review,
+                review: updatedReview,
                 rating: rating,
                 show_title: showTitle
             }, {
@@ -30,7 +34,7 @@ const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
             console.log(response.data)
             if (response.status === 200) {
                 onRemove();
-                window.location.reload(); // malardo esto
+                //window.location.reload(); // malardo esto
             }
         }
         catch (error) {
@@ -48,9 +52,26 @@ const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
         }
     }
 
+    const markdownTextifier = async () => {
+        return new Promise((resolve) => {
+            let keys = Object.keys(myMap);
+            keys.sort((a, b) => b.length - a.length);
+
+            let updatedReview = review;
+            keys.forEach(key => {
+                const value = myMap[key];
+                const regex = new RegExp(`@${key}`, 'g');
+                updatedReview = updatedReview.replace(regex, value);
+            });
+
+            resolve(updatedReview);
+        });
+    }
+
     const handleSelectedResult = (result) => {
-        const texto = `[${result.name}](http://localhost:3000/${result.type}/${result.id})`;
-        setReview(review + texto);
+        const texto = `@[${result.name}](http://localhost:3000/${result.type}/${result.id})`;
+        setReview(review + `${result.name}`);
+        setMyMap(prevMap => ({...prevMap, [result.name]: texto}));
         setIsSearching(false);
     };
 
@@ -76,9 +97,6 @@ return (
                     );
                 })}
             </div>
-            <ReactMarkdown>
-                {review}
-            </ReactMarkdown>
             <TextField
                 placeholder={"Write your review..."}
                 className="review-input"

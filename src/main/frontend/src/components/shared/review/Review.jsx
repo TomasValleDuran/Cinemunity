@@ -85,7 +85,7 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
             .then(response => {
                 console.log(response.data);
                 onRemoveReview();
-                window.location.reload()
+                //window.location.reload()
             })
             .catch(error => {
                 console.error('Error deleting review:', error);

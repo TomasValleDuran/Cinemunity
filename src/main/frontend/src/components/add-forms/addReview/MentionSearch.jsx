@@ -113,7 +113,7 @@ const SearchBar = (props) => {
             if (response.data[successCriteria]) {
                 console.log(response.data);
                 navigate(`/${navigatePath}/${searchInput}`);
-                window.location.reload();
+                //window.location.reload();
             } else {
                 console.log(response.data);
             }
