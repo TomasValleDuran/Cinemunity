@@ -133,17 +133,21 @@ const User = () => {
 
     // Handle account deletion
     const handleDeleteAccount = async () => {
-        const response = await axios.delete(`http://localhost:3333/api/user/deleteUser/${userId}`, {
-            headers: {
-                'Authorization': localStorage.getItem('token')
+        try {
+            const response = await axios.delete(`http://localhost:3333/api/user/deleteUser/${userId}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("Deleted user:", response.data);
+            if (actual) {
+                localStorage.removeItem('token');
+                navigate('/signin');
+            } else {
+                navigate('/home');
             }
-        });
-        console.log("Deleted user:", response.data);
-        if (actual) {
-            localStorage.removeItem('token');
-            navigate('/signin');
-        } else {
-            navigate('/home');
+        } catch (error) {
+            console.error('Error deleting user:', error);
         }
     };
 

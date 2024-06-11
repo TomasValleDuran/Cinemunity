@@ -73,30 +73,35 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
     }
 
     return (
-        <div className="review-container">
-            <div className="review-header">
-                <div className = "name-and-stars">
-                    <h2 onClick={handleUserSearch} className={"username"}>{username}</h2>
-                    {Array.from({length: rating}).map((_, index) => <StarIcon key={index} className={"start-icon"}/>)}
+        <div className="review-preview-container">
+            <div className={"review-preview-image"}>
+                <Link to={`/show/${showId}`}>
+                    <img src={image} alt={username} className="review-image"/>
+                </Link>
+            </div>
+            <div className={"review-content"}>
+                <div className="review-header">
+                    <div className="name-and-stars">
+                        <h2 onClick={handleUserSearch} className={"username"}>{username}</h2>
+                        {Array.from({length: rating}).map((_, index) => <StarIcon key={index}
+                                                                                  className={"start-icon"}/>)}
+                    </div>
+                </div>
+                <div className="review-body">
+                    <ReactMarkdown>
+                        {reviewText}
+                    </ReactMarkdown>
+                </div>
+                <div className="review-footer">
+                    <div className="like-container">
+                        {liked
+                            ? <FavoriteIcon className={"favorite-icon"} onClick={handleLike}/>
+                            : <FavoriteBorderIcon className={"favorite-border-icon"} onClick={handleLike}/>
+                        }
+                    </div>
+                    <p>{likes}</p>
                 </div>
             </div>
-            <div className="review-body">
-                <ReactMarkdown>
-                    {reviewText}
-                </ReactMarkdown>
-            </div>
-            <div className="review-footer">
-                <div className="like-container">
-                    {liked
-                        ? <FavoriteIcon className={"favorite-icon"} onClick={handleLike}/>
-                        : <FavoriteBorderIcon className={"favorite-border-icon"} onClick={handleLike}/>
-                    }
-                </div>
-                <p>{likes}</p>
-            </div>
-            <Link to={`/show/${showId}`}>
-            <img src={image} alt={username} className="review-image"/>
-            </Link>
         </div>
     );
 };

@@ -3,7 +3,7 @@ import ReviewPreview from "./ReviewPreview";
 
 const ReviewPreviewCarrousel = ({ reviews }) => {
     return (
-        <div className={'preview-carrousel'}>
+        <div className={'review-preview-carrousel'}>
             {reviews.map(review => (
                 <ReviewPreview key={review.reviewId}
                         id={review.reviewId}

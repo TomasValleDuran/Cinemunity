@@ -29,7 +29,7 @@ public class Main {
         createMovies(entityManager, shows, celebrities);
         createTVShows(entityManager, shows, celebrities);
         createReviews(entityManager, shows, users, reviews);
-        likeRandomReviews(entityManager, reviews, users);
+//        likeRandomReviews(entityManager, reviews, users);
 
         entityManager.close();
 

@@ -1,0 +1,18 @@
+.review-preview-carrousel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.review-preview-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    flex-grow: 1;
+}
