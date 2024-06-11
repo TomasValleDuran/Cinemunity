@@ -6,7 +6,7 @@ import './SignIn-SignUp.css'
 import logo from "../assets/logo.png";
 import {Button, TextField} from "@mui/material";
 
-const SignIn = ()=>{
+const SignIn = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -54,11 +54,13 @@ const SignIn = ()=>{
             </div>
             <form onSubmit={handleSignIn} className='inputs'>
                 <TextField
+                    className="wide-input"
                     value={username}
                     label={"Username"}
                     onChange={handleUsernameChange}
                 />
                 <TextField
+                    className="wide-input"
                     type={"password"}
                     value={password}
                     label={"Password"}
@@ -78,4 +80,5 @@ const SignIn = ()=>{
         </div>
     )
 }
-export default SignIn
+
+export default SignIn;

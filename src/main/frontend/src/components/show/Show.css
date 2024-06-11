@@ -23,7 +23,7 @@
 .show-container {
     display: flex;
     align-items: center;
-    width: 80%;
+    width: 50VW;
     flex-direction: column;
 }
 
@@ -145,4 +145,12 @@
     font-size: 43px;
     font-weight: 700;
     margin-bottom: 10px;
+}
+
+.review-show-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
 }

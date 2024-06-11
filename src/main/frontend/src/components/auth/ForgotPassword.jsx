@@ -47,6 +47,7 @@ const ForgotPassword = () => {
             {!success &&
                 <form className='inputs' onSubmit={sendEmail}>
                     <TextField
+                        className="wide-input"
                         type={"email"}
                         value={email}
                         label={"Email"}
