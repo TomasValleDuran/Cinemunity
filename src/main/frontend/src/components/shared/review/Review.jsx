@@ -104,7 +104,6 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
         catch (error) {
             console.error('Error getting user:', error);
         }
-
     }
 
     const handleDialogOpen = () => {

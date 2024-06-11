@@ -69,8 +69,20 @@ const Show = () => {
                         'Authorization': localStorage.getItem('token')
                     }
                 });
-            console.log(response.data);
-            return response.data;
+            const reviews = response.data;
+
+            // Fetch the isVerified status for each review
+            for (let review of reviews) {
+                const userResponse = await axios.get(`http://localhost:3333/api/user/get/${review.userId}`, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                review.isVerified = userResponse.data.is_verified;
+            }
+
+            console.log(reviews);
+            return reviews;
         }
         catch (error) {
             console.error('Error fetching reviews:', error);
@@ -249,9 +261,16 @@ const Show = () => {
 
     // Sort reviews by likes and user
     const currentUserReviews = reviews.filter(review => review.username === username);
-    const otherReviews = reviews.filter(review => review.username !== username);
-    otherReviews.sort((a, b) => b.likes - a.likes);
-    const sortedReviews = currentUserReviews.concat(otherReviews);
+    const otherVerifiedReviews = reviews.filter(review => review.username !== username && review.isVerified);
+    const otherUnverifiedReviews = reviews.filter(review => review.username !== username && !review.isVerified);
+
+    // Sort each group by likes
+    currentUserReviews.sort((a, b) => b.likes - a.likes);
+    otherVerifiedReviews.sort((a, b) => b.likes - a.likes);
+    otherUnverifiedReviews.sort((a, b) => b.likes - a.likes);
+
+    // Concatenate the groups in the desired order
+    const sortedReviews = currentUserReviews.concat(otherVerifiedReviews, otherUnverifiedReviews);
 
     return (
         <div>
