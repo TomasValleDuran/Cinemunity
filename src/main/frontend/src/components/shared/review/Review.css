@@ -1,9 +1,11 @@
 .review-container {
+    width: 50vw;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
     padding: 10px;
     margin: 10px;
+    justify-content: center;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
@@ -37,6 +39,9 @@
 .review-body {
     margin: 10px 0;
     text-align: start;
+    word-wrap: break-word; /* Ajustar el contenido */
+    overflow-wrap: break-word; /* Ajustar el contenido */
+    max-width: 100%; /* Asegurar que no se estire */
 }
 
 .review-footer {

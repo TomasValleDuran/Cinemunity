@@ -79,16 +79,19 @@ const SignUp = () => {
             </div>
             <form onSubmit={handleSignUp} className="inputs">
                 <TextField
+                    className="wide-input"
                     value={email}
                     label={"Email"}
                     onChange={handleEmailChange}
                 />
                 <TextField
+                    className="wide-input"
                     value={username}
                     label={"Username"}
                     onChange={handleUsernameChange}
                 />
                 <TextField
+                    className="wide-input"
                     type={"password"}
                     value={password}
                     label={"Password"}
