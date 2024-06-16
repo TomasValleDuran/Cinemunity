@@ -29,9 +29,4 @@ public class ImageController {
         res.type("application/json");
         return ImageDeleter.deleteImage(token, fullObjectKeyDto);
     }
-
-    public static void main(String[] args) {
-        String url = PresignedUrlGenerator.generateUrl("prueba/", "pomo.jpg");
-        System.out.println(url);
-    }
 }

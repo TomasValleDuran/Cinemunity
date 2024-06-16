@@ -5,6 +5,7 @@ import org.example.controller.ShowController;
 import org.example.controller.UserController;
 import org.example.controller.ReviewController;
 import org.example.s3.ImageController;
+import org.example.tmdb.TMDbController;
 import spark.*;
 
 import javax.persistence.EntityManagerFactory;
@@ -24,6 +25,7 @@ public class Aplication {
         final CelebrityController celebrityController = new CelebrityController();
         final ReviewController reviewController = new ReviewController();
         final ImageController imageController = new ImageController();
+        final TMDbController tmBdController = new TMDbController();
 
         Spark.port(3333);
 
@@ -91,6 +93,9 @@ public class Aplication {
         Spark.put("/api/celebrity/updateImage", celebrityController::updateImage);
         Spark.put("/api/show/updateImage", showController::updateImage);
         Spark.delete("/api/deleteImage", imageController::deleteImage);
+
+        Spark.get("/api/celebrity/importInfo/:name", tmBdController::searchActor);
+        Spark.get("/api/celebrity/importDetails/:celebrityId", tmBdController::getActorDetails);
 
 
         after((request, response) -> closeCurrentEntityManager());

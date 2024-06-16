@@ -16,7 +16,7 @@ public class Celebrity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(length = 1500)
+    @Column(length = 3000)
     private String bio;
 
     @Column
