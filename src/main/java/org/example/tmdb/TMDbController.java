@@ -140,14 +140,20 @@ public class TMDbController {
         String actorDetails = tmDbService.getActorDetails(castMember.get("id").getAsInt());
         JsonObject actorDetailsJson = JsonParser.parseString(actorDetails).getAsJsonObject();
         String actorName = actorDetailsJson.get("name").getAsString();
-        String actorBiography = actorDetailsJson.get("biography").getAsString();
-        String actorProfilePath = actorDetailsJson.get("profile_path").getAsString();
 
-        String presignedUrlJson = uploadToS3(actorProfilePath, actorName);
-        JsonObject jsonObject = JsonParser.parseString(presignedUrlJson).getAsJsonObject();
-        String fullObjectKey = jsonObject.get("fullObjectKey").getAsString();
+        String actorBiography = actorDetailsJson.get("biography").getAsString().split("\\n", 2)[0];
 
-        celebrities.addCelebrity(actorName, actorBiography, fullObjectKey);
+        if (actorDetailsJson.has("profile_path") && !actorDetailsJson.get("profile_path").isJsonNull()) {
+            String actorProfilePath = actorDetailsJson.get("profile_path").getAsString();
+
+            String presignedUrlJson = uploadToS3(actorProfilePath, actorName);
+            JsonObject jsonObject = JsonParser.parseString(presignedUrlJson).getAsJsonObject();
+            String fullObjectKey = jsonObject.get("fullObjectKey").getAsString();
+
+            celebrities.addCelebrity(actorName, actorBiography, fullObjectKey);
+        } else {
+            celebrities.addCelebrity(actorName, actorBiography, "");
+        }
     }
 
     private String uploadToS3(String actorProfilePath, String actorName) throws IOException {

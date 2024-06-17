@@ -74,7 +74,7 @@ const ModifyCelebrity = () => {
             </Backdrop>
             <div className={"modify-celebrity-container"}>
                 <div className={"back"}>
-                    <IconButton aria-label="back" onClick={() => navigate(`celebrity/${celebrityId}`)}>
+                    <IconButton aria-label="back" onClick={() => navigate(`/celebrity/${celebrityId}`)}>
                         <ArrowBackIcon/>
                     </IconButton>
                 </div>
