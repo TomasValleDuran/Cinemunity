@@ -66,8 +66,6 @@ public class TMDbController {
             JsonArray cast = credits.getAsJsonArray("cast");
             JsonArray crew = credits.getAsJsonArray("crew");
 
-            
-            
             // For each cast member, check if they exist in your database
             iterateCast(cast);
             // For each crew member, find job == 'Director' and check if they exist in your database
@@ -78,7 +76,7 @@ public class TMDbController {
             JsonArray newCrew = makeNewCrew(crew);
             credits.add("cast", newCast);
             credits.add("crew", newCrew);
-
+            movieDetailsJson.add("credits", credits);
             return movieDetailsJson.toString();
         } catch (Exception e) {
             res.status(500);
@@ -145,9 +143,11 @@ public class TMDbController {
         String actorBiography = actorDetailsJson.get("biography").getAsString();
         String actorProfilePath = actorDetailsJson.get("profile_path").getAsString();
 
-        String presignedUrl = uploadToS3(actorProfilePath, actorName);
+        String presignedUrlJson = uploadToS3(actorProfilePath, actorName);
+        JsonObject jsonObject = JsonParser.parseString(presignedUrlJson).getAsJsonObject();
+        String fullObjectKey = jsonObject.get("fullObjectKey").getAsString();
 
-        celebrities.addCelebrity(actorName, actorBiography, presignedUrl);
+        celebrities.addCelebrity(actorName, actorBiography, fullObjectKey);
     }
 
     private String uploadToS3(String actorProfilePath, String actorName) throws IOException {

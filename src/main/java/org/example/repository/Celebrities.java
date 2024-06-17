@@ -24,6 +24,9 @@ public class Celebrities {
                 "FROM Celebrity c " +
                 "WHERE c.name LIKE :name", Celebrity.class);
         query.setParameter("name", name);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         return query.getSingleResult();
     }
 

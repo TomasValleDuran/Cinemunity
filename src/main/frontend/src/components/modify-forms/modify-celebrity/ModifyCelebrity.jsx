@@ -4,6 +4,7 @@ import withAuth from "../../hoc/withAuth";
 import { Backdrop, Button, CircularProgress, IconButton, TextField } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useParams } from "react-router-dom";
+import "./ModifyCelebrity.css";
 
 
 const ModifyCelebrity = () => {
@@ -71,7 +72,7 @@ const ModifyCelebrity = () => {
             >
                 <CircularProgress color="inherit"/>
             </Backdrop>
-            <div className={"container"}>
+            <div className={"modify-celebrity-container"}>
                 <div className={"back"}>
                     <IconButton aria-label="back" onClick={() => navigate(`celebrity/${celebrityId}`)}>
                         <ArrowBackIcon/>

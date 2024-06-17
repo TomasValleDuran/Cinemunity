@@ -4,11 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 public class ImageUploader {
-    public void uploadImageToS3(String presignedUrl, InputStream imageData) throws IOException, MalformedURLException {
+    public void uploadImageToS3(String presignedUrlJson, InputStream imageData) throws IOException {
+        // Parse the JSON string to get the URL
+        JsonObject jsonObject = JsonParser.parseString(presignedUrlJson).getAsJsonObject();
+        String presignedUrl = jsonObject.get("url").getAsString();
+
         URL url = new URL(presignedUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 

@@ -29,6 +29,7 @@ const AddMovie = () => {
     const [previewUrl, setPreviewUrl] = useState(null);
 
     const [searchName, setSearchName] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
     const [results, setResults] = useState([]);
 
     const navigate = useNavigate();
@@ -52,10 +53,11 @@ const AddMovie = () => {
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        if ((file && file.type.startsWith('image/'))) {
+        if (file && file.type.startsWith('image/')) {
             setSelectedFile(file);
             setPreviewUrl(URL.createObjectURL(file));
             setLegalFile(true);
+            setImageUrl('');
         } else {
             console.error('Invalid file type, please select an image file.');
             setSelectedFile(null);
@@ -65,26 +67,53 @@ const AddMovie = () => {
         }
     };
 
+    const uploadFileToS3 = async (file) => {
+        const fileName = file.name;
+        const data = {
+            folder: 'Shows/',
+            objectKey: fileName
+        };
+        const urlPackage = await axios.post('http://localhost:3333/api/upload', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const presignedUrl = urlPackage.data.url;
+        const fullObjectKey = urlPackage.data.fullObjectKey;
+
+        await axios.put(presignedUrl, file);
+        console.log('File uploaded successfully');
+        return fullObjectKey;
+    };
+
+    const uploadImageUrlToS3 = async (url) => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const file = new File([blob], `image-${Date.now()}.jpg`, { type: blob.type });
+        return await uploadFileToS3(file);
+    };
+
+    const resetValues = () => {
+        setTitle('');
+        setDescription('');
+        setDirector('');
+        setActorList([]);
+        setSeasons('');
+        setPreviewUrl(null);
+        setErrorMessage('');
+        setImageUrl('');
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         let fullObjectKey = '';
         setOpen(true);
         try {
-            const fileName = selectedFile.name;
-            const data = {
-                folder: 'Shows/',
-                objectKey: fileName
-            };
-            const urlPackage = await axios.post('http://localhost:3333/api/upload', data, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const presignedUrl = urlPackage.data.url;
-            fullObjectKey = urlPackage.data.fullObjectKey;
-
-            await axios.put(presignedUrl, selectedFile);
-            console.log('File uploaded successfully');
+            if (selectedFile) {
+                fullObjectKey = await uploadFileToS3(selectedFile);
+            } else if (imageUrl) {
+                fullObjectKey = await uploadImageUrlToS3(imageUrl);
+            }
 
             const response = await axios.post('http://localhost:3333/api/show/addShow', {
                 title: Title,
@@ -101,17 +130,11 @@ const AddMovie = () => {
             });
             console.log("res")
             console.log(response.data)
-            setTitle('');
-            setDescription('');
-            setDirector('');
-            setActorList([]);
-            setSeasons('');
-            setPreviewUrl(null);
-            setErrorMessage('');
+            resetValues();
         } catch (error) {
             console.error(error.response.data, error);
             setErrorMessage(error.response.data);
-            axios.delete('http://localhost:3333/api/deleteImage', { // Don't await this promise
+            axios.delete('http://localhost:3333/api/deleteImage', {
                 data: { fullObjectKey: fullObjectKey },
                 headers: {
                     'Authorization': localStorage.getItem('token')
@@ -131,7 +154,6 @@ const AddMovie = () => {
 
     const handleAddActor = async () => {
         if (Actor === '') {
-            console.log('Input is empty. Please enter an actor name.');
             return;
         }
         setActorList([...ActorList, Actor]);
@@ -196,6 +218,13 @@ const AddMovie = () => {
     const handleCelebrityImport = (showData) => {
         setTitle(showData.title);
         setDescription(showData.overview);
+        setDirector(showData.credits.crew[0].name);
+        setActorList(showData.credits.cast.map((actor) => actor.name));
+        setPreviewUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${showData.poster_path}`);
+        setImageUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${showData.poster_path}`);
+
+        setResults([]);
+        setSearchName('');
     }
 
     return (
@@ -318,7 +347,7 @@ const AddMovie = () => {
                         {previewUrl && <img className={"preview-image"} src={previewUrl} alt="Preview"/>}
                         {errorMessage && <div className="error-message">{errorMessage}</div>}
                         <Button variant="contained" type="submit" color="primary"
-                                disabled={!(legalFile && Title && Description && Director && ActorList.length > 0)}>
+                                disabled={!((legalFile || imageUrl) && Title && Description && Director && ActorList.length > 0)}>
                             Add {showType}
                         </Button>
                     </form>

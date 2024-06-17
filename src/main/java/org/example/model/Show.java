@@ -19,7 +19,7 @@ public class Show {
     @Column
     private Integer rating;
 
-    @Column (length = 1500)
+    @Column (length = 3000)
     private String show_desc;
 
     @Column

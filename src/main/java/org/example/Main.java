@@ -23,12 +23,14 @@ public class Main {
         List<Review> reviews = new ArrayList<>();
 
         createAdminUser(entityManager);
+        /*
         createRegularUsers(entityManager, users);
         createNumberUsers(entityManager, users);
         createCelebriries(entityManager, celebrities);
         createMovies(entityManager, shows, celebrities);
         createTVShows(entityManager, shows, celebrities);
         createReviews(entityManager, shows, users, reviews);
+        */
 //        likeRandomReviews(entityManager, reviews, users);
 
         entityManager.close();
