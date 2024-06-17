@@ -16,7 +16,7 @@
     margin-bottom: 20px;
 }
 
-.two-column {
+.search-results-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,12 +25,12 @@
     align-content: center;
 }
 
-.import-search {
+.celebrity-import-search {
     display: flex;
     flex-direction: column;
 }
 
-.results {
+.celebrity-results {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

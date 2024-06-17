@@ -26,8 +26,6 @@ public class CelerbrityService {
             throw new IllegalArgumentException("Object key cannot be empty");
         }
 
-
-
         Celebrity celebrity = new Celebrity(name, biography, objectKey);
         celebrities.save(celebrity);
         return celebrity.asJson();

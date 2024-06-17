@@ -197,8 +197,8 @@ const AddCelebrity = () => {
                         <div className="tittle-text">Add Celebrity</div>
                     </div>
                 </div>
-                <div className={"two-column"}>
-                    <div className={"import-search"}>
+                <div className={"search-results-form-container"}>
+                    <div className={"celebrity-import-search"}>
                         <TextField
                             type={"import"}
                             label={"Search Celebrity"}
@@ -214,7 +214,7 @@ const AddCelebrity = () => {
                                 ),
                             }}
                         />
-                        <div className="results">
+                        <div className="celebrity-results">
                             {results.map((result, index) => {
                                 return (
                                     <CelebrityBox

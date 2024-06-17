@@ -4,8 +4,11 @@ import './AddMovie.css';
 import withAuth from "../../hoc/withAuth";
 import {useNavigate} from "react-router-dom";
 import FileUploadButton from '../../shared/material-ui-stolen/FileUploadButton';
-import {Backdrop, Button, CircularProgress, IconButton, TextField} from "@mui/material";
+import {Backdrop, Button, CircularProgress, IconButton, InputAdornment, TextField} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SearchIcon from "@mui/icons-material/Search";
+import CelebrityBox from "../../shared/celebrity-import/CelebrityImportPreview";
+import ShowBox from "../../shared/show-import/ShowImportPreview";
 
 const AddMovie = () => {
     const [userId, setUserId] = useState('');
@@ -24,6 +27,10 @@ const AddMovie = () => {
     const [legalFile, setLegalFile] = useState(false);
     const [open, setOpen] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
+
+    const [searchName, setSearchName] = useState('');
+    const [results, setResults] = useState([]);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -160,6 +167,37 @@ const AddMovie = () => {
         }
     }
 
+    const handleSearchChange = (event) => {
+        setSearchName(event.target.value);
+    }
+
+    const handleImport = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:3333/api/${showType.toLowerCase()}/importInfo/${searchName}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log(response.data);
+            setResults(response.data.results.slice(0, 5));
+        } catch (error) {
+            console.error('Error fetching search results:', error);
+        }
+    }
+
+    useEffect(() => {
+        if (searchName !== '') {
+            setResults([]);
+            handleImport();
+        }
+    }, [showType]);
+
+    const handleCelebrityImport = (showData) => {
+        setTitle(showData.title);
+        setDescription(showData.overview);
+    }
+
     return (
         <div>
             <Backdrop
@@ -168,7 +206,7 @@ const AddMovie = () => {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <div className="container">
+            <div className="add-show-container">
                 <div className={"back"}>
                     <IconButton aria-label="back" onClick={() => navigate(`/user/${userId}`)}>
                         <ArrowBackIcon/>
@@ -177,6 +215,38 @@ const AddMovie = () => {
                 <div className={"header"}>
                     <div className="title">
                         <div className="tittle-text">Add Show</div>
+                    </div>
+                </div>
+                <div className={"show-import-search"}>
+                    <TextField
+                        type={"import"}
+                        label={"Search Show"}
+                        value={searchName}
+                        onChange={handleSearchChange}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton onClick={handleImport}>
+                                        <SearchIcon/>
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                    <div className="show-results">
+                        {results.map((result, index) => {
+                            const showName = showType === 'Movie' ? result.title : result.name;
+                            return (
+                                <ShowBox
+                                    key={index}
+                                    id={result.id}
+                                    name={showName}
+                                    image={`http://image.tmdb.org/t/p/w500/${result.poster_path}`}
+                                    type={showType}
+                                    onImport={handleCelebrityImport}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
                 <div className="form-container">

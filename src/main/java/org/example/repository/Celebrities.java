@@ -94,4 +94,12 @@ public class Celebrities {
         query.setParameter("celebrityId", celebrityId);
         return query.getResultList();
     }
+
+    public void addCelebrity(String actorName, String actorBiography, String actorProfilePath) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        Celebrity celebrity = new Celebrity(actorName, actorBiography, actorProfilePath);
+        entityManager.persist(celebrity);
+        entityManager.getTransaction().commit();
+    }
 }

@@ -97,6 +97,10 @@ public class Aplication {
 
         Spark.get("/api/celebrity/importInfo/:name", tmBdController::searchActor);
         Spark.get("/api/celebrity/importDetails/:celebrityId", tmBdController::getActorDetails);
+        Spark.get("/api/movie/importInfo/:name", tmBdController::searchMovie);
+        Spark.get("/api/movie/importDetails/:movieId", tmBdController::getMovieDetails);
+        Spark.get("/api/tvshow/importInfo/:name", tmBdController::searchTvShow);
+        Spark.get("/api/tvshow/importDetails/:tvShowId", tmBdController::getTvShowDetails);
 
 
         after((request, response) -> closeCurrentEntityManager());
