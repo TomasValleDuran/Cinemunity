@@ -132,7 +132,7 @@ const Celebrity = () => {
     return (
         <div className="home-container">
             <Header/>
-            <div className="container">
+            <div className="complete-celebrity-container">
                 <div className={"celebrity-container"}>
                     <div className={"celebrity-image"}>
                         <div className={`profile-picture-container-${admin ? 'admin' : ''}`}>
@@ -152,29 +152,31 @@ const Celebrity = () => {
                         </div>
                         <p>{bio}</p>
                     </div>
-                    <IconButton onClick={handleModify}>
-                        <EditIcon/>
-                    </IconButton>
+                    {admin &&
+                        <IconButton onClick={handleModify}>
+                            <EditIcon/>
+                        </IconButton>}
+                </div>
+                <div className="shows-container">
+                    <div className={"header-switcher"}>
+                        <Button variant={directedActed ? "contained" : "outlined"}
+                                onClick={handleSwitchOn}>
+                            Directed Shows</Button>
+                        <Button variant={directedActed ? "outlined" : "contained"}
+                                onClick={handleSwitchOff}>Acted Shows</Button>
+                    </div>
+                    <div className={"show-boolean-preview"}>
+                        {directedActed ? <div className="title">
+                            <div className="tittle-text">Directed Shows</div>
+                        </div> : <div className="title">
+                            <div className="tittle-text">Acted Shows</div>
+                        </div>}
+                        {directedActed ? <ShowPreviewCarrousel posts={directedShows}/>
+                            : <ShowPreviewCarrousel posts={actedShows}/>}
+                    </div>
                 </div>
             </div>
-            <div className="shows-container">
-                <div className={"header-switcher"}>
-                    <Button variant={directedActed ? "contained": "outlined"}
-                            onClick={handleSwitchOn}>
-                        Directed Shows</Button>
-                    <Button variant={directedActed ? "outlined" : "contained"}
-                            onClick={handleSwitchOff}>Acted Shows</Button>
-                </div>
-                <div className={"show-boolean-preview"}>
-                    {directedActed ? <div className="title">
-                        <div className="tittle-text">Directed Shows</div>
-                    </div> : <div className="title">
-                        <div className="tittle-text">Acted Shows</div>
-                    </div>}
-                    {directedActed ? <ShowPreviewCarrousel posts={directedShows}/>
-                        : <ShowPreviewCarrousel posts={actedShows}/>}
-                </div>
-            </div>
+
             <Dialog open={imageDialog} onClose={handleImageDialogClose} className="dialog">
                 <DialogTitle className="dialog-title">Modify Profile Picture</DialogTitle>
                 <DialogContent className="dialog-content">

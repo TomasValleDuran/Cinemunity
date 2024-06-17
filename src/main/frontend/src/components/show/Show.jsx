@@ -277,7 +277,7 @@ const Show = () => {
             <Header/>
 
             <div className={"page-container"}>
-                <div className="container">
+                <div className="show-container">
                     <div className={"header"}>
                         <div className="title">
                             <div className="tittle-text">{title}</div>
