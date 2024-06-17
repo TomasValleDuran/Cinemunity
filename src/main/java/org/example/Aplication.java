@@ -77,6 +77,7 @@ public class Aplication {
         Spark.get("/api/celebrity/directedShows/:celebrityId", celebrityController::getDirectedShows);
         Spark.get("/api/celebrity/actedShows/:celebrityId", celebrityController::getActedShows);
         Spark.post("/api/celebrity/getCelebritiesByIds", celebrityController::getCelebritiesByIds);
+        Spark.put("/api/celebrity/modify", celebrityController::modifyCelebrity);
 
         Spark.post("/api/review/addReview", reviewController::addReview);
         Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);

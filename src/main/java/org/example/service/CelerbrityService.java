@@ -87,4 +87,11 @@ public class CelerbrityService {
         return celebrityList;
     }
 
+    public String modifyCelebrity(Long id, String name, String biography) {
+        Celebrity celebrity = celebrities.findCelebrityById(id);
+        celebrity.setName(name);
+        celebrity.setBiography(biography);
+        celebrities.update(celebrity);
+        return celebrity.asJson();
+    }
 }

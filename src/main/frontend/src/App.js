@@ -17,6 +17,7 @@ import ModifyPassword from "./components/modify-forms/modify-user-password/Modif
 import Wishlist from "./components/wishlist/Wishlist";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import UserList from "./components/user-list/UserList.jsx";
+import ModifyCelebrity from "./components/modify-forms/modify-celebrity/ModifyCelebrity";
 
 function App() {
     return (
@@ -47,6 +48,13 @@ function App() {
                             <AddCelebrity/>
                         </ProtectedRoute>
                     }/>
+
+                    <Route path="/celebrity/modify/:celebrityId" element={
+                        <ProtectedRoute>
+                            <ModifyCelebrity/>
+                        </ProtectedRoute>
+                    }/>
+
 
                     <Route path="/show/:showId" element={<Show/>}/>
                     <Route path="/celebrity/:celebrityId" element={<Celebrity/>}/>

@@ -4,6 +4,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import org.example.dto.AddCelebrityDto;
 import org.example.dto.FullObjectKeyDto;
+import org.example.dto.ModifyCelebrityDto;
 import org.example.service.CelerbrityService;
 import org.example.utility.AuthUtility;
 import spark.Request;
@@ -84,5 +85,22 @@ public class CelebrityController {
         List<Long> celebrityIds = new Gson().fromJson(req.body(), listType);
         res.type("application/json");
         return celebrityService.getCelebritiesByIds(celebrityIds);
+    }
+
+    public String modifyCelebrity(Request req, Response res) {
+        String admin = AuthUtility.validateAdmin(req, res);
+        if (!admin.equals("Admin")) return admin;
+
+        ModifyCelebrityDto modifyCelebrityDto = gson.fromJson(req.body(), ModifyCelebrityDto.class);
+        Long id = modifyCelebrityDto.getId();
+        String name = modifyCelebrityDto.getName();
+        String biography = modifyCelebrityDto.getBiography();
+
+        try {
+            return celebrityService.modifyCelebrity(id, name, biography);
+        } catch (IllegalArgumentException e) {
+            res.status(400);
+            return e.getMessage();
+        }
     }
 }

@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import './Celebrity.css';
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import Header from '../shared/header/Header';
 import axios from "axios";
 import withAuth from "../hoc/withAuth";
-import {Button, Dialog, DialogContent, DialogTitle} from "@mui/material";
+import {Button, Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import ModifyImage from "../modify-forms/modify-image/ModifyImage";
 import EditIcon from "@mui/icons-material/Edit";
-import {wait} from "@testing-library/user-event/dist/utils";
 import ShowPreviewCarrousel from "../shared/show-preview/ShowPreviewCarrousel";
 
 const Celebrity = () => {
@@ -23,6 +22,8 @@ const Celebrity = () => {
     const [directedActed, setDirectedActed] = useState(true);
     const[directedShows, setDirectedShows] = useState([]);
     const [actedShows, setActedShows] = useState([]);
+
+    const navigate = useNavigate();
 
     const fetchCelebrity = async () => {
         try {
@@ -122,6 +123,12 @@ const Celebrity = () => {
         setImage("https://via.placeholder.com/200");
     }
 
+    const handleModify = () => {
+        if (admin) {
+            navigate(`/celebrity/modify/${celebrityId}`)
+        }
+    }
+
     return (
         <div className="home-container">
             <Header/>
@@ -145,6 +152,9 @@ const Celebrity = () => {
                         </div>
                         <p>{bio}</p>
                     </div>
+                    <IconButton onClick={handleModify}>
+                        <EditIcon/>
+                    </IconButton>
                 </div>
             </div>
             <div className="shows-container">
