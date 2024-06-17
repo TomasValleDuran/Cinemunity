@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './AddCelebrity.css';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
-import { Backdrop, Button, CircularProgress, IconButton, TextField } from "@mui/material";
+import { Backdrop, Button, CircularProgress, IconButton, TextField, InputAdornment } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SearchIcon from '@mui/icons-material/Search'
 import { useNavigate } from "react-router-dom";
 import FileUploadButton from "../../shared/material-ui-stolen/FileUploadButton";
 import CelebrityBox from "../../shared/celebrity-import/CelebrityImportPreview";
@@ -158,7 +159,7 @@ const AddCelebrity = () => {
                 }
             });
             console.log(response.data);
-            setResults(response.data.results);
+            setResults(response.data.results.slice(0, 5));
         }
         catch (error) {
             console.error('Error importing celebrity:', error);
@@ -168,8 +169,13 @@ const AddCelebrity = () => {
     const handleCelebrityImport = (celebrityData) => {
         setCelebrityName(celebrityData.name);
         setCelebrityBio(celebrityData.biography);
-        setPreviewUrl(`http://image.tmdb.org/t/p/w500/${celebrityData.profile_path}`);
-        setImageUrl(`http://image.tmdb.org/t/p/w500/${celebrityData.profile_path}`);
+        // usaba http://image.tmdb.org/t/p/w500/ y no funcaba
+        setPreviewUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${celebrityData.profile_path}`);
+        setImageUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${celebrityData.profile_path}`);
+
+        // Clear the search results
+        setResults([]);
+        setSearchName('');
     };
 
     return (
@@ -180,7 +186,7 @@ const AddCelebrity = () => {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <div className={"container"}>
+            <div className={"add-celebrity-container"}>
                 <div className={"back"}>
                     <IconButton aria-label="back" onClick={() => navigate(`/user/${userId}`)}>
                         <ArrowBackIcon />
@@ -191,57 +197,67 @@ const AddCelebrity = () => {
                         <div className="tittle-text">Add Celebrity</div>
                     </div>
                 </div>
-                <TextField
-                    type={"import"}
-                    label={"Import Celebrity"}
-                    value={searchName}
-                    onChange={handleSearchChange}
-                />
-                <Button variant={"outlined"} onClick={handleImport}>Import</Button>
-                <div className="results">
-                    {results.map((result, index) => {
-                        const movieNames = result.known_for.map(movie => movie.title);
-                        return (
-                            <CelebrityBox
-                                key={index}
-                                id={result.id}
-                                name={result.name}
-                                department={result.known_for_department}
-                                movieNames={movieNames}
-                                onImport={handleCelebrityImport}
-                            />
-                        );
-                    })}
+                <div className={"two-column"}>
+                    <div className={"import-search"}>
+                        <TextField
+                            type={"import"}
+                            label={"Search Celebrity"}
+                            value={searchName}
+                            onChange={handleSearchChange}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={handleImport}>
+                                            <SearchIcon/>
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <div className="results">
+                            {results.map((result, index) => {
+                                return (
+                                    <CelebrityBox
+                                        key={index}
+                                        id={result.id}
+                                        name={result.name}
+                                        image={`http://image.tmdb.org/t/p/w500/${result.profile_path}`}
+                                        onImport={handleCelebrityImport}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <form onSubmit={handleSubmit} className={"add-celebrity-form"}>
+                        <TextField
+                            type="name"
+                            label="Name"
+                            value={celebrityName}
+                            required={true}
+                            onChange={handleCelebrityChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            className={"bio-text"}
+                            type="biography"
+                            label="Biography"
+                            multiline={true}
+                            value={celebrityBio}
+                            required={true}
+                            onChange={handleBiographyChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <FileUploadButton onChange={handleFileChange} />
+                        {!legalFile && <p className={"error-message"}>{errorMessage}</p>}
+                        {previewUrl && <img className={"preview-image"} src={previewUrl} alt="Preview" />}
+                        <Button variant="contained" type="submit" color="primary"
+                                disabled={!legalFile && !imageUrl}>
+                            Save
+                        </Button>
+                    </form>
                 </div>
-                <form onSubmit={handleSubmit} className={"inputs"}>
-                    <TextField
-                        type="name"
-                        label="Name"
-                        value={celebrityName}
-                        required={true}
-                        onChange={handleCelebrityChange}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        className={"bio-text"}
-                        type="biography"
-                        label="Biography"
-                        multiline={true}
-                        value={celebrityBio}
-                        required={true}
-                        onChange={handleBiographyChange}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <FileUploadButton onChange={handleFileChange} />
-                    {!legalFile && <p className={"error-message"}>{errorMessage}</p>}
-                    {previewUrl && <img className={"preview-image"} src={previewUrl} alt="Preview" />}
-                    <Button variant="contained" type="submit" color="primary"
-                            disabled={!legalFile && !imageUrl}>
-                        Save
-                    </Button>
-                </form>
             </div>
         </div>
     );

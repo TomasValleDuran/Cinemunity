@@ -1,7 +1,7 @@
-import { Box, Typography } from "@mui/material";
 import axios from "axios";
+import "./CelebrityImportPreview.css";
 
-const CelebrityBox = ({ id, name, department, movieNames, onImport }) => {
+const CelebrityBox = ({ id, name, image, onImport }) => {
     const handleClick = async () => {
         try {
             const response = await axios.get(`http://localhost:3333/api/celebrity/importDetails/${id}`, {
@@ -16,11 +16,19 @@ const CelebrityBox = ({ id, name, department, movieNames, onImport }) => {
         }
     };
 
+    const handleImageError = (e) => {
+        e.target.src = "https://via.placeholder.com/100";
+    }
+
     return (
-        <Box sx={{ border: '1px solid black', margin: '10px', padding: '10px' }} onClick={handleClick}>
-            <Typography variant="h6">{name}</Typography>
-            <Typography variant="subtitle1">{department} • {movieNames.join(', ')}</Typography>
-        </Box>
+        <div className={"celebrity-preview"} onClick={handleClick}>
+            <div className={"celebrity-preview-image"}>
+                <img src={image} alt={name} onError={handleImageError}/>
+            </div>
+            <div className={"celebrity-preview-content"}>
+                <h3>{name}</h3>
+            </div>
+        </div>
     );
 };
 
