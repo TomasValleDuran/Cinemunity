@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Button, IconButton, TextField} from '@mui/material';
+import {Button, IconButton, TextField, InputAdornment} from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import withAuth from "../../hoc/withAuth";
 import './ModifyPassword.css';
 
@@ -12,6 +14,10 @@ function ModifyPassword() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    const [showPassword1, setShowPassword1] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+    const [showPassword3, setShowPassword3] = useState(false);
 
     const navigate = useNavigate();
 
@@ -70,8 +76,20 @@ function ModifyPassword() {
         }
     };
 
+    const handleTogglePassword1 = () => {
+        setShowPassword1(!showPassword1);
+    };
+
+    const handleTogglePassword2 = () => {
+        setShowPassword2(!showPassword2);
+    };
+
+    const handleTogglePassword3 = () => {
+        setShowPassword3(!showPassword3);
+    };
+
     return (
-        <div className={"container"}>
+        <div className={"password-container"}>
             <div className={"back"}>
                 <IconButton aria-label="back" onClick={() => navigate(`/user/${userId}`)}>
                     <ArrowBackIcon />
@@ -84,25 +102,52 @@ function ModifyPassword() {
             </div>
             <form onSubmit={handleSubmit} className={"inputs"}>
                 <TextField
-                    type="password"
+                    type={showPassword1 ? 'text' : 'password'}
                     label="Current Password"
                     value={currentPassword}
                     onChange={handleCurrentPasswordChange}
                     required={true}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleTogglePassword1} edge="end">
+                                    {showPassword1 ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 <TextField
-                    type="password"
+                    type={showPassword2 ? 'text' : 'password'}
                     label="New Password"
                     value={newPassword}
                     onChange={handleNewPasswordChange}
                     required={true}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleTogglePassword2} edge="end">
+                                    {showPassword2 ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 <TextField
-                    type="password"
+                    type={showPassword3 ? 'text' : 'password'}
                     label="Confirm New Password"
                     value={confirmNewPassword}
                     onChange={handleConfirmNewPasswordChange}
                     required={true}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleTogglePassword3} edge="end">
+                                    {showPassword3 ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <Button variant="contained" type="submit" color="primary">

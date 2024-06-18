@@ -3,10 +3,11 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 20px;
-    border: 1px solid #e0e0e0;
-    width: 100%;
+    padding: 10px;
+    margin: 10px;
     flex-grow: 1;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .review-preview-container img {

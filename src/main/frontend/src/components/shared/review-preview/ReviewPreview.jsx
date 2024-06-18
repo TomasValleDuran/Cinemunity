@@ -6,12 +6,40 @@ import StarIcon from '@mui/icons-material/Star';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Link, useNavigate} from "react-router-dom";
+import TwitterShareButton from "../share-button/TwitterShareButton";
+import FacebookShareButton from "../share-button/FacebookShareButton";
 
 const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, showId, image }) => {
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
     const rating = reviewRating;
     const navigate = useNavigate();
+
+    const [title, setTitle] = useState("");
+
+    const fetchShow = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/show/get/${showId}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log("información de show:", response.data)
+            return response.data;
+        }
+        catch (error) {
+            console.error('Error fetching show:', error);
+            return null;
+        }
+    }
+
+    useEffect(() => {
+        fetchShow().then((show) => {
+            if (show) {
+                setTitle(show.title);
+            }
+        });
+    }, []);
 
 
     const fetchLikes = async () => {
@@ -72,6 +100,10 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
         navigate(`/user/${userId}`);
     }
 
+    const unmarkdownText = (text) => {
+        return text.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
+    }
+
     return (
         <div className="review-preview-container">
             <div className={"review-preview-image"}>
@@ -93,13 +125,23 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                     </ReactMarkdown>
                 </div>
                 <div className="review-footer">
+                    <div className={"share-buttons"}>
+                        <TwitterShareButton
+                            review={unmarkdownText(reviewText)}
+                            title={title}
+                            username={username}/>
+                        <FacebookShareButton
+                            review={unmarkdownText(reviewText)}
+                            title={title}
+                            username={username}/>
+                    </div>
                     <div className="like-container">
                         {liked
                             ? <FavoriteIcon className={"favorite-icon"} onClick={handleLike}/>
                             : <FavoriteBorderIcon className={"favorite-border-icon"} onClick={handleLike}/>
                         }
+                        <p>{likes}</p>
                     </div>
-                    <p>{likes}</p>
                 </div>
             </div>
         </div>

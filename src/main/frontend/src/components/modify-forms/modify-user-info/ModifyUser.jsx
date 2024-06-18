@@ -71,7 +71,7 @@ function ModifyUser() {
     };
 
     return (
-        <div className={"container"}>
+        <div className={"info-container"}>
             <div className={"back"}>
                 <IconButton aria-label="back" onClick={() => navigate(`/user/${userId}`)}>
                     <ArrowBackIcon />

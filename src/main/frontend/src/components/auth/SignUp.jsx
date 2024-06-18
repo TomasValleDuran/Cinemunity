@@ -3,13 +3,16 @@ import axios from 'axios';
 import './SignIn-SignUp.css';
 import {Link, useNavigate} from 'react-router-dom';
 import logo from "../assets/logo.png";
-import {Button, TextField} from "@mui/material";
+import {Button, IconButton, InputAdornment, TextField} from "@mui/material";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const navigate = useNavigate();
@@ -67,6 +70,10 @@ const SignUp = () => {
         localStorage.removeItem('token');
     }, []);
 
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <div className="container-signin">
             <div className="header">
@@ -92,10 +99,19 @@ const SignUp = () => {
                 />
                 <TextField
                     className="wide-input"
-                    type={"password"}
+                    type={showPassword ? 'text' : 'password'}
                     value={password}
                     label={"Password"}
                     onChange={handlePasswordChange}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleTogglePassword} edge="end">
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <Button variant="contained" type="submit" color="primary">
