@@ -26,6 +26,10 @@ public class CelerbrityService {
             throw new IllegalArgumentException("Object key cannot be empty");
         }
 
+        if (celebrities.findCelebrityByName(name) != null) {
+            throw new IllegalArgumentException("Celebrity already exists");
+        }
+
         Celebrity celebrity = new Celebrity(name, biography, objectKey);
         celebrities.save(celebrity);
         return celebrity.asJson();

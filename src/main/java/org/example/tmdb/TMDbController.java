@@ -141,7 +141,13 @@ public class TMDbController {
         JsonObject actorDetailsJson = JsonParser.parseString(actorDetails).getAsJsonObject();
         String actorName = actorDetailsJson.get("name").getAsString();
 
-        String actorBiography = actorDetailsJson.get("biography").getAsString().split("\\n", 2)[0];
+        String actorBiography;
+        if (!actorDetailsJson.has("biography")){
+            actorBiography = "No biography available";
+        } else {
+            actorBiography = actorDetailsJson.get("biography").getAsString().split("\\n", 2)[0];
+        }
+
 
         if (actorDetailsJson.has("profile_path") && !actorDetailsJson.get("profile_path").isJsonNull()) {
             String actorProfilePath = actorDetailsJson.get("profile_path").getAsString();
@@ -185,7 +191,25 @@ public class TMDbController {
         int showId = Integer.parseInt(req.params(":tvShowId"));
         try {
             res.type("application/json");
-            return tmDbService.getTvShowDetails(showId);
+            String showDetails = tmDbService.getTvShowDetails(showId);
+            // Parse movieDetails to get the cast
+            JsonObject movieDetailsJson = JsonParser.parseString(showDetails).getAsJsonObject();
+            JsonObject credits = movieDetailsJson.getAsJsonObject("credits");
+            JsonArray cast = credits.getAsJsonArray("cast");
+
+            // For each cast member, check if they exist in your database
+            iterateCast(cast);
+
+            JsonArray creator = movieDetailsJson.getAsJsonArray("created_by");
+            iterateCast(creator);
+
+            // Create new cast and crew arrays
+            JsonArray newCast = makeNewCast(cast);
+            JsonArray newCreator = makeNewCast(creator);
+            credits.add("cast", newCast);
+            movieDetailsJson.add("credits", credits);
+            movieDetailsJson.add("created_by", newCreator);
+            return movieDetailsJson.toString();
         } catch (Exception e) {
             res.status(500);
             return "Error: " + e.getMessage();

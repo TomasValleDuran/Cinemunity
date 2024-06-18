@@ -8,6 +8,8 @@ import SearchIcon from '@mui/icons-material/Search'
 import { useNavigate } from "react-router-dom";
 import FileUploadButton from "../../shared/material-ui-stolen/FileUploadButton";
 import CelebrityBox from "../../shared/celebrity-import/CelebrityImportPreview";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const AddCelebrity = () => {
     const [userId, setUserId] = useState('');
@@ -25,6 +27,7 @@ const AddCelebrity = () => {
     const [previewUrl, setPreviewUrl] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
 
+    const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -158,8 +161,8 @@ const AddCelebrity = () => {
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            console.log(response.data);
-            setResults(response.data.results.slice(0, 5));
+            console.log("Results: ", response.data);
+            setResults(response.data.results);
         }
         catch (error) {
             console.error('Error importing celebrity:', error);
@@ -173,9 +176,20 @@ const AddCelebrity = () => {
         setPreviewUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${celebrityData.profile_path}`);
         setImageUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${celebrityData.profile_path}`);
 
-        // Clear the search results
         setResults([]);
         setSearchName('');
+    };
+
+    const handleNextClick = () => {
+        if (currentIndex * 5 < results.length - 5) {
+            setCurrentIndex(currentIndex + 1);
+        }
+    };
+
+    const handlePrevClick = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+        }
     };
 
     return (
@@ -197,7 +211,7 @@ const AddCelebrity = () => {
                         <div className="tittle-text">Add Celebrity</div>
                     </div>
                 </div>
-                <div className={"search-results-form-container"}>
+                <div className={"celebrity-search-results-form-container"}>
                     <div className={"celebrity-import-search"}>
                         <TextField
                             type={"import"}
@@ -214,8 +228,16 @@ const AddCelebrity = () => {
                                 ),
                             }}
                         />
+                        {results.length > 0 && <div className={"show-results-pagination"}>
+                            <IconButton onClick={handlePrevClick}>
+                                <ArrowBackIosNewIcon/>
+                            </IconButton>
+                            <IconButton onClick={handleNextClick}>
+                                <ArrowForwardIosIcon/>
+                            </IconButton>
+                        </div>}
                         <div className="celebrity-results">
-                            {results.map((result, index) => {
+                            {results.slice(currentIndex * 5, currentIndex * 5 + 5).map((result, index) => {
                                 return (
                                     <CelebrityBox
                                         key={index}
@@ -250,8 +272,8 @@ const AddCelebrity = () => {
                             margin="normal"
                         />
                         <FileUploadButton onChange={handleFileChange} />
-                        {!legalFile && <p className={"error-message"}>{errorMessage}</p>}
                         {previewUrl && <img className={"preview-image"} src={previewUrl} alt="Preview" />}
+                        {!legalFile && <p className={"error-message"}>{errorMessage}</p>}
                         <Button variant="contained" type="submit" color="primary"
                                 disabled={!legalFile && !imageUrl}>
                             Save

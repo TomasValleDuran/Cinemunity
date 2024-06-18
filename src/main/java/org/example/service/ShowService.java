@@ -31,23 +31,18 @@ public class ShowService {
 
         Show show = new Show(title, description, show_type, objectKey);
 
-        Celebrity directorCeleb = null;
-        try {
-            directorCeleb = celebrities.findCelebrityByName(director);
-            show.setDirector(directorCeleb);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Director not found");
-        }
+        Celebrity directorCeleb = celebrities.findCelebrityByName(director);
+        if (directorCeleb == null) throw new IllegalArgumentException("Director not found");
+        show.setDirector(directorCeleb);
+
 
         List<Celebrity> actorList = new ArrayList<>();
-        try{
-            for (String actor : actors) {
-                actorList.add(celebrities.findCelebrityByName(actor));
-            }
-            show.setActors(actorList);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("An actor is not found");
+        for (String actor : actors) {
+            Celebrity actorCeleb = celebrities.findCelebrityByName(actor);
+            if (actorCeleb == null) throw new IllegalArgumentException("An actor is not found: " + actor);
+            actorList.add(actorCeleb);
         }
+        show.setActors(actorList);
 
         if (show_type.equals("TVShow")) {
             if (seasons == null) {

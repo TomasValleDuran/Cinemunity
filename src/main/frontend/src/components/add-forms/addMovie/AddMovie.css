@@ -25,10 +25,6 @@
     justify-content: flex-start;
 }
 
-.form-group {
-    margin-bottom: 15px;
-}
-
 .form-control {
     padding: 15px 10px;
     font-size: 16px; /* Larger font size for better readability */
@@ -52,8 +48,6 @@
 }
 
 .actor-list-container {
-    flex: 1;
-    margin: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -129,5 +123,80 @@
 }
 
 .add-actor-package TextField {
+    flex-grow: 1;
+}
+
+.add-show-preview-image {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    align-content: center;
+}
+
+.add-show-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.add-show-form-child {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    flex-direction: column;
+}
+
+.add-show-form-child .MuiFormControl-root {
+    flex-grow: 1;
+}
+
+.show-search-results-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.show-import-search {
+    display: flex;
+    flex-direction: column;
+}
+
+.show-type-selector {
+    padding: 10px;
+}
+
+.show-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    flex-direction: row;
+}
+
+.actor-list-image-upload-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.image-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-grow: 1;
+}
+
+.actor-list-container {
     flex-grow: 1;
 }
