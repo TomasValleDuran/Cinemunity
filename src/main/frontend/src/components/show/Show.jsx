@@ -352,6 +352,7 @@ const Show = () => {
                                 reviewRating={review.review_rating}
                                 initialLikes={+review.likes}
                                 onRemoveReview={handleShowRemoveReview}
+                                title={title}
                             />))}
 
                     </div>

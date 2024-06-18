@@ -9,9 +9,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
+import TwitterShareButton from "../share-button/TwitterShareButton";
 import {useNavigate} from "react-router-dom";
+import FacebookShareButton from "../share-button/FacebookShareButton";
 
-const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview }) => {
+const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview, title }) => {
     const [currentUsername, setCurrentUsername] = useState("");
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
@@ -110,13 +112,16 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
         setDialogOpen(true);
     };
 
-    // Close confirmation dialog
     const handleDialogClose = () => {
         setDialogOpen(false);
     };
 
     const handleUserSearch = () => {
         navigate(`/user/${userId}`);
+    }
+
+    const unmarkdownText = (text) => {
+        return text.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
     }
 
     return (
@@ -141,13 +146,23 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                 </ReactMarkdown>
             </div>
             <div className="review-footer">
+                <div className={"share-buttons"}>
+                    <TwitterShareButton
+                        review={unmarkdownText(reviewText)}
+                        title={title}
+                        username={username}/>
+                    <FacebookShareButton
+                        review={unmarkdownText(reviewText)}
+                        title={title}
+                        username={username}/>
+                </div>
                 <div className="like-container">
                     {liked
                         ? <FavoriteIcon className={"favorite-icon"} onClick={handleLike}/>
                         : <FavoriteBorderIcon className={"favorite-border-icon"} onClick={handleLike}/>
                     }
+                    <p>{likes}</p>
                 </div>
-                <p>{likes}</p>
             </div>
             <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDelete}
                                 information={"Review"} isAdmin={false}/>
