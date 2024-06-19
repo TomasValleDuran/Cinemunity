@@ -130,11 +130,10 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                             review={unmarkdownText(reviewText)}
                             title={title}
                             username={username}/>
-                        <!--
-                        <FacebookShareButton
+                        {/*<FacebookShareButton
                             review={unmarkdownText(reviewText)}
                             title={title}
-                            username={username}/> No esta bien implementado todavía-->
+                            username={username}/> No esta bien implementado todavía*/}
                     </div>
                     <div className="like-container">
                         {liked
