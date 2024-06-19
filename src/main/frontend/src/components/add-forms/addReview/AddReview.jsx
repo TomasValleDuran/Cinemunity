@@ -107,6 +107,8 @@ const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
                     multiline={true}
                     onChange={handleTextChange}
                     value={review}
+                    maxRows={15}
+                    minRows={5}
                 />
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <Button variant="contained"

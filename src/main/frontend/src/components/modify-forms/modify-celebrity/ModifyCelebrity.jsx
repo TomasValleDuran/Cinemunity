@@ -102,6 +102,8 @@ const ModifyCelebrity = () => {
                         required={true}
                         onChange={handleBiographyChange}
                         fullWidth
+                        maxRows={15}
+                        minRows={5}
                         margin="normal"
                     />
                     <Button variant="contained" type="submit" color="primary">
