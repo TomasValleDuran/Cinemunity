@@ -351,8 +351,8 @@ const AddMovie = () => {
                             onChange={handleDescriptionChange}
                             fullWidth
                             margin="normal"
-                            maxRows={15}
-                            minRows={1}
+                            maxRows={10}
+                            minRows={5}
                         />
                         <TextField
                             type="director"

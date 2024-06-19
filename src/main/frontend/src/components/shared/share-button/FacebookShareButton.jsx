@@ -27,8 +27,7 @@ const FacebookShareButton = ({ review, title, username }) => {
         const user = currentUsername === username ? "my" : username + "'s";
         const shareUrl = encodeURIComponent(window.location.href);
         const quote = encodeURIComponent(
-            `Check out ${user} review about ${title}: \n"${review}" 
-            \nCheck out more reviews in Cinemunity!`);
+            `Check out ${user} review about ${title}: "${review}" Check out more reviews in Cinemunity!`);
         const url = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${quote}`;
         window.open(url, '_blank');
     };
