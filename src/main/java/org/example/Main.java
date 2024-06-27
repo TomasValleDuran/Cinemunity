@@ -16,23 +16,23 @@ public class Main {
     public static void main(String[] args) {
         final EntityManagerFactory factory = Persistence.createEntityManagerFactory("cinemunityDB");
         final EntityManager entityManager = factory.createEntityManager();
-/*
+
         Map<String, Celebrity> celebrities = new HashMap<>();
         List<User> users = new ArrayList<>();
         List<Show> shows = new ArrayList<>();
         List<Review> reviews = new ArrayList<>();
 
- */
+
 
         createAdminUser(entityManager);
-/*
+
         createRegularUsers(entityManager, users);
         createNumberUsers(entityManager, users);
         createCelebriries(entityManager, celebrities);
         createMovies(entityManager, shows, celebrities);
         createTVShows(entityManager, shows, celebrities);
         createReviews(entityManager, shows, users, reviews);
-*/
+
 //        likeRandomReviews(entityManager, reviews, users);
 
         entityManager.close();

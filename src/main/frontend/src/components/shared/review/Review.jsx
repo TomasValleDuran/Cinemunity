@@ -8,12 +8,14 @@ import StarIcon from '@mui/icons-material/Star';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ReplyIcon from '@mui/icons-material/Reply';
 import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
 import TwitterShareButton from "../share-button/TwitterShareButton";
 import {useNavigate} from "react-router-dom";
-import FacebookShareButton from "../share-button/FacebookShareButton";
+import AddReply from "../../add-forms/addReply/AddReply";
+import Reply from "../reply/Reply";
 
-const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview, title }) => {
+const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview, title, repliesIds }) => {
     const [currentUsername, setCurrentUsername] = useState("");
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
@@ -21,6 +23,8 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
     const [dialogOpen, setDialogOpen] = useState(false); // State for confirmation dialog
     const navigate = useNavigate();
     const [isVerified, setIsVerified] = useState(false);
+    const [showReply, setShowReply] = useState(false);
+    const [replies, setReplies] = useState(null);
 
 
     const fetchLikes = async () => {
@@ -37,14 +41,37 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
         }
     }
 
-    useEffect(() => {
+    const fetchReplies = async () => {
+        try {
+            const response = await axios.post(`http://localhost:3333/api/review/getReplies`, repliesIds, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            const res = response.data
+            return res
+        }
+        catch (error) {
+            console.error('Error fetching replies:', error);
+        }
+
+    }
+
+    useEffect( () => {
         getIsVerified();
+
         fetchLikes().then((likes) => {
             if (likes && likes.includes(id)) {
                 setLiked(true);
             }
         });
-    });
+        if (repliesIds.length > 0) {
+            fetchReplies().then((res) => {
+                setReplies(res); // Actualiza el estado de las respuestas
+                console.log("replies", res)
+            });
+        }
+    }, [repliesIds]);
 
     const handleLike = () => {
         if (!liked) {
@@ -124,10 +151,14 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
         return text.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
     }
 
+    const handleReply = () => {
+        setShowReply(!showReply);
+    }
+
     return (
         <div className="review-container">
             <div className="review-header">
-                <div className = "name-and-stars">
+                <div className="name-and-stars">
                     <h2 onClick={handleUserSearch} className={"username"}>{username}</h2>
                     {isVerified && <CheckCircleIcon className={"verified-icon"}/>}
                     {Array.from({length: rating}).map((_, index) => <StarIcon key={index} className={"start-icon"}/>)}
@@ -157,12 +188,28 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                             username={username}/> No esta bien implementado todavía*/}
                 </div>
                 <div className="like-container">
+                    <ReplyIcon className={"reply-icon"} onClick={handleReply}/>
                     {liked
                         ? <FavoriteIcon className={"favorite-icon"} onClick={handleLike}/>
                         : <FavoriteBorderIcon className={"favorite-border-icon"} onClick={handleLike}/>
                     }
                     <p>{likes}</p>
                 </div>
+            </div>
+            {showReply && <AddReply reviewId={id} userId={userId} onClose={handleReply}/>}
+            <div>
+                {replies === null ? (
+                    <div></div>
+                ) : (
+                    replies.map((reply) => (
+                        <Reply
+                            key={reply.replyId}
+                            reply_text={reply.reply_text}
+                            username={reply.username}
+                            userId={reply.userId}
+                        />
+                    ))
+                )}
             </div>
             <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDelete}
                                 information={"Review"} isAdmin={false}/>

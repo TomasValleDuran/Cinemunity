@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.model.Reply;
 import org.example.model.Review;
 import org.example.model.Show;
 import org.example.model.User;
@@ -39,6 +40,26 @@ public class ReviewService {
         List<String> jsonList = new ArrayList<>();
         for (Review review : reviewList) {
             jsonList.add(review.asJson());
+        }
+        return jsonList;
+    }
+
+    public String addReply(User user, Long review_id, String reply_text) {
+        if (reply_text == null || reply_text.isEmpty()) {
+            throw new IllegalArgumentException("Reply is empty!");
+        }
+        Review review = reviews.getReviewById(review_id);
+        Reply reply = new Reply(user, review, reply_text);
+        review.addReply(reply);
+        reviews.updateReview(review);
+        return review.asJson();
+    }
+
+    public List<String> getRepliesByIds(List<Long> ids){
+        List<Reply> replyList = reviews.findRepliesByIds(ids);
+        List<String> jsonList = new ArrayList<>();
+        for (Reply reply : replyList) {
+            jsonList.add(reply.asJson());
         }
         return jsonList;
     }

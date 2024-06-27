@@ -1,0 +1,25 @@
+.reply-username:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.reply-body {
+    margin: 10px 0;
+    text-align: start;
+    word-wrap: break-word; /* Ajustar el contenido */
+    overflow-wrap: break-word; /* Ajustar el contenido */
+    max-width: 100%; /* Asegurar que no se estire */
+}
+
+.reply-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.reply-header h2 {
+    margin-right: 10px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}

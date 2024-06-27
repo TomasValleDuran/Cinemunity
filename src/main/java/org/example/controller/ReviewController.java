@@ -3,7 +3,9 @@ package org.example.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import org.example.dto.AddReplyDto;
 import org.example.dto.AddReviewDto;
+import org.example.model.Review;
 import org.example.model.Show;
 import org.example.model.User;
 import org.example.repository.Shows;
@@ -93,6 +95,32 @@ public class ReviewController {
             res.status(400);
             return e.getMessage();
         }
+    }
+
+    public String addReply(Request req, Response res) {
+        Long id = AuthUtility.getUserIdFromToken(req.headers("Authorization"));
+        if (id == null) {
+            res.status(401);
+            return "Invalid or expired token";
+        }
+        User user = users.findUserById(AuthUtility.getUserIdFromToken(req.headers("Authorization")));
+
+        AddReplyDto addReplyDto = gson.fromJson(req.body(), AddReplyDto.class);
+        res.type("application/json");
+        try {
+            return reviewService.addReply(user, addReplyDto.getReviewId(), addReplyDto.getReply());
+        } catch (Exception e) {
+            res.status(400);
+            return e.getMessage();
+        }
+    }
+
+    public Object getReplies(Request req, Response res) {
+        Type listType = new TypeToken<ArrayList<Long>>(){}.getType();
+        List<Long> replyIds = new Gson().fromJson(req.body(), listType);
+        System.out.println(replyIds);
+        res.type("application/json");
+        return reviewService.getRepliesByIds(replyIds);
     }
 
 }

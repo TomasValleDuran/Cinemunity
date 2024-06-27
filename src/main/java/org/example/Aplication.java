@@ -84,6 +84,8 @@ public class Aplication {
         Spark.put("/api/review/likeReview/:reviewId", reviewController::likeReview);
         Spark.put("/api/review/unlikeReview/:reviewId", reviewController::unlikeReview);
         Spark.delete("/api/review/deleteReview/:reviewId", reviewController::deleteReview);
+        Spark.post("/api/review/addReply", reviewController::addReply);
+        Spark.post("/api/review/getReplies", reviewController::getReplies);
 
         Spark.get("/api/user/wishlist/:userId", userController::getWishlist);
         Spark.post("/api/user/wishlist", userController::addToWishlist);

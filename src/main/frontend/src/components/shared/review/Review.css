@@ -94,6 +94,10 @@
     cursor: pointer;
 }
 
+.reply-icon:hover {
+    cursor: pointer;
+}
+
 .username:hover {
     cursor: pointer;
     opacity: 0.7;

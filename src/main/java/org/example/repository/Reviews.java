@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.example.model.Reply;
 import org.example.model.Review;
 
 import javax.persistence.EntityManager;
@@ -32,6 +33,12 @@ public class Reviews {
                 "WHERE r.reviewId = :id", Review.class);
         query.setParameter("id", id);
         return query.getSingleResult();
+    }
+
+    public List<Reply> findRepliesByIds(List<Long> ids){
+        TypedQuery<Reply> query = currentEntityManager().createQuery("SELECT r FROM Reply r WHERE r.replyId IN :ids", Reply.class);
+        query.setParameter("ids", ids);
+        return query.getResultList();
     }
 
     public void updateReview(Review review) {

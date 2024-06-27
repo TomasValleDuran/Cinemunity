@@ -31,6 +31,10 @@ public class Review {
     @ManyToMany(mappedBy = "likes")
     private List<User> likedBy = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "reviewId")
+    private List<Reply> replies = new ArrayList<>();
+
     public Review() {}
 
     public Review(User user, Show movie, String review_text, Integer review_rating) {
@@ -68,6 +72,10 @@ public class Review {
         return likedBy;
     }
 
+    public void addReply(Reply reply) {
+        replies.add(reply);
+    }
+
     public String asJson() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Review.class, new JsonSerializer<Review>() {
@@ -83,6 +91,12 @@ public class Review {
                         jsonObject.addProperty("showId", src.show.getShowId());
                         jsonObject.addProperty("show_img", src.show.getImage());
                         jsonObject.addProperty("likes", src.likedBy.size());
+
+                        JsonArray repliesArray = new JsonArray();
+                        for (Reply reply : src.replies) {
+                            repliesArray.add(reply.getReplyId());
+                        }
+                        jsonObject.add("replies", repliesArray);
                         return jsonObject;
                     }
                 })

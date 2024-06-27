@@ -353,6 +353,7 @@ const Show = () => {
                                 initialLikes={+review.likes}
                                 onRemoveReview={handleShowRemoveReview}
                                 title={title}
+                                repliesIds={review.replies}
                             />))}
 
                     </div>
