@@ -1,46 +1,101 @@
+/* Header Styles */
 .header-menu {
-    padding: 20px;
-    height: 40px;
-    width: auto;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 10px 20px;
     background-color: #4783ef;
 }
 
-.header-logo {
-    margin: 20px;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    flex-grow: 2;
+.header-logo img {
+    height: 50px;
+    width: auto;
+}
+
+.logo-small {
+    display: none;
+}
+
+.logo-large {
+    display: block;
 }
 
 .search-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    z-index: 1000;
-    position: fixed;
-    flex-grow: 6;
+    flex-grow: 1;
+    position: relative;
+    transition: max-height 0.3s ease-out;
+    max-height: none;
 }
 
-.header-logo img {
-    height: 50px;
+.search-container.hidden {
+    display: none;
+}
+
+.search-container.visible {
+    max-height: 100px; /* Ajusta según sea necesario */
 }
 
 .header-right-buttons {
-    margin: 0 10px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     gap: 10px;
-    flex-grow: 2;
+}
+
+.header-right-buttons img {
+    height: 25px;
+    cursor: pointer;
+}
+
+.header-right-buttons.hidden, .header-logo.hidden {
+    display: none;
+}
+
+.search-close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn {
-    padding: 5px 5px;
+    padding: 5px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* Media Queries */
+@media (max-width: 750px) {
+    .logo-large {
+        display: none;
+    }
+
+    .logo-small {
+        display: block;
+    }
+}
+
+@media (max-width: 650px) {
+    .search-container {
+        max-height: 0;
+        overflow: hidden;
+    }
+
+    .search-container.visible {
+        max-height: 100px;
+        display: flex; /* Asegura que el display sea flex cuando se muestra */
+    }
+
+    .header-right-buttons.hidden, .header-logo.hidden {
+        display: none;
+    }
+
+    .header-menu {
+        justify-content: space-between;
+    }
+
+    .search-close-button {
+        display: flex;
+    }
 }

@@ -1,32 +1,35 @@
-import React, {useState, useEffect} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import axios from "axios";
 import SearchBar from "./search-bar/SearchBar";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import logo from "../../assets/logo.png";
-import {IconButton} from "@mui/material";
+import logo from "../../assets/logo.png"; // Logo con nombre
+import logoSmall from "../../assets/logo-small.png"; // Logo sin nombre
+import { IconButton } from "@mui/material";
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Header = () => {
     const [username, setUsername] = useState('');
     const [userId, setUserid] = useState('');
+    const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 650);
     const navigate = useNavigate();
 
     const fetchUsername = async () => {
         try {
-            const response = await axios.get('http://localhost:3333//api/user/currentUser', {
+            const response = await axios.get('http://localhost:3333/api/user/currentUser', {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            console.log("cargo el header")
             return response.data;
         } catch (error) {
             console.error('Error fetching username:', error);
             return null;
         }
-    }
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -36,6 +39,19 @@ const Header = () => {
         };
 
         fetchUserData();
+
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 650);
+            if (window.innerWidth > 650) {
+                setIsSearchBarVisible(false); // Reset search bar visibility when resizing to larger screens
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     const handleProfileClick = () => {
@@ -44,28 +60,48 @@ const Header = () => {
 
     const handleWishlistClick = () => {
         navigate(`/user/${username}/wishlist`, { state: { userId: userId } });
-    }
+    };
 
+    const toggleSearchBar = () => {
+        setIsSearchBarVisible(!isSearchBarVisible);
+    };
 
     return (
-        <div className={'header-menu'}>
-            <div className={'header-logo'}>
-                <Link to={'/home'}>
-                    <img src={logo} alt={'logo.png'}/>
+        <header className='header-menu'>
+            <div className={`header-logo ${isMobile && isSearchBarVisible ? 'hidden' : ''}`}>
+                <Link to='/home'>
+                    <img src={logo} alt='logo.png' className='logo-large' />
+                    <img src={logoSmall} alt='logo-small.png' className='logo-small' />
                 </Link>
             </div>
-            <div className={'search-container'}>
-                <SearchBar/>
+            <div className={`search-container ${isMobile && isSearchBarVisible ? 'visible' : ''}`}>
+                <SearchBar />
             </div>
-            <div className={'header-right-buttons'}>
-                <IconButton onClick={handleWishlistClick} size='medium'>
-                    <BookmarkIcon fontSize={'large'} className={'btn'}/>
-                </IconButton>
-                <IconButton onClick={handleProfileClick} size='medium'>
-                    <AccountCircleIcon fontSize={'large'} className={'btn'}/>
-                </IconButton>
+            <div className={`header-right-buttons ${isMobile && isSearchBarVisible ? 'hidden' : ''}`}>
+                {isMobile && (
+                    <IconButton onClick={toggleSearchBar} size='medium'>
+                        <SearchIcon fontSize='large' className='btn' />
+                    </IconButton>
+                )}
+                {!isMobile || !isSearchBarVisible ? (
+                    <>
+                        <IconButton onClick={handleWishlistClick} size='medium'>
+                            <BookmarkIcon fontSize='large' className='btn' />
+                        </IconButton>
+                        <IconButton onClick={handleProfileClick} size='medium'>
+                            <AccountCircleIcon fontSize='large' className='btn' />
+                        </IconButton>
+                    </>
+                ) : null}
             </div>
-        </div>
+            {isMobile && isSearchBarVisible && (
+                <div className='search-close-button'>
+                    <IconButton onClick={toggleSearchBar} size='medium'>
+                        <SearchIcon fontSize='large' className='btn' />
+                    </IconButton>
+                </div>
+            )}
+        </header>
     );
 };
 
