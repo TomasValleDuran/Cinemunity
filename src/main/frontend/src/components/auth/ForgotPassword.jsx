@@ -35,7 +35,7 @@ const ForgotPassword = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container-signin">
             <div className='header'>
                 <div className={'header-img'}>
                     <img src={logo} alt={'logo.png'}/>
