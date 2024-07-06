@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Select from 'react-select';
 import searchIcon from '../../../assets/search-icon.png';
-import { useNavigate } from 'react-router-dom';
 import './SearchBar.css';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 const DropdownStyles = {

@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 5px 10px;
     background-color: #4783ef;
 }
 
@@ -28,6 +28,9 @@
     position: relative;
     transition: max-height 0.3s ease-out;
     max-height: none;
+    max-width: 600px; /* Establecer un ancho máximo */
+    width: 100%;
+    margin: 0 auto; /* Centra el contenedor */
 }
 
 .search-container.hidden {

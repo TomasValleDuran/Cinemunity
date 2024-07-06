@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import axios from "axios";
 import SearchBar from "./search-bar/SearchBar";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from "../../assets/logo.png"; // Logo con nombre
 import logoSmall from "../../assets/logo-small.png"; // Logo sin nombre
 import { IconButton } from "@mui/material";
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import SearchIcon from '@mui/icons-material/Search';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const Header = () => {
     const [username, setUsername] = useState('');
@@ -97,7 +99,7 @@ const Header = () => {
             {isMobile && isSearchBarVisible && (
                 <div className='search-close-button'>
                     <IconButton onClick={toggleSearchBar} size='medium'>
-                        <SearchIcon fontSize='large' className='btn' />
+                        <CloseIcon fontSize='large' className='btn'/>
                     </IconButton>
                 </div>
             )}
