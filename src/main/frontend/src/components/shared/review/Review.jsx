@@ -15,7 +15,8 @@ import {useNavigate} from "react-router-dom";
 import AddReply from "../../add-forms/addReply/AddReply";
 import Reply from "../reply/Reply";
 
-const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, onRemoveReview, title, repliesIds }) => {
+const Review = ({ id , username, userId, reviewText,
+                    reviewRating, initialLikes, onRemoveReview, title, repliesIds, onReplyChange }) => {
     const [currentUsername, setCurrentUsername] = useState("");
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes === undefined ? 0 : initialLikes);
@@ -48,8 +49,8 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            const res = response.data
-            return res
+            console.log("replies fetched for Review: ", response.data);
+            return response.data
         }
         catch (error) {
             console.error('Error fetching replies:', error);
@@ -67,11 +68,27 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
         });
         if (repliesIds.length > 0) {
             fetchReplies().then((res) => {
-                setReplies(res); // Actualiza el estado de las respuestas
+                setReplies(res);
                 console.log("replies", res)
             });
         }
     }, [repliesIds]);
+
+
+    const handleReplyAdded = () => {
+        onReplyChange();
+        fetchReplies().then((res) => {
+            setReplies(res);
+            console.log("Replies after adding a new one:", res);
+        });
+    };
+
+    useEffect(() => {
+        fetchReplies().then((res) => {
+            setReplies(res);
+            console.log("replies", res)
+        });
+    }, [showReply]);
 
     const handleLike = () => {
         if (!liked) {
@@ -196,7 +213,7 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                     <p>{likes}</p>
                 </div>
             </div>
-            {showReply && <AddReply reviewId={id} userId={userId} onClose={handleReply}/>}
+            {showReply && <AddReply reviewId={id} userId={userId} onClose={handleReply} onReplyAdded={handleReplyAdded}/>}
             <div>
                 {replies === null ? (
                     <div></div>

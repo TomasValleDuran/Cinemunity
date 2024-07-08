@@ -125,6 +125,10 @@ const Show = () => {
         }
     }
 
+    const reloadReviews = async () => {
+        setReviewsUpdated(!reviewsUpdated);
+    };
+
     const calculateAverageRating = (reviews) => {
         if (reviews.length === 0) {
             setAverageRating(0);
@@ -354,6 +358,7 @@ const Show = () => {
                                 onRemoveReview={handleShowRemoveReview}
                                 title={title}
                                 repliesIds={review.replies}
+                                onReplyChange={reloadReviews}
                             />))}
 
                     </div>

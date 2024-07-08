@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Mention from "../addReview/Mention";
 import axios from "axios";
 
-const AddReply = ({ reviewId, userId, onClose }) => {
+const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
     const [replyText, setReplyText] = useState('');
     const [isSearching, setIsSearching] = useState(false);
     const [myMap, setMyMap] = useState({});
@@ -62,8 +62,8 @@ const AddReply = ({ reviewId, userId, onClose }) => {
             console.log("res");
             console.log(response.data);
             if (response.status === 200) {
-                onClose()
-                //window.location.reload(); // malardo esto
+                onClose();
+                onReplyAdded();
             }
         }
         catch (error) {
@@ -112,7 +112,7 @@ const AddReply = ({ reviewId, userId, onClose }) => {
                         type="submit"
                         color="primary"
                         disabled={!replyText || errorMessage !== ''}>
-                    Submit Review
+                    Submit Reply
                 </Button>
             </form>
             <Mention onResultSelect={handleSelectedResult}

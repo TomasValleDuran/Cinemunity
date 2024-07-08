@@ -33,7 +33,7 @@ const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
             console.log(response.data);
             if (response.status === 200) {
                 onRemove();
-                //window.location.reload(); // malardo esto
+                //window.location.reload();
             }
         }
         catch (error) {
