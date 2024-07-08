@@ -260,4 +260,10 @@ public class UserController {
         res.type("application/json");
         return userService.getPeopleWithPrefix(prefix);
     }
+
+    public Object getNotifications(Request req, Response res) {
+        String token = req.headers("Authorization");
+        res.type("application/json");
+        return userService.getNotifications(token);
+    }
 }

@@ -9,6 +9,7 @@
         <class>org.example.model.Celebrity</class>
         <class>org.example.model.Season</class>
         <class>org.example.model.Reply</class>
+        <class>org.example.model.Notification</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>
