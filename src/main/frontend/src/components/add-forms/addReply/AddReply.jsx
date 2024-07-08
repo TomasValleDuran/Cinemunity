@@ -3,6 +3,7 @@ import { Button, IconButton, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Mention from "../addReview/Mention";
 import axios from "axios";
+import "./AddReply.css"
 
 const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
     const [replyText, setReplyText] = useState('');
@@ -93,10 +94,12 @@ const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
     }
 
     return (
-        <div>
-            <IconButton className={"close-button"} onClick={onClose}>
-                <CloseIcon/>
-            </IconButton>
+        <div className={"add-reply-conatiner"}>
+            <div className={"close-button-container"}>
+                <IconButton className={"close-button"} onClick={onClose}>
+                    <CloseIcon/>
+                </IconButton>
+            </div>
             <form onSubmit={handleSubmit}>
                 <TextField
                     placeholder={"Write your reply..."}

@@ -123,4 +123,25 @@ public class ReviewController {
         return reviewService.getRepliesByIds(replyIds);
     }
 
+    public String deleteReply(Request req, Response res) {
+        Long id = AuthUtility.getUserIdFromToken(req.headers("Authorization"));
+        if (id == null) {
+            res.status(401);
+            return "Invalid or expired token";
+        }
+        User user = users.findUserById(id);
+
+        try {
+            String replyId = req.params(":replyId");
+            replyId = replyId.substring(1);
+            reviewService.deleteReply(user, replyId);
+            return "Reply deleted";
+        } catch (NumberFormatException e) {
+            res.status(400);
+            return "Invalid reply ID format";
+        } catch (Exception e) {
+            res.status(400);
+            return e.getMessage();
+        }
+    }
 }

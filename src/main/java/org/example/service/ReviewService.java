@@ -101,4 +101,13 @@ public class ReviewService {
         }
         reviews.deleteReview(reviewId);
     }
+
+    public void deleteReply(User user, String replyId) {
+        long id = Long.parseLong(replyId);
+        Reply reply = reviews.getReplyById(id);
+        if (!user.equals(reply.getUser()) && !user.isAdmin()) {
+            throw new RuntimeException("You can't delete this reply");
+        }
+        reviews.deleteReply(id);
+    }
 }

@@ -26,6 +26,7 @@ const Review = ({ id , username, userId, reviewText,
     const [isVerified, setIsVerified] = useState(false);
     const [showReply, setShowReply] = useState(false);
     const [replies, setReplies] = useState(null);
+    const [showReplies, setShowReplies] = useState(false);
 
 
     const fetchLikes = async () => {
@@ -172,6 +173,10 @@ const Review = ({ id , username, userId, reviewText,
         setShowReply(!showReply);
     }
 
+    const toggleRepliesVisibility = () => {
+        setShowReplies(!showReplies);
+    };
+
     return (
         <div className="review-container">
             <div className="review-header">
@@ -199,10 +204,6 @@ const Review = ({ id , username, userId, reviewText,
                         review={unmarkdownText(reviewText)}
                         title={title}
                         username={username}/>
-                    {/*<FacebookShareButton
-                            review={unmarkdownText(reviewText)}
-                            title={title}
-                            username={username}/> No esta bien implementado todavía*/}
                 </div>
                 <div className="like-container">
                     <ReplyIcon className={"reply-icon"} onClick={handleReply}/>
@@ -214,20 +215,25 @@ const Review = ({ id , username, userId, reviewText,
                 </div>
             </div>
             {showReply && <AddReply reviewId={id} userId={userId} onClose={handleReply} onReplyAdded={handleReplyAdded}/>}
-            <div>
-                {replies === null ? (
-                    <div></div>
-                ) : (
-                    replies.map((reply) => (
+            {replies && replies.length > 0 && (
+                <div onClick={toggleRepliesVisibility} className="view-replies-text">
+                    View replies ({replies.length})
+                </div>
+            )}
+            {showReplies && (
+                <div>
+                    {replies.map((reply) => (
                         <Reply
                             key={reply.replyId}
                             reply_text={reply.reply_text}
                             username={reply.username}
                             userId={reply.userId}
+                            onRemoveReply={handleReplyAdded}
+                            replyId={reply.replyId}
                         />
-                    ))
-                )}
-            </div>
+                    ))}
+                </div>
+            )}
             <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onConfirm={handleDelete}
                                 information={"Review"} isAdmin={false}/>
         </div>

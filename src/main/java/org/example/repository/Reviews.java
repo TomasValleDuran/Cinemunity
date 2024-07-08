@@ -75,4 +75,30 @@ public class Reviews {
             System.out.println("No review found with the provided ID");
         }
     }
+
+    public Reply getReplyById(long replyId) {
+        TypedQuery<Reply> query = currentEntityManager().createQuery("SELECT r " +
+                "FROM Reply r " +
+                "WHERE r.replyId = :id", Reply.class);
+        query.setParameter("id", replyId);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
+        return query.getSingleResult();
+    }
+
+    public void deleteReply(long replyId) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery("DELETE FROM Reply r WHERE r.replyId = :id");
+        query.setParameter("id", replyId);
+        int replyDeletedCount = query.executeUpdate();
+        entityManager.getTransaction().commit();
+
+        if (replyDeletedCount > 0) {
+            System.out.println("Reply deleted");
+        } else {
+            System.out.println("No reply found with the provided ID");
+        }
+    }
 }

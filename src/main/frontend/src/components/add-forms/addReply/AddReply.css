@@ -1,0 +1,10 @@
+.add-reply-container {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.close-button-container {
+    display: flex;
+    justify-content: flex-end;
+}

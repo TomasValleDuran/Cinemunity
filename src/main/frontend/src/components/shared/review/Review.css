@@ -121,3 +121,8 @@
 .verified-icon {
     color: dodgerblue;
 }
+
+.view-replies-text:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
