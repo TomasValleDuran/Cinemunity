@@ -22,9 +22,7 @@ const Show = () => {
 
     const [show_type, setShow_type] = useState('');
     const [description, setDescription] = useState('');
-    const [celebritiesIds, setCelebritiesIds] = useState([]);
     const [celebrities, setCelebrities] = useState([]);
-    const [celebritiesNames, setCelebritiesNames] = useState([]);
     const [averageRating, setAverageRating] = useState(0);
     const [averageStars, setAverageStars] = useState(0);
     const [seasons, setSeasons] = useState('');
@@ -39,7 +37,6 @@ const Show = () => {
     const [isInWishlist, setIsInWishlist] = useState(false);
     const [imageDialog, setImageDialog] = useState(false);
 
-    const [userId, setUserId] = useState('');
     const [username, setUsername] = useState('');
     const [admin, setAdmin] = useState(false);
 
@@ -346,7 +343,7 @@ const Show = () => {
                         onRemove={handleShowRemoveReview}
                         showTitle={title}/>}
                     <div>
-                        {sortedReviews.map((review, index) => (
+                        {sortedReviews.map((review) => (
                             <Review
                                 key={review.reviewId}
                                 id={review.reviewId}

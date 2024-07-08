@@ -5,7 +5,6 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import org.example.dto.AddReplyDto;
 import org.example.dto.AddReviewDto;
-import org.example.model.Review;
 import org.example.model.Show;
 import org.example.model.User;
 import org.example.repository.Shows;
@@ -54,7 +53,7 @@ public class ReviewController {
         }
     }
 
-    public Object getReviewsByIds(Request req, Response res) throws JsonProcessingException {
+    public Object getReviewsByIds(Request req, Response res) {
         Type listType = new TypeToken<ArrayList<Long>>(){}.getType();
         List<Long> reviewIds = new Gson().fromJson(req.body(), listType);
         res.type("application/json");

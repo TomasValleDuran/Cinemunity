@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './AddReview.css';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
 import { Button, IconButton, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Mention from "./Mention";
-import ReactMarkdown from "react-markdown";
 
 const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
     const [review, setReview] = useState('');
