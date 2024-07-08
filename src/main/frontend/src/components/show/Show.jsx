@@ -280,6 +280,7 @@ const Show = () => {
                     <div className={"header"}>
                         <div className="title">
                             <div className="tittle-text">{title}</div>
+                            <div className={"title-type"}>{show_type}</div>
                         </div>
                     </div>
                     <div className={"show-separator"}>
@@ -303,10 +304,13 @@ const Show = () => {
                                 <p> {description}</p>
                             </div>
                             <div className={"show-elements"}>
-                                <h3> Director: <span className="clickable-name"
-                                                     onClick={() => handleCelebrityClick(directorId)}>{directorName}</span>
-                                </h3>
-                                <h3> Cast:
+                                <div>
+                                    <h2>Director</h2>
+                                    <span className="clickable-name"
+                                          onClick={() => handleCelebrityClick(directorId)}>{directorName}</span>
+                                </div>
+                                <div>
+                                    <h2>Cast</h2>
                                     {celebrities.slice(0, 4).map((celebrity, index) => (
                                         <span key={index} className="clickable-name"
                                               onClick={() => handleCelebrityClick(celebrity.celebrityId)}>
@@ -315,9 +319,8 @@ const Show = () => {
                                     ))}
                                     {celebrities.length > 4 && (<span className="all-actors-button"
                                                                       onClick={handleShowMoreCelebrities}> more </span>)}
-                                </h3>
+                                </div>
                                 <h3>
-                                    Type: {show_type}
                                     {seasons.length > 0 && ` Seasons: ${seasons[seasons.length - 1]}`}
                                 </h3>
                             </div>
