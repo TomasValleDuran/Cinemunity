@@ -118,7 +118,8 @@ const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
                     message: message,
                     username: username,
                     taggerId: taggerId,
-                    showId: showId
+                    showId: showId,
+                    reviewId: reviewId
                 }, {
                     headers: {
                         'Authorization': localStorage.getItem('token')

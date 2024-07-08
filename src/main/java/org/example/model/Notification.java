@@ -27,14 +27,18 @@ public class Notification {
     @Column
     private Long showId;
 
+    @Column
+    private Long reviewId;
+
     public Notification() {}
 
-    public Notification(User user, String message, Long taggerId, Long showId) {
+    public Notification(User user, String message, Long taggerId, Long showId, Long reviewId) {
         this.user = user;
         this.message = message;
         this.isRead = false;
         this.taggerId = taggerId;
         this.showId = showId;
+        this.reviewId = reviewId;
     }
 
     public Long getNotificationId() {
@@ -61,6 +65,10 @@ public class Notification {
         return showId;
     }
 
+    public Long getReviewId() {
+        return reviewId;
+    }
+
     public String asJson() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Notification.class, new JsonSerializer<Notification>() {
@@ -72,6 +80,7 @@ public class Notification {
                         jsonObject.addProperty("isRead", notification.getIsRead());
                         jsonObject.addProperty("taggerId", notification.getTaggerId());
                         jsonObject.addProperty("showId", notification.getShowId());
+                        jsonObject.addProperty("reviewId", notification.getReviewId());
                         jsonObject.addProperty("username", notification.getUser().getUsername());
                         jsonObject.addProperty("userId", notification.getUser().getUserId());
                         return jsonObject;
