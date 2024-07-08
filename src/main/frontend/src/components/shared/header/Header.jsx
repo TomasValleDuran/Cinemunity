@@ -10,6 +10,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CloseIcon from '@mui/icons-material/Close';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 
 const Header = () => {
@@ -86,6 +87,10 @@ const Header = () => {
         setIsSearchBarVisible(!isSearchBarVisible);
     };
 
+    const handleNotifications = () => {
+        navigate(`/user/${username}/notifications`, { state: { notifications: notifications } });
+    }
+
     return (
         <header className='header-menu'>
             <div className={`header-logo ${isMobile && isSearchBarVisible ? 'hidden' : ''}`}>
@@ -105,6 +110,9 @@ const Header = () => {
                 )}
                 {!isMobile || !isSearchBarVisible ? (
                     <>
+                        <IconButton onClick={handleNotifications} size='medium'>
+                            <NotificationsIcon fontSize='large' className='btn' />
+                        </IconButton>
                         <IconButton onClick={handleWishlistClick} size='medium'>
                             <BookmarkIcon fontSize='large' className='btn' />
                         </IconButton>

@@ -1,0 +1,15 @@
+.notifications-container {
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    margin-bottom: 10px;
+}
