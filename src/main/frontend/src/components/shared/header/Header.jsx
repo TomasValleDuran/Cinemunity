@@ -11,6 +11,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 const Header = () => {
     const [username, setUsername] = useState('');
     const [userId, setUserid] = useState('');
+    const [notifications, setNotifications] = useState([]);
     const navigate = useNavigate();
 
     const fetchUsername = async () => {
@@ -28,11 +29,28 @@ const Header = () => {
         }
     }
 
+    const fetchNotifications = async () => {
+        try {
+            const response = await axios.get('http://localhost:3333/api/user/getNotifications', {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log(response.data)
+            return response.data;
+        }
+        catch (error) {
+            console.error('Error fetching notifications:', error);
+        }
+    }
+
     useEffect(() => {
         const fetchUserData = async () => {
             const res = await fetchUsername();
             setUsername(res.username);
             setUserid(res.userId);
+            const noti = await fetchNotifications();
+            setNotifications(noti);
         };
 
         fetchUserData();

@@ -1,9 +1,6 @@
 package org.example.service;
 
-import org.example.model.Celebrity;
-import org.example.model.Review;
-import org.example.model.Show;
-import org.example.model.User;
+import org.example.model.*;
 import org.example.repository.Celebrities;
 import org.example.repository.Shows;
 import org.example.repository.Users;
@@ -413,5 +410,22 @@ public class UserService {
             resultList.add(celebrity.asJson());
         }
         return resultList.toString();
+    }
+
+    public List<String> getNotifications(String token){
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        User user = users.findUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        List<Notification> notificationList = user.getNotificationList();
+        List<String> jsonList = new ArrayList<>();
+        for (Notification notification : notificationList) {
+            jsonList.add(notification.asJson());
+        }
+        return jsonList;
     }
 }

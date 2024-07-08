@@ -1,6 +1,7 @@
 package org.example.model;
 
 import com.google.gson.*;
+import software.amazon.awssdk.services.s3.endpoints.internal.Not;
 
 import javax.persistence.*;
 import java.lang.reflect.Type;
@@ -65,6 +66,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "showId")
     )
     private List<Show> wishlist = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "userId")
+    private List<Notification> notificationList = new ArrayList<>();
+
     public User() {}
 
     public User(String email, String user_name, String password) {
@@ -233,5 +239,13 @@ public class User {
 
     public void overrideEmptyFollowers() {
         this.followers = new ArrayList<>();
+    }
+
+    public void addNotification(Notification notification) {
+        notificationList.add(notification);
+    }
+
+    public List<Notification> getNotificationList() {
+        return notificationList;
     }
 }
