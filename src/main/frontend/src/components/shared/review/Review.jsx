@@ -50,7 +50,6 @@ const Review = ({ id , username, userId, reviewText,
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            console.log("replies fetched for Review: ", response.data);
             return response.data
         }
         catch (error) {
@@ -70,7 +69,6 @@ const Review = ({ id , username, userId, reviewText,
         if (repliesIds.length > 0) {
             fetchReplies().then((res) => {
                 setReplies(res);
-                console.log("replies", res)
             });
         }
     }, [repliesIds]);
@@ -87,7 +85,6 @@ const Review = ({ id , username, userId, reviewText,
     useEffect(() => {
         fetchReplies().then((res) => {
             setReplies(res);
-            console.log("replies", res)
         });
     }, [showReply]);
 

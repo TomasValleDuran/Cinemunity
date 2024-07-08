@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddReview.css';
 import axios from "axios";
 import withAuth from "../../hoc/withAuth";
@@ -6,12 +6,19 @@ import { Button, IconButton, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Mention from "./Mention";
 
-const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
+const AddReview = React.forwardRef(({ showTitle, showId , onRemove }, ref) => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState('');
     const [isSearching, setIsSearching] = useState(false);
     const [myMap, setMyMap] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
+
+    const [currentId, setCurrentId] = useState('');
+    const [currentUsername, setCurrentUsername] = useState('');
+
+    useEffect(() => {
+        fetchCurrentUser();
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -27,11 +34,12 @@ const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
                     'Authorization': localStorage.getItem('token')
                 }
             });
-
             console.log("res");
             console.log(response.data);
             if (response.status === 200) {
-                createNotification()
+                const usernames = extractUsernames(updatedReview);
+                const message = `You were mentioned in a review for ${showTitle} by ${currentUsername}!`;
+                await sendNotifications(usernames, message, currentId, showId);
                 onRemove();
             }
         }
@@ -40,9 +48,51 @@ const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
         }
     };
 
-    const createNotification = () => {
-
+    const fetchCurrentUser = async () => {
+        try {
+            const response = await axios.get('http://localhost:3333/api/user/currentUser', {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            console.log(response.data);
+            setCurrentId(response.data.userId);
+            setCurrentUsername(response.data.username);
+        } catch (error) {
+            console.error('Error getting current user:', error);
+        }
     }
+
+    const extractUsernames = (reviewText) => {
+        const regex = /\@\[([^\]]+)\]\(http:\/\/localhost:3000\/user\/(\d+)\)/g;
+        let matches;
+        const usernamesSet = new Set();
+        while ((matches = regex.exec(reviewText)) !== null) {
+            usernamesSet.add(matches[1]);
+        }
+        return Array.from(usernamesSet);
+    };
+
+    const sendNotifications = async (usernames, message, taggerId, showId) => {
+        for (const username of usernames) {
+            console.log("username for notification", username)
+            try {
+                 await axios.post('http://localhost:3333/api/user/createNotification', {
+                    message: message,
+                    username: username,
+                    taggerId: taggerId,
+                    showId: showId
+                }, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                console.log(`Notification sent to ${username}`);
+            } catch (error) {
+                console.error(`Error sending notification to ${username}:`, error);
+            }
+        }
+    };
 
     const handleTextChange = (event) => {
         const text = event.target.value;

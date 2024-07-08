@@ -104,7 +104,7 @@ const Show = () => {
 
     const fetchCurrentUserData = async () => {
         try {
-            const response = await axios.get('http://localhost:3333//api/user/currentUser', {
+            const response = await axios.get('http://localhost:3333/api/user/currentUser', {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
@@ -339,7 +339,8 @@ const Show = () => {
                     </div>
                     {showAddReview && <AddReview
                         onRemove={handleShowRemoveReview}
-                        showTitle={title}/>}
+                        showTitle={title}
+                        showId={showId}/>}
                     <div>
                         {sortedReviews.map((review) => (
                             <Review
