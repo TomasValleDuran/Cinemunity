@@ -110,4 +110,9 @@ public class ReviewService {
         }
         reviews.deleteReply(id);
     }
+
+    public String getReview(long id) {
+        Review review = reviews.getReviewById(id);
+        return review.asJson();
+    }
 }

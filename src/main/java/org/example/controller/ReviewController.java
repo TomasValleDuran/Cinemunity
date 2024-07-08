@@ -143,4 +143,14 @@ public class ReviewController {
             return e.getMessage();
         }
     }
+
+    public String getReview(Request req, Response res) {
+        Long id = AuthUtility.getUserIdFromToken(req.headers("Authorization"));
+        if (id == null) {
+            res.status(401);
+            return "Invalid or expired token";
+        }
+        res.type("application/json");
+        return reviewService.getReview(Long.parseLong(req.params(":reviewId")));
+    }
 }

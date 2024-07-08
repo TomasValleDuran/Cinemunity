@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Button, IconButton, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Mention from "../addReview/Mention";
@@ -11,6 +11,30 @@ const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
     const [myMap, setMyMap] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
 
+    const [currentId, setCurrentId] = useState('');
+    const [currentUsername, setCurrentUsername] = useState('');
+    const [showId, setShowId] = useState('');
+    const [showTitle, setShowTitle] = useState('');
+
+    useEffect(() => {
+        const fetchDataForNotification = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3333/api/review/get/${reviewId}`, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                setCurrentId(response.data.userId);
+                setCurrentUsername(response.data.username);
+                setShowId(response.data.showId);
+                setShowTitle(response.data.title);
+            } catch (error) {
+                console.error('Error getting review:', error);
+            }
+        };
+
+        fetchDataForNotification();
+    }, [reviewId]);
 
     const handleTextChange = (event) => {
         const text = event.target.value;
@@ -49,7 +73,6 @@ const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
         const userLink = `@[${username}](http://localhost:3000/user/${userId}) `;
         try {
             let updatedReview = await markdownTextifier();
-            console.log(updatedReview);
             updatedReview = userLink + updatedReview;
             const response = await axios.post('http://localhost:3333/api/review/addReply', {
                 reply: updatedReview,
@@ -63,12 +86,48 @@ const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
             console.log("res");
             console.log(response.data);
             if (response.status === 200) {
+                const usernames = extractUsernames(updatedReview);
+                console.log("usernames", usernames);
+                console.log("final reply text", updatedReview);
+                const message = `You were mentioned in a reply of a review for ${showTitle} by ${currentUsername}!`;
+                await sendNotifications(usernames, message, currentId, showId);
                 onClose();
                 onReplyAdded();
             }
         }
         catch (error) {
             console.error('Error al enviar solicitud:', error);
+        }
+    };
+
+    const extractUsernames = (reviewText) => {
+        const regex = /\@\[([^\]]+)\]\(http:\/\/localhost:3000\/user\/(\d+)\)/g;
+        let matches;
+        const usernamesSet = new Set();
+        while ((matches = regex.exec(reviewText)) !== null) {
+            usernamesSet.add(matches[1]);
+        }
+        return Array.from(usernamesSet);
+    };
+
+    const sendNotifications = async (usernames, message, taggerId, showId) => {
+        for (const username of usernames) {
+            console.log("username for notification", username)
+            try {
+                await axios.post('http://localhost:3333/api/user/createNotification', {
+                    message: message,
+                    username: username,
+                    taggerId: taggerId,
+                    showId: showId
+                }, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                console.log(`Notification sent to ${username}`);
+            } catch (error) {
+                console.error(`Error sending notification to ${username}:`, error);
+            }
         }
     };
 

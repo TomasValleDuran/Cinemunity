@@ -87,6 +87,7 @@ public class Aplication {
 
         // REVIEW & REPLY
         Spark.post("/api/review/addReview", reviewController::addReview);
+        Spark.get("/api/review/get/:reviewId", reviewController::getReview);
         Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);
         Spark.put("/api/review/likeReview/:reviewId", reviewController::likeReview);
         Spark.put("/api/review/unlikeReview/:reviewId", reviewController::unlikeReview);

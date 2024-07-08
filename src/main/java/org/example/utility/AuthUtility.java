@@ -18,7 +18,6 @@ public class AuthUtility {
                     .verify(token);
 
             // Retrieve the user ID from the JWT
-
             return jwt.getClaim("userId").asLong();
         } catch (JWTVerificationException exception) {
             // Invalid or expired token
