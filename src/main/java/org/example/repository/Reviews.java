@@ -51,11 +51,25 @@ public class Reviews {
     public void deleteReview(Long reviewId) {
         EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
+
+        Query query1 = entityManager.createQuery("DELETE FROM Reply r WHERE r.review.reviewId = :id");
+        query1.setParameter("id", reviewId);
+        int repliesDeletedCount = query1.executeUpdate();
+        entityManager.getTransaction().commit();
+
+        if (repliesDeletedCount > 0) {
+            System.out.println(repliesDeletedCount + " replies deleted.");
+        } else {
+            System.out.println("No replies found for the review with ID: " + reviewId);
+        }
+
+        entityManager.getTransaction().begin();
         Query query = entityManager.createQuery("DELETE FROM Review r WHERE r.reviewId = :id");
         query.setParameter("id", reviewId);
-        int deletedCount = query.executeUpdate();
+        int reviewDeletedCount = query.executeUpdate();
         entityManager.getTransaction().commit();
-        if (deletedCount > 0) {
+
+        if (reviewDeletedCount > 0) {
             System.out.println("Review deleted");
         } else {
             System.out.println("No review found with the provided ID");
