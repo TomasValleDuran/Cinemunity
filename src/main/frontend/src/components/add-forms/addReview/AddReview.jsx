@@ -39,7 +39,8 @@ const AddReview = React.forwardRef(({ showTitle, showId , onRemove }, ref) => {
             if (response.status === 200) {
                 const usernames = extractUsernames(updatedReview);
                 const message = `You were mentioned in a review for ${showTitle} by ${currentUsername}!`;
-                await sendNotifications(usernames, message, currentId, showId);
+                const reviewId = response.data.reviewId
+                await sendNotifications(usernames, message, currentId, showId, reviewId);
                 onRemove();
             }
         }
@@ -73,15 +74,17 @@ const AddReview = React.forwardRef(({ showTitle, showId , onRemove }, ref) => {
         return Array.from(usernamesSet);
     };
 
-    const sendNotifications = async (usernames, message, taggerId, showId) => {
+    const sendNotifications = async (usernames, message, taggerId, showId, reviewId) => {
         for (const username of usernames) {
             console.log("username for notification", username)
+            console.log("review Id es:", reviewId)
             try {
                  await axios.post('http://localhost:3333/api/user/createNotification', {
                     message: message,
                     username: username,
                     taggerId: taggerId,
-                    showId: showId
+                    showId: showId,
+                    reviewId: reviewId
                 }, {
                     headers: {
                         'Authorization': localStorage.getItem('token')

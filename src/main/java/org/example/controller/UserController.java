@@ -279,9 +279,10 @@ public class UserController {
         String username = addNotificationDto.getUsername();
         Long taggerId = addNotificationDto.getTaggerId();
         Long showId = addNotificationDto.getShowId();
+        Long reviewId = addNotificationDto.getReviewId();
 
         try {
-            return userService.createNotification(message, username, taggerId, showId);
+            return userService.createNotification(message, username, taggerId, showId, reviewId);
         } catch (Exception e) {
             res.status(401);
             return e.getMessage();

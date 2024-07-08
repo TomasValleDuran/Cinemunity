@@ -429,7 +429,7 @@ public class UserService {
         return jsonList;
     }
 
-    public String createNotification(String message, String username, Long taggerId, Long showId) {
+    public String createNotification(String message, String username, Long taggerId, Long showId, Long reviewId) {
         User user = users.findUserByUsername(username);
         if (user == null) {
             throw new IllegalArgumentException("User not found");
@@ -441,7 +441,7 @@ public class UserService {
             throw new IllegalArgumentException("Show not found");
         }
 
-        Notification notification = new Notification(user, message, taggerId, showId);
+        Notification notification = new Notification(user, message, taggerId, showId, reviewId);
         users.persistNotification(notification);
         user.addNotification(notification);
         users.update(user);
