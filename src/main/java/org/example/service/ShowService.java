@@ -25,6 +25,9 @@ public class ShowService {
         if (title == null || title.isEmpty()) {
             throw new IllegalArgumentException("Title cannot be empty");
         }
+        if (shows.findShowByTitle(title) != null) {
+            throw new IllegalArgumentException("Show with this title already exists");
+        }
         if (!show_type.equals("Movie") && !show_type.equals("TVShow")) {
             throw new IllegalArgumentException("Show type must be Movie or TVShow");
         }
