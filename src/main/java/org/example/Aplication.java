@@ -45,6 +45,7 @@ public class Aplication {
 
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
+        // USER
         Spark.get("/api/user/validateToken", userController::validateToken);
         Spark.get("/api/user/currentUser", userController::getCurrentUser);
         Spark.post("/api/user/signup", userController::signup);
@@ -62,16 +63,20 @@ public class Aplication {
         Spark.get("/api/user/:userId/following", userController::getFollowing);
         Spark.get("/api/user/reviews/:userId", userController::getUserReviews);
         Spark.get("/api/user/getNotifications", userController::getNotifications);
+        Spark.post("/api/user/createNotification", userController::createNotification);
 
+        // AUTOCOMPLETE
         Spark.get("/api/search/peopleWithPrefix/:prefix", userController::getPeopleWithPrefix);
         Spark.get("/api/search/showsWithPrefix/:prefix", showController::getShowsByPrefix);
 
+        // SHOW
         Spark.post("/api/show/addShow", showController::addShow);
         Spark.get("/api/show/get/:showId", showController::getShow);
         Spark.get("/api/show/getAll", showController::getAllShows);
         Spark.get("/api/Movie/search/:search", showController::getSearchedShowsList);
         Spark.get("/api/TVShow/search/:search", showController::getSearchedShowsList);
 
+        // CELEBRITY
         Spark.post("/api/celebrity/addCelebrity", celebrityController::addCelebrity);
         Spark.get("/api/celebrity/get/:celebrityId", celebrityController::getCelebrity);
         Spark.get("/api/celebrity/search/:search", celebrityController::getSearchedCelebrityList);
@@ -80,6 +85,7 @@ public class Aplication {
         Spark.post("/api/celebrity/getCelebritiesByIds", celebrityController::getCelebritiesByIds);
         Spark.put("/api/celebrity/modify", celebrityController::modifyCelebrity);
 
+        // REVIEW & REPLY
         Spark.post("/api/review/addReview", reviewController::addReview);
         Spark.post("/api/review/getReviewsByIds", reviewController::getReviewsByIds);
         Spark.put("/api/review/likeReview/:reviewId", reviewController::likeReview);
@@ -89,16 +95,19 @@ public class Aplication {
         Spark.post("/api/review/getReplies", reviewController::getReplies);
         Spark.delete("/api/review/deleteReply/:replyId", reviewController::deleteReply);
 
+        // WISHLIST
         Spark.get("/api/user/wishlist/:userId", userController::getWishlist);
         Spark.post("/api/user/wishlist", userController::addToWishlist);
         Spark.delete("/api/user/wishlist/:showId", userController::removeFromWishlist);
 
+        // S3 BUCKET
         Spark.post("/api/upload", imageController::generatePresignedUrl);
         Spark.put("/api/user/updateImage", userController::updateImage);
         Spark.put("/api/celebrity/updateImage", celebrityController::updateImage);
         Spark.put("/api/show/updateImage", showController::updateImage);
         Spark.delete("/api/deleteImage", imageController::deleteImage);
 
+        // TMDB
         Spark.get("/api/celebrity/importInfo/:name", tmBdController::searchActor);
         Spark.get("/api/celebrity/importDetails/:celebrityId", tmBdController::getActorDetails);
         Spark.get("/api/movie/importInfo/:name", tmBdController::searchMovie);

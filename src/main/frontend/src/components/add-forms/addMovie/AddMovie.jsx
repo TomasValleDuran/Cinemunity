@@ -105,6 +105,7 @@ const AddMovie = () => {
         setPreviewUrl(null);
         setErrorMessage('');
         setImageUrl('');
+        setCurrentIndex(0);
     }
 
     const handleSubmit = async (event) => {

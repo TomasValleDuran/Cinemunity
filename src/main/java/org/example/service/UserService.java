@@ -428,4 +428,23 @@ public class UserService {
         }
         return jsonList;
     }
+
+    public String createNotification(String message, String username, Long taggerId, Long showId) {
+        User user = users.findUserByUsername(username);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        if (users.findUserById(taggerId) == null){
+            throw new IllegalArgumentException("Tagger not found");
+        }
+        if (shows.findShowById(showId) == null){
+            throw new IllegalArgumentException("Show not found");
+        }
+
+        Notification notification = new Notification(user, message, taggerId, showId);
+        users.persistNotification(notification);
+        user.addNotification(notification);
+        users.update(user);
+        return notification.asJson();
+    }
 }

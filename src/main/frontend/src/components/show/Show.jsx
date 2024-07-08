@@ -68,7 +68,6 @@ const Show = () => {
                 });
             const reviews = response.data;
 
-            // Fetch the isVerified status for each review
             for (let review of reviews) {
                 const userResponse = await axios.get(`http://localhost:3333/api/user/get/${review.userId}`, {
                     headers: {
@@ -113,7 +112,7 @@ const Show = () => {
             if (response.data.wishlist.includes(parseFloat(showId))) {
                 setIsInWishlist(true);
             }
-            setUserId(response.data.userId);
+
             setAdmin(response.data.is_admin);
             setUsername(response.data.username);
         } catch (error) {
@@ -151,7 +150,6 @@ const Show = () => {
             response && setDirectorId(response.director);
             response && setShow_type(response.show_type);
             response && setDescription(response.show_desc);
-            response && setCelebritiesIds(response.actors);
             response && setSeasons(response.seasons);
             response && setTitle(response.title);
             response && setImage(response.image);
@@ -170,8 +168,8 @@ const Show = () => {
                 const celebritiesResponse = await fetchCelebritiesByIds(response.actors)
                 setCelebrities(celebritiesResponse)
 
-                const celebritiesNamesResponse = celebritiesResponse.map(celebrity => celebrity.name);
-                setCelebritiesNames(celebritiesNamesResponse);
+
+
             }
 
             if (response && response.reviews) {

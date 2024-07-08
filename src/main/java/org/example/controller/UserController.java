@@ -266,4 +266,26 @@ public class UserController {
         res.type("application/json");
         return userService.getNotifications(token);
     }
+
+    public String createNotification(Request req, Response res) {
+        String token = req.headers("Authorization");
+        if (AuthUtility.getUserIdFromToken(token) == null) {
+            res.status(401);
+            return "Not signed in";
+        }
+
+        AddNotificationDto addNotificationDto = gson.fromJson(req.body(), AddNotificationDto.class);
+        String message = addNotificationDto.getMessage();
+        String username = addNotificationDto.getUsername();
+        Long taggerId = addNotificationDto.getTaggerId();
+        Long showId = addNotificationDto.getShowId();
+
+        try {
+            return userService.createNotification(message, username, taggerId, showId);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+
+    }
 }

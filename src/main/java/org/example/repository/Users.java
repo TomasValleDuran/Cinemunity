@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.example.model.Notification;
 import org.example.model.Review;
 import org.example.model.User;
 
@@ -80,13 +81,6 @@ public class Users {
         return query.getResultList();
     }
 
-    public void deleteUser(User user) {
-        EntityManager entityManager = currentEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.remove(user);
-        entityManager.getTransaction().commit();
-    }
-
     public void persist(User user) {
         EntityManager entityManager = currentEntityManager();
         entityManager.getTransaction().begin();
@@ -164,5 +158,12 @@ public class Users {
                 "WHERE LOWER(u.username) LIKE LOWER(:search)", User.class);
         query.setParameter("search", search.toLowerCase() + "%");
         return query.getResultList();
+    }
+
+    public void persistNotification(Notification notification) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(notification);
+        entityManager.getTransaction().commit();
     }
 }

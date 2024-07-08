@@ -31,14 +31,18 @@ const AddReview = React.forwardRef(({ showTitle, onRemove }, ref) => {
             console.log("res");
             console.log(response.data);
             if (response.status === 200) {
+                createNotification()
                 onRemove();
-                //window.location.reload();
             }
         }
         catch (error) {
             console.error('Error al enviar solicitud:', error);
         }
     };
+
+    const createNotification = () => {
+
+    }
 
     const handleTextChange = (event) => {
         const text = event.target.value;
