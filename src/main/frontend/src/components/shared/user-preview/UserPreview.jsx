@@ -14,10 +14,10 @@ const UserPreview = ({ id, image, username, isVerified, userRating }) => {
 
     return (
         <div className="user-preview" onClick={handleNavigation}>
-            <div className="user-preview-picture">
-                <ProfilePicture src={image || NoProfilePicture} alt="imagen" />
-            </div>
             <div className="user-info">
+                <div className="user-preview-picture">
+                    <ProfilePicture src={image || NoProfilePicture} alt="imagen"/>
+                </div>
                 <div className="name-verify">
                     <h5 className="username">{username}</h5>
                     {isVerified && <CheckCircleIcon className="verify-icon"/>}
