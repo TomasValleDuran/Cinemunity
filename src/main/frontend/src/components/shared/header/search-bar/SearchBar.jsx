@@ -209,7 +209,9 @@ const SearchBar = () => {
                             onClick={() => handleResultClick(result)}
                             className="search-result-item"
                         >
-                            <img src={result.image} alt={result.title || result.name || result.username} className="result-image" />
+                            <img src={result.image}
+                                 alt={result.title || result.name || result.username}
+                                 className="result-image" />
                             {searchType.value === 'celebrity' ? result.name : searchType.value === 'user' ? result.username : result.title}
                         </div>
                     ))}

@@ -73,6 +73,7 @@ public class UserService {
         }
 
         User user = new User(email, username, password);
+        user.setImage("no-profile-pic.jpg");
         users.persist(user);
         return user.asJson();
     }
