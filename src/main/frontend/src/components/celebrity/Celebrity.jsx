@@ -172,7 +172,7 @@ const Celebrity = () => {
                             <div className="tittle-text">Acted Shows</div>
                         </div>}
                         {directedActed ? <ShowPreviewCarrousel posts={directedShows}/>
-                            : <ShowPreviewCarrousel posts={actedShows}/>}
+                            : <ShowPreviewCarrousel posts={actedShows} slide={false}/>}
                     </div>
                 </div>
             </div>

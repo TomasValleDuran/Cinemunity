@@ -107,4 +107,34 @@ public class Shows {
         query.setParameter("prefix", prefix.toLowerCase() + "%");
         return query.getResultList();
     }
+
+    public List<Show> findAllMovies() {
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
+                "FROM Show s " +
+                "WHERE s.show_type = 'Movie'", Show.class);
+        return query.getResultList();
+    }
+
+    public List<Show> findAllTVShows() {
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
+                "FROM Show s " +
+                "WHERE s.show_type = 'TVShow'", Show.class);
+        return query.getResultList();
+    }
+
+    public List<Show> getTopRankedMovies() {
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
+                "FROM Show s " +
+                "WHERE s.show_type = 'Movie' " +
+                "ORDER BY s.rating DESC", Show.class);
+        return query.getResultList();
+    }
+
+    public List<Show> getTopRankedTVShows() {
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s " +
+                "FROM Show s " +
+                "WHERE s.show_type = 'TVShow' " +
+                "ORDER BY s.rating DESC", Show.class);
+        return query.getResultList();
+    }
 }

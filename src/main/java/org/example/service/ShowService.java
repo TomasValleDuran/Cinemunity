@@ -115,4 +115,42 @@ public class ShowService {
         }
         return returnShows.toString();
     }
+
+    public String getAllMovies() {
+        List<Show> showsList = shows.findAllMovies();
+        List<String> returnShows = new ArrayList<>();
+        for (Show show : showsList) {
+            returnShows.add(show.asJson());
+        }
+        return returnShows.toString();
+    }
+
+    public String getAllTVShows() {
+        List<Show> showsList = shows.findAllTVShows();
+        List<String> returnShows = new ArrayList<>();
+        for (Show show : showsList) {
+            returnShows.add(show.asJson());
+        }
+        return returnShows.toString();
+    }
+
+    public String getTopRankedMovies() {
+        List<Show> showsList = shows.getTopRankedMovies();
+        showsList = showsList.subList(0, Math.min(10, showsList.size()));
+        List<String> returnShows = new ArrayList<>();
+        for (Show show : showsList) {
+            returnShows.add(show.asJson());
+        }
+        return returnShows.toString();
+    }
+
+    public String getTopRankedTVShows() {
+        List<Show> showsList = shows.getTopRankedTVShows();
+        showsList = showsList.subList(0, Math.min(10, showsList.size()));
+        List<String> returnShows = new ArrayList<>();
+        for (Show show : showsList) {
+            returnShows.add(show.asJson());
+        }
+        return returnShows.toString();
+    }
 }

@@ -38,7 +38,7 @@ const Wishlist = () => {
         <div>
             <Header />
             <h1>Wishlist</h1>
-            <ShowPreviewCarrousel posts={wishlist}/>
+            <ShowPreviewCarrousel posts={wishlist} slide={false}/>
         </div>
     );
 }
