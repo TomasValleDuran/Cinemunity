@@ -129,7 +129,8 @@ const AddCelebrity = () => {
         } catch (error) {
             console.error(error?.response?.data || 'An error occurred with TMDB. ' +
                 'Download the image manually', error);
-            setErrorMessage(error?.response?.data || 'An error occurred');
+            setErrorMessage(error?.response?.data || 'An error occurred with TMDB. ' +
+                'Download the image manually');
             if (fullObjectKey) {
                 axios.delete('http://localhost:3333/api/deleteImage', {
                     data: { fullObjectKey: fullObjectKey },

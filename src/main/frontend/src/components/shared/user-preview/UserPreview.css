@@ -1,13 +1,16 @@
 .user-preview {
     display: flex;
+    flex-direction: row;
     align-items: center;
     background: white;
-    padding: 20px;
+    width: auto;
+    padding: 20px 20px;
     margin: 20px;
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
     transition: background 0.3s, box-shadow 0.3s;
-    width: 80%;
 }
 
 .user-preview:hover {
@@ -17,9 +20,9 @@
 }
 
 .user-preview-picture {
-    margin-right: 15px;
-    width: 40px;
-    height: 40px;
+    margin-right: 5px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     overflow: hidden;
 }
@@ -66,8 +69,7 @@
     font-size: 14px;
 }
 
-/* Media query for mobile responsiveness */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     .user-preview {
         flex-direction: column;
         padding: 10px;
@@ -81,16 +83,13 @@
 
     .name-verify, .rating-user {
         width: 100%;
-        margin-bottom: 5px;
     }
 
     .name-verify {
-        margin-bottom: 10px;
     }
 
     .user-preview-picture {
         margin-right: 0;
-        margin-bottom: 10px;
     }
 
     .username {
