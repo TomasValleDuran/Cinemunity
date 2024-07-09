@@ -82,6 +82,7 @@
 @media (max-width: 650px) {
     .search-container {
         max-height: 0;
+        overflow: hidden;
         position: relative; /* Asegura que los elementos dentro del contenedor se posicionen correctamente */
     }
 
@@ -89,18 +90,6 @@
         max-height: 100px;
         display: flex; /* Asegura que el display sea flex cuando se muestra */
         justify-content: center; /* Centra los elementos dentro del contenedor */
-    }
-
-    .header-right-buttons.hidden, .header-logo.hidden {
-        display: none;
-    }
-
-    .header-menu {
-        justify-content: space-between;
-    }
-
-    .search-close-button {
-        display: flex;
     }
 }
 
