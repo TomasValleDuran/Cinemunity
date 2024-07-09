@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Link, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import Header from "../shared/header/Header";
 import ShowPreviewCarrousel from "../shared/show-preview/ShowPreviewCarrousel";
 const Wishlist = () => {
@@ -37,7 +37,16 @@ const Wishlist = () => {
     return (
         <div>
             <Header />
-            <h1>Wishlist</h1>
+            <div className={"wishlist-container"}>
+                <div className={"header"}>
+                    <div className="title">
+                        <div className="tittle-text">Wishlist</div>
+                    </div>
+                </div>
+                {wishlist.length === 0 && <div className={"no-wishlist"}>
+                    <h3 className={"sad-text"}>Nothing in your wishlist yet... Check out some shows and add them!</h3>
+                </div>}
+            </div>
             <ShowPreviewCarrousel posts={wishlist}/>
         </div>
     );
