@@ -90,7 +90,7 @@ const AddMovie = () => {
     };
 
     const uploadImageUrlToS3 = async (url) => {
-        const response = await fetch(url);
+        const response = await axios.get(url);
         const blob = await response.blob();
         const file = new File([blob], `image-${Date.now()}.jpg`, { type: blob.type });
         return await uploadFileToS3(file);
@@ -106,6 +106,7 @@ const AddMovie = () => {
         setErrorMessage('');
         setImageUrl('');
         setCurrentIndex(0);
+        setErrorMessage('');
     }
 
     const handleSubmit = async (event) => {
@@ -143,7 +144,8 @@ const AddMovie = () => {
 
             resetValues();
         } catch (error) {
-            console.error(error?.response?.data || 'An error occurred', error);
+            console.error(error?.response?.data || 'An error occurred with TMDB. ' +
+                'Download the image manually', error);
             setErrorMessage(error?.response?.data || 'An error occurred');
             if (fullObjectKey) {
                 axios.delete('http://localhost:3333/api/deleteImage', {
