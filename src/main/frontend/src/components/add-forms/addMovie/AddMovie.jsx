@@ -228,8 +228,8 @@ const AddMovie = () => {
         setDescription(showData.overview);
 
         setActorList(showData.credits.cast.map((actor) => actor.name));
-        setPreviewUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${showData.poster_path}`);
-        setImageUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${showData.poster_path}`);
+        setPreviewUrl(`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${showData.poster_path}`);
+        setImageUrl(`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${showData.poster_path}`);
 
         if (showType === 'TVShow') {
             setSeasons(showData.number_of_seasons);
