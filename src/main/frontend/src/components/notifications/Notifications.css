@@ -1,15 +1,20 @@
 .notifications-container {
     display: flex;
     flex-direction: column;
-    right: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    max-height: 200px;
-    overflow-y: auto;
+    align-items: center;
+    background: #fff;
+    width: 50%;
+    padding: 40px 20px;
+    margin: 80px auto 20px auto;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
 
 .notification-item {
     margin-bottom: 10px;
+}
+
+.notifications-items {
+    max-height: 500px;
+    overflow-y: auto;
 }

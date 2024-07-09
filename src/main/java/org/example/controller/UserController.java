@@ -289,4 +289,55 @@ public class UserController {
         }
 
     }
+
+    public String readNotification(Request req, Response res) {
+        String token = req.headers("Authorization");
+        Long notificationId = Long.valueOf(req.params(":notificationId"));
+
+        res.type("application/json");
+        try {
+            return userService.readNotification(token, notificationId);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
+
+    public String unreadNotification(Request req, Response res) {
+        String token = req.headers("Authorization");
+        Long notificationId = Long.valueOf(req.params(":notificationId"));
+
+        res.type("application/json");
+        try {
+            return userService.unreadNotification(token, notificationId);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
+
+    public String readAllNotifications(Request req, Response res) {
+        String token = req.headers("Authorization");
+
+        res.type("application/json");
+        try {
+            return userService.readAllNotifications(token);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
+
+    public String deleteNotification(Request req, Response res) {
+        String token = req.headers("Authorization");
+        Long notificationId = Long.valueOf(req.params(":notificationId"));
+
+        res.type("application/json");
+        try {
+            return userService.deleteNotification(token, notificationId);
+        } catch (Exception e) {
+            res.status(401);
+            return e.getMessage();
+        }
+    }
 }

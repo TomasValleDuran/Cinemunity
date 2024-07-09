@@ -1,0 +1,28 @@
+.notification-item, .read-notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.notification-item:hover, .read-notification-item:hover {
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.read-notification-item {
+    opacity: 0.5;
+}
+
+.notification-message {
+    flex-grow: 1;
+}
+
+.notification-dismiss {
+    margin-left: 20px;
+}

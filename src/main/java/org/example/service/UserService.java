@@ -92,7 +92,7 @@ public class UserService {
         // Create a Calendar object
         Calendar calendar = Calendar.getInstance();
         // Add 2 hour to the current time
-        calendar.add(Calendar.HOUR, 2);
+        calendar.add(Calendar.HOUR, 6);
 
         // Create a new JWT with an expiration time
         String token = JWT.create()
@@ -446,5 +446,86 @@ public class UserService {
         user.addNotification(notification);
         users.update(user);
         return notification.asJson();
+    }
+
+    public String readNotification(String token, Long notificationId) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        User user = users.findUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        Notification notification = users.findNotificationById(notificationId);
+        if (notification == null) {
+            throw new IllegalArgumentException("Notification not found");
+        }
+        if (!notification.getUser().equals(user)){
+            throw new IllegalArgumentException("Notification does not belong to user");
+        }
+        notification.read();
+        users.updateNotification(notification);
+        return notification.asJson();
+    }
+
+    public String unreadNotification(String token, Long notificationId) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        User user = users.findUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        Notification notification = users.findNotificationById(notificationId);
+        if (notification == null) {
+            throw new IllegalArgumentException("Notification not found");
+        }
+        if (!notification.getUser().equals(user)){
+            throw new IllegalArgumentException("Notification does not belong to user");
+        }
+        notification.unread();
+        users.updateNotification(notification);
+        return notification.asJson();
+    }
+
+    public String readAllNotifications(String token) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        User user = users.findUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        List<Notification> notificationList = user.getNotificationList();
+        for (Notification notification : notificationList) {
+            notification.read();
+            users.updateNotification(notification);
+        }
+        return "All notifications read";
+    }
+
+    public String deleteNotification(String token, Long notificationId) {
+        Long userId = AuthUtility.getUserIdFromToken(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        User user = users.findUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        Notification notification = users.findNotificationById(notificationId);
+        if (notification == null) {
+            throw new IllegalArgumentException("Notification not found");
+        }
+        if (!notification.getUser().equals(user)){
+            throw new IllegalArgumentException("Notification does not belong to user");
+        }
+        user.removeNotification(notification);
+        users.deleteNotification(notification);
+        users.update(user);
+        return "Notification deleted";
     }
 }

@@ -62,8 +62,13 @@ public class Aplication {
         Spark.get("/api/user/:userId/followers", userController::getFollowers);
         Spark.get("/api/user/:userId/following", userController::getFollowing);
         Spark.get("/api/user/reviews/:userId", userController::getUserReviews);
+
         Spark.get("/api/user/getNotifications", userController::getNotifications);
         Spark.post("/api/user/createNotification", userController::createNotification);
+        Spark.put("/api/user/readNotification/:notificationId", userController::readNotification);
+        Spark.put("/api/user/unreadNotification/:notificationId", userController::unreadNotification);
+        Spark.put("/api/user/readAllNotifications", userController::readAllNotifications);
+        Spark.delete("/api/user/deleteNotification/:notificationId", userController::deleteNotification);
 
         // AUTOCOMPLETE
         Spark.get("/api/search/peopleWithPrefix/:prefix", userController::getPeopleWithPrefix);

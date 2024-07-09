@@ -166,4 +166,29 @@ public class Users {
         entityManager.persist(notification);
         entityManager.getTransaction().commit();
     }
+
+    public Notification findNotificationById(Long notificationId) {
+        TypedQuery<Notification> query = currentEntityManager().createQuery("SELECT n " +
+                "FROM Notification n " +
+                "WHERE n.notificationId = :notificationId", Notification.class);
+        query.setParameter("notificationId", notificationId);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
+        return query.getSingleResult();
+    }
+
+    public void updateNotification(Notification notification) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(notification);
+        entityManager.getTransaction().commit();
+    }
+
+    public void deleteNotification(Notification notification) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.remove(notification);
+        entityManager.getTransaction().commit();
+    }
 }

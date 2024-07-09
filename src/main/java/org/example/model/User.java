@@ -248,4 +248,8 @@ public class User {
     public List<Notification> getNotificationList() {
         return notificationList;
     }
+
+    public void removeNotification(Notification notification) {
+        notificationList.remove(notification);
+    }
 }

@@ -89,4 +89,12 @@ public class Notification {
                 .create();
         return gson.toJson(this);
     }
+
+    public void read() {
+        this.isRead = true;
+    }
+
+    public void unread() {
+        this.isRead = false;
+    }
 }

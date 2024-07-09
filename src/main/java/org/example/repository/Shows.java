@@ -25,6 +25,7 @@ public class Shows {
                 "FROM Show s " +
                 "WHERE s.title LIKE :title", Show.class);
         query.setParameter("title", title);
+        if (query.getResultList().isEmpty()) return null;
         return query.getSingleResult();
     }
 
