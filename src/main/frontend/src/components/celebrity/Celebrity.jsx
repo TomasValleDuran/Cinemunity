@@ -133,6 +133,15 @@ const Celebrity = () => {
         <div className="home-container">
             <Header/>
             <div className="complete-celebrity-container">
+                {admin &&
+                    <IconButton className={"edit-icon-celeb"} onClick={handleModify}>
+                        <EditIcon/>
+                    </IconButton>}
+                <div className={"header"}>
+                    <div className="title">
+                        <div className="tittle-text">{name}</div>
+                    </div>
+                </div>
                 <div className={"celebrity-container"}>
                     <div className={"celebrity-image"}>
                         <div className={`profile-picture-container-${admin ? 'admin' : ''}`}>
@@ -145,17 +154,9 @@ const Celebrity = () => {
                         </div>
                     </div>
                     <div className="celebrity-info">
-                        <div className={"header"}>
-                            <div className="title">
-                                <div className="tittle-text">{name}</div>
-                            </div>
-                        </div>
                         <p>{bio}</p>
                     </div>
-                    {admin &&
-                        <IconButton onClick={handleModify}>
-                            <EditIcon/>
-                        </IconButton>}
+
                 </div>
                 <div className="shows-container">
                     <div className={"header-switcher"}>

@@ -46,7 +46,7 @@ public class Shows {
     }
 
     public List<Show> findAllShows() {
-        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s FROM Show s", Show.class);
+        TypedQuery<Show> query = currentEntityManager().createQuery("SELECT s FROM Show s ORDER BY s.rating DESC", Show.class);
         return query.getResultList();
     }
 

@@ -43,11 +43,23 @@ const Home = () => {
     return (
         <div className="home-container">
             <Header/>
-            <h1>Top 10 Movies</h1>
+            <div className={"header"}>
+                <div className="title">
+                    <div className="tittle-text-review">Top Movies</div>
+                </div>
+            </div>
             <ShowPreviewCarrousel posts={topRankedMovies} slide={true}/>
-            <h1>Top 10 Tv Shows</h1>
+            <div className={"header"}>
+                <div className="title">
+                    <div className="tittle-text-review">Top Tv Shows</div>
+                </div>
+            </div>
             <ShowPreviewCarrousel posts={topRankedTVShows} slide={true}/>
-            <h1>All Shows</h1>
+            <div className={"header"}>
+                <div className="title">
+                    <div className="tittle-text-review">All Shows</div>
+                </div>
+            </div>
             <ShowPreviewCarrousel posts={allShows} slide={false}/>
         </div>
     );

@@ -125,18 +125,6 @@ const Show = () => {
         setReviewsUpdated(!reviewsUpdated);
     };
 
-    const calculateAverageRating = (reviews) => {
-        if (reviews.length === 0) {
-            setAverageRating(0);
-            setAverageStars(0);
-            return;
-        }
-        const total = reviews.reduce((acc, review) => acc + review.review_rating, 0);
-        const newAverageRating = total / reviews.length;
-        setAverageRating(newAverageRating);
-        setAverageStars(Math.round(newAverageRating));
-    };
-
     const handleShowMoreCelebrities = () => {
         setShowAllCelebrities(true);
     }
@@ -155,29 +143,25 @@ const Show = () => {
             response && setSeasons(response.seasons);
             response && setTitle(response.title);
             response && setImage(response.image);
+            response && setAverageRating(response.rating);
+            response && setAverageStars(Math.round(response.rating));
+            console.log("average stars: ", Math.round(response.rating))
 
             if(response && response.director){
                 const directorResponse = await fetchCelebritiesByIds([response.director])
                 setDirectorName(directorResponse[0].name);
             }
-
             if(response && response.actors){
                 const celebritiesResponse = await fetchCelebritiesByIds(response.actors)
                 setCelebrities(celebritiesResponse)
             }
-
             if(response && response.actors){
                 const celebritiesResponse = await fetchCelebritiesByIds(response.actors)
                 setCelebrities(celebritiesResponse)
-
-
-
             }
-
             if (response && response.reviews) {
                 const reviewsResponse = await fetchReviewsByIds(response.reviews);
                 setReviews(reviewsResponse);
-                calculateAverageRating(reviewsResponse);
             }
 
         };
@@ -346,7 +330,7 @@ const Show = () => {
                         onRemove={handleShowRemoveReview}
                         showTitle={title}
                         showId={showId}/>}
-                    <div>
+                    <div className={"review-list"}>
                         {sortedReviews.map((review) => (
                             <Review
                                 key={review.reviewId}
