@@ -74,6 +74,18 @@ public class Reviews {
         } else {
             System.out.println("No review found with the provided ID");
         }
+
+        entityManager.getTransaction().begin();
+        Query query2 = entityManager.createQuery("DELETE FROM Notification n WHERE n.reviewId = :id");
+        query2.setParameter("id", reviewId);
+        int notificationsDeletedCount = query2.executeUpdate();
+        entityManager.getTransaction().commit();
+
+        if (notificationsDeletedCount > 0) {
+            System.out.println("Review deleted");
+        } else {
+            System.out.println("No review found with the provided ID");
+        }
     }
 
     public Reply getReplyById(long replyId) {
