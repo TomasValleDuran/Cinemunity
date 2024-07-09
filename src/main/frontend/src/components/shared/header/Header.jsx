@@ -18,6 +18,7 @@ const Header = () => {
     const [userId, setUserid] = useState('');
     const [notifications, setNotifications] = useState([]);
     const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
+    const [unreadNotifications, setUnreadNotifications] = useState(0);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 650);
     const navigate = useNavigate();
 
@@ -56,6 +57,7 @@ const Header = () => {
             setUsername(res.username);
             setUserid(res.userId);
             const noti = await fetchNotifications();
+            setUnreadNotifications(noti.filter(n => !n.isRead).length);
             setNotifications(noti);
         };
 
@@ -112,6 +114,9 @@ const Header = () => {
                     <>
                         <IconButton onClick={handleNotifications} size='medium'>
                             <NotificationsIcon fontSize='large' className='btn' />
+                            {unreadNotifications > 0 && (
+                                <span className='notification-count'>{unreadNotifications}</span>
+                            )}
                         </IconButton>
                         <IconButton onClick={handleWishlistClick} size='medium'>
                             <BookmarkIcon fontSize='large' className='btn' />
