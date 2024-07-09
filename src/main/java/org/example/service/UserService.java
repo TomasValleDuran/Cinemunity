@@ -154,6 +154,7 @@ public class UserService {
 
     public String deleteUser(Long userId) {
         User user = users.findUserById(userId);
+        users.deleteReplies(user);
         users.removeUserFromFollowings(user);
         users.removeLikesFromReviews(user);
         users.update(user);
