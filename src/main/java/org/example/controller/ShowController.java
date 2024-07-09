@@ -81,4 +81,24 @@ public class ShowController {
         res.type("application/json");
         return showService.getShowsByPrefix(prefix);
     }
+
+    public String getAllMovies(Request req, Response res) {
+        res.type("application/json");
+        return showService.getAllMovies();
+    }
+
+    public String getAllTVShows(Request req, Response res) {
+        res.type("application/json");
+        return showService.getAllTVShows();
+    }
+
+    public String getTopRankedMovies(Request req, Response res) {
+        res.type("application/json");
+        return showService.getTopRankedMovies();
+    }
+
+    public String getTopRankedTVShows(Request req, Response res) {
+        res.type("application/json");
+        return showService.getTopRankedTVShows();
+    }
 }

@@ -63,6 +63,7 @@ public class Aplication {
         Spark.get("/api/user/:userId/following", userController::getFollowing);
         Spark.get("/api/user/reviews/:userId", userController::getUserReviews);
 
+        // NOTIFICATIONS
         Spark.get("/api/user/getNotifications", userController::getNotifications);
         Spark.post("/api/user/createNotification", userController::createNotification);
         Spark.put("/api/user/readNotification/:notificationId", userController::readNotification);
@@ -77,9 +78,13 @@ public class Aplication {
         // SHOW
         Spark.post("/api/show/addShow", showController::addShow);
         Spark.get("/api/show/get/:showId", showController::getShow);
-        Spark.get("/api/show/getAll", showController::getAllShows);
         Spark.get("/api/Movie/search/:search", showController::getSearchedShowsList);
         Spark.get("/api/TVShow/search/:search", showController::getSearchedShowsList);
+        Spark.get("/api/show/getAll", showController::getAllShows);
+        Spark.get("/api/show/getAllMovies", showController::getAllMovies);
+        Spark.get("/api/show/getAllTVShows", showController::getAllTVShows);
+        Spark.get("/api/show/getTopRankedMovies", showController::getTopRankedMovies);
+        Spark.get("/api/show/getTopRankedTVShows", showController::getTopRankedTVShows);
 
         // CELEBRITY
         Spark.post("/api/celebrity/addCelebrity", celebrityController::addCelebrity);

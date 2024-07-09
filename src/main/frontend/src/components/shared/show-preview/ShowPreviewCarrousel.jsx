@@ -2,7 +2,7 @@ import React from 'react';
 import ShowPreview from './ShowPreview';
 import './ShowPreviewCarrousel.css';
 
-const PreviewCarousel = ({ posts }) => {
+const PreviewCarousel = ({ posts, slide }) => {
     return (
         <div className={'preview-carrousel'}>
             {posts.map(post => (

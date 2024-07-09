@@ -172,9 +172,8 @@ const AddCelebrity = () => {
     const handleCelebrityImport = (celebrityData) => {
         setCelebrityName(celebrityData.name);
         setCelebrityBio(celebrityData.biography);
-        // usaba http://image.tmdb.org/t/p/w500/ y no funcaba
-        setPreviewUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${celebrityData.profile_path}`);
-        setImageUrl(`https://image.tmdb.org/t/p/w220_and_h330_face/${celebrityData.profile_path}`);
+        setPreviewUrl(`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${celebrityData.profile_path}`);
+        setImageUrl(`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${celebrityData.profile_path}`);
 
         setResults([]);
         setSearchName('');
@@ -243,7 +242,7 @@ const AddCelebrity = () => {
                                         key={index}
                                         id={result.id}
                                         name={result.name}
-                                        image={`http://image.tmdb.org/t/p/w500/${result.profile_path}`}
+                                        image={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${result.profile_path}`}
                                         onImport={handleCelebrityImport}
                                     />
                                 );
@@ -264,11 +263,12 @@ const AddCelebrity = () => {
                             className={"bio-text"}
                             type="biography"
                             label="Biography"
-                            multiline={true}
                             value={celebrityBio}
                             required={true}
                             onChange={handleBiographyChange}
                             fullWidth
+                            multiline={true}
+                            rows={5}
                             margin="normal"
                         />
                         <FileUploadButton onChange={handleFileChange} />
