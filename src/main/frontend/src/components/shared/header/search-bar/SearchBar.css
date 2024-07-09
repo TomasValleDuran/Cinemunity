@@ -97,3 +97,13 @@
         box-shadow: none;
     }
 }
+
+@media (max-width: 650px) {
+    .search-dropdown {
+        overflow: inherit;
+    }
+
+    .search-container.visible {
+        overflow: inherit;
+    }
+}

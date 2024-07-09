@@ -28,3 +28,24 @@
 .sad-text{
     opacity: 0.5;
 }
+
+@media (max-width: 650px) {
+    .notifications-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #fff;
+        width: 80%;
+        padding: 40px 20px;
+        margin: 80px auto 20px auto;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+
+    .sad-text {
+        opacity: 0.5;
+        text-align: center; /* Opcional: centra el texto */
+        margin-bottom: 50px;
+    }
+
+}
