@@ -1,5 +1,6 @@
 import React from 'react';
 import ReviewPreview from "./ReviewPreview";
+import './ReviewPreviewCarrousel.css';
 
 const ReviewPreviewCarrousel = ({ reviews }) => {
     return (

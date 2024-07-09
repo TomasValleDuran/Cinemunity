@@ -7,7 +7,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Link, useNavigate} from "react-router-dom";
 import TwitterShareButton from "../share-button/TwitterShareButton";
-import FacebookShareButton from "../share-button/FacebookShareButton";
 
 const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes, showId, image }) => {
     const [liked, setLiked] = useState(false);
@@ -130,10 +129,6 @@ const Review = ({ id , username, userId, reviewText, reviewRating, initialLikes,
                             review={unmarkdownText(reviewText)}
                             title={title}
                             username={username}/>
-                        {/*<FacebookShareButton
-                            review={unmarkdownText(reviewText)}
-                            title={title}
-                            username={username}/> No esta bien implementado todavía*/}
                     </div>
                     <div className="like-container">
                         {liked
