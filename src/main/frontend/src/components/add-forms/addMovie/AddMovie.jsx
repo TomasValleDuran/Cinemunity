@@ -115,9 +115,12 @@ const AddMovie = () => {
         try {
             if (selectedFile) {
                 fullObjectKey = await uploadFileToS3(selectedFile);
+                console.log('Full object key:', fullObjectKey)
             } else if (imageUrl) {
                 fullObjectKey = await uploadImageUrlToS3(imageUrl);
+                console.log('Full object key:', fullObjectKey)
             }
+            console.log('Uploaded image successfully to s3')
 
             const response = await axios.post('http://localhost:3333/api/show/addShow', {
                 title: Title,
@@ -133,25 +136,27 @@ const AddMovie = () => {
                 }
             });
 
-            if (!response) {
-                throw new Error('No response from the server');
+            if (!response || !response.data) {
+                throw new Error('No response or response data from the server');
             }
+            console.log('Response from server: ', response)
 
-            console.log(response.data)
             resetValues();
         } catch (error) {
-            console.error(error.response.data, error);
-            setErrorMessage(error.response.data);
-            axios.delete('http://localhost:3333/api/deleteImage', {
-                data: { fullObjectKey: fullObjectKey },
-                headers: {
-                    'Authorization': localStorage.getItem('token')
-                }
-            }).then(() => {
-                console.log("Deleted image from s3 successfully");
-            }).catch((error) => {
-                console.error('Failed to delete the old image:', error);
-            });
+            console.error(error?.response?.data || 'An error occurred', error);
+            setErrorMessage(error?.response?.data || 'An error occurred');
+            if (fullObjectKey) {
+                axios.delete('http://localhost:3333/api/deleteImage', {
+                    data: { fullObjectKey: fullObjectKey },
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                }).then(() => {
+                    console.log("Deleted image from s3 successfully");
+                }).catch((error) => {
+                    console.error('Failed to delete the old image:', error);
+                });
+            }
         }
         setOpen(false);
     };
