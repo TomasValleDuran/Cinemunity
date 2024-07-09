@@ -52,7 +52,7 @@ const AddCelebrity = () => {
             setSelectedFile(file);
             setPreviewUrl(URL.createObjectURL(file));
             setLegalFile(true);
-            setImageUrl(''); // Clear the URL when a new file is selected
+            setImageUrl('');
         } else {
             console.error('Invalid file type, please select an image file.');
             setSelectedFile(null);
@@ -103,9 +103,12 @@ const AddCelebrity = () => {
         try {
             if (selectedFile) {
                 fullObjectKey = await uploadFileToS3(selectedFile);
+                console.log('Full object key:', fullObjectKey)
             } else if (imageUrl) {
                 fullObjectKey = await uploadImageUrlToS3(imageUrl);
+                console.log('Full object key:', fullObjectKey)
             }
+            console.log('Uploaded image successfully to s3')
 
             const response = await axios.post('http://localhost:3333/api/celebrity/addCelebrity', {
                 name: celebrityName,
@@ -116,11 +119,17 @@ const AddCelebrity = () => {
                     'Authorization': localStorage.getItem('token'),
                 }
             });
-            console.log(response.data);
+
+            if (!response || !response.data) {
+                throw new Error('No response or response data from the server');
+            }
+            console.log('Response from server: ', response)
+
             resetValues();
         } catch (error) {
-            console.error(error.response.data, error);
-            setErrorMessage(error.response.data);
+            console.error(error?.response?.data || 'An error occurred with TMDB. ' +
+                'Download the image manually', error);
+            setErrorMessage(error?.response?.data || 'An error occurred');
             if (fullObjectKey) {
                 axios.delete('http://localhost:3333/api/deleteImage', {
                     data: { fullObjectKey: fullObjectKey },
@@ -133,8 +142,8 @@ const AddCelebrity = () => {
                     console.error('Failed to delete the old image:', error);
                 });
             }
-            setOpen(false);
         }
+        setOpen(false);
     }
 
     const resetValues = () => {
