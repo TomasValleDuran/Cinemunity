@@ -9,17 +9,37 @@
     height: 300px;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
+    position: relative; /* Add this */
 }
 
-.show-image-preview img{
+.show-image-preview img {
     width: 200px;
     height: 300px;
     object-fit: contain;
-
 }
 
 .show-preview:hover {
     cursor: pointer;
     transform: scale(1.1) perspective(700px) rotateX(5deg);
     z-index: 0;
+}
+
+.rating-preview {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.rating-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #000000;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 16px;
+    border: 2px solid #0033ff;
 }
