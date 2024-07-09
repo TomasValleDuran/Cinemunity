@@ -1,0 +1,8 @@
+.wishlist-tittle-text {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 43px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}

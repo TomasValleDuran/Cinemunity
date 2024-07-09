@@ -37,7 +37,16 @@ const Wishlist = () => {
     return (
         <div>
             <Header />
-            <h1>Wishlist</h1>
+            <div className={"wishlist-container"}>
+                <div className={"header"}>
+                    <div className="title">
+                        <div className="tittle-text">Wishlist</div>
+                    </div>
+                </div>
+                {wishlist.length === 0 && <div className={"no-wishlist"}>
+                    <h3 className={"sad-text"}>Nothing in your wishlist yet... Check out some shows and add them!</h3>
+                </div>}
+            </div>
             <ShowPreviewCarrousel posts={wishlist} slide={false}/>
         </div>
     );

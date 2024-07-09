@@ -1,10 +1,13 @@
 package org.example.repository;
 
 import org.example.model.Notification;
+import org.example.model.Reply;
 import org.example.model.Review;
 import org.example.model.User;
+import org.example.service.ReviewService;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.List;
@@ -149,6 +152,21 @@ public class Users {
             like.unlikeReview(user);
             user.unlikeReview(like);
             update(user);
+        }
+    }
+
+    public void deleteReplies(User user) {
+        EntityManager entityManager = currentEntityManager();
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery("DELETE FROM Reply r WHERE r.user = :user");
+        query.setParameter("user", user);
+        int replyDeletedCount = query.executeUpdate();
+        entityManager.getTransaction().commit();
+
+        if (replyDeletedCount > 0) {
+            System.out.println("Reply deleted");
+        } else {
+            System.out.println("No reply found with the provided ID");
         }
     }
 
