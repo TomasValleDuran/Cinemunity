@@ -18,3 +18,13 @@
     max-height: 500px;
     overflow-y: auto;
 }
+
+.sad-pengu {
+    width: 100px;
+    height: 100px;
+    opacity: 0.5;
+}
+
+.sad-text{
+    opacity: 0.5;
+}

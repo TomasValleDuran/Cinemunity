@@ -5,6 +5,7 @@ import "./Notifications.css"
 import Notification from "./Notification";
 import {IconButton} from "@mui/material";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import SadPengu from "../assets/sad-penguin.png"
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
@@ -60,6 +61,10 @@ const Notifications = () => {
                     </IconButton>
                 </div>
                 <div className="notifications-items">
+                    {notifications.length === 0 && <div className={"no-results"}>
+                        <h3 className={"sad-text"}>No notifications yet, go make some friends!</h3>
+                        <img src={SadPengu} alt={"sad pengu"} className={"sad-pengu"}/>
+                    </div>}
                     {notifications.filter(notification => !notification.isRead).map((notification) => (
                         <Notification
                             key={notification.notificationId}
