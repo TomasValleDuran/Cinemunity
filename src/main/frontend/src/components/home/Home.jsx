@@ -7,8 +7,7 @@ import withAuth from '../hoc/withAuth';
 import ShowPreviewCarrousel from "../shared/show-preview/ShowPreviewCarrousel";
 
 const Home = () => {
-    const [allMovies, setAllMovies] = React.useState([]);
-    const [allTVShows, setAllTVShows] = React.useState([]);
+    const [allShows, setAllShows] = React.useState([]);
     const [topRankedMovies, setTopRankedMovies] = React.useState([]);
     const [topRankedTVShows, setTopRankedTVShows] = React.useState([]);
 
@@ -29,13 +28,11 @@ const Home = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const movies = await fetchShows('getAllMovies');
-            const tvShows = await fetchShows('getAllTVShows');
+            const shows = await fetchShows('getAll');
             const rankedMovies = await fetchShows('getTopRankedMovies');
             const rankedTVShows = await fetchShows('getTopRankedTVShows');
 
-            setAllMovies(movies);
-            setAllTVShows(tvShows);
+            setAllShows(shows);
             setTopRankedMovies(rankedMovies);
             setTopRankedTVShows(rankedTVShows);
         };
@@ -46,14 +43,12 @@ const Home = () => {
     return (
         <div className="home-container">
             <Header/>
-            <h1>Movies</h1>
-            <ShowPreviewCarrousel posts={allMovies} slide={true}/>
-            <h1>Tv Shows</h1>
-            <ShowPreviewCarrousel posts={allTVShows} slide={true}/>
             <h1>Top 10 Movies</h1>
             <ShowPreviewCarrousel posts={topRankedMovies} slide={true}/>
             <h1>Top 10 Tv Shows</h1>
             <ShowPreviewCarrousel posts={topRankedTVShows} slide={true}/>
+            <h1>All Shows</h1>
+            <ShowPreviewCarrousel posts={allShows} slide={false}/>
         </div>
     );
 };

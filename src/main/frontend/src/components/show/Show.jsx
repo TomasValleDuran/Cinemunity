@@ -128,11 +128,13 @@ const Show = () => {
     const calculateAverageRating = (reviews) => {
         if (reviews.length === 0) {
             setAverageRating(0);
+            setAverageStars(0);
             return;
         }
         const total = reviews.reduce((acc, review) => acc + review.review_rating, 0);
-        setAverageRating(total / reviews.length);
-        setAverageStars(Math.round(total / reviews.length));
+        const newAverageRating = total / reviews.length;
+        setAverageRating(newAverageRating);
+        setAverageStars(Math.round(newAverageRating));
     };
 
     const handleShowMoreCelebrities = () => {

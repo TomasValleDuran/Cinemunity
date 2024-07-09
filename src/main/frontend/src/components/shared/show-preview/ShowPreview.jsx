@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigate} from "react-router-dom";
 import './ShowPreview.css';
 
-const ShowPreview = ({ id, title, image }) => {
+const ShowPreview = ({ id, title, image, rating }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -13,6 +13,9 @@ const ShowPreview = ({ id, title, image }) => {
         <div className="show-preview" onClick={handleClick}>
             <div className="show-image-preview">
                 <img src={image} alt={title}/>
+            </div>
+            <div className="rating-preview">
+                <div className="rating-circle">{rating}</div>
             </div>
         </div>
     );

@@ -104,4 +104,12 @@ public class Review {
 
         return gson.toJson(this);
     }
+
+    public int getRating() {
+        return review_rating;
+    }
+
+    public Show getShow() {
+        return show;
+    }
 }

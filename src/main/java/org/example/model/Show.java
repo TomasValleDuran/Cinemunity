@@ -17,7 +17,7 @@ public class Show {
     private String title;
 
     @Column
-    private Integer rating;
+    private Double rating;
 
     @Column (length = 3000)
     private String show_desc;
@@ -53,7 +53,7 @@ public class Show {
 
     public Show(String movie_name, String movie_desc, String show_type, String objectKey) {
         this.title = movie_name;
-        this.rating = 0;
+        this.rating = 0.0;
         this.show_desc = movie_desc;
         this.show_type = show_type;
         this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
@@ -61,7 +61,7 @@ public class Show {
 
     public Show(String movie_name, String movie_desc, String show_type) {
         this.title = movie_name;
-        this.rating = 0;
+        this.rating = 0.0;
         this.show_desc = movie_desc;
         this.show_type = show_type;
     }
@@ -155,5 +155,17 @@ public class Show {
 
     public String getImage(){
         return image;
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setRating(Double i) {
+        rating = i;
     }
 }
