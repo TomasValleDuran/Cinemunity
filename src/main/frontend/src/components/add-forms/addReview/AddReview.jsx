@@ -38,7 +38,7 @@ const AddReview = React.forwardRef(({ showTitle, showId , onRemove }, ref) => {
             console.log(response.data);
             if (response.status === 200) {
                 const usernames = extractUsernames(updatedReview);
-                const message = `You were mentioned in a review for ${showTitle} by ${currentUsername}!`;
+                const message = `${currentUsername} mentioned you in a review of ${showTitle}!`;
                 const reviewId = response.data.reviewId
                 await sendNotifications(usernames, message, currentId, showId, reviewId);
                 onRemove();

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import DoneIcon from '@mui/icons-material/Done';
 import {IconButton} from "@mui/material";
@@ -11,11 +11,29 @@ import React from "react";
 const Notification = ({ notificationId, message, showId, userId, isRead, onChange }) => {
     const navigate = useNavigate();
     const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [userImage, setUserImage] = useState('');
 
     const handleClick = async () => {
         await handleRead();
         navigate(`/show/${showId}`);
     }
+
+    const fetchUserImage = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3333/api/user/get/${userId}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            });
+            setUserImage(response.data.image)
+        } catch (error) {
+            console.error('Error getting user image:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchUserImage();
+    }, []);
 
     const handleRead = async () => {
         try {
@@ -70,6 +88,9 @@ const Notification = ({ notificationId, message, showId, userId, isRead, onChang
     const notificationClassName = isRead ? "read-notification-item" : "notification-item";
     return (
         <div className={notificationClassName}>
+            <div className={"notification-user-image"}>
+                <img src={userImage} alt={"user"}/>
+            </div>
             <div className={"notification-message"} onClick={handleClick}>
                 <p>{message}</p>
             </div>

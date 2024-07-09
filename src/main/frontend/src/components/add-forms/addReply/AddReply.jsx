@@ -89,7 +89,7 @@ const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
                 const usernames = extractUsernames(updatedReview);
                 console.log("usernames", usernames);
                 console.log("final reply text", updatedReview);
-                const message = `You were mentioned in a reply of a review for ${showTitle} by ${currentUsername}!`;
+                const message = `${currentUsername} mentioned you in a reply of a review in ${showTitle}!`;
                 await sendNotifications(usernames, message, currentId, showId);
                 onClose();
                 onReplyAdded();
