@@ -64,3 +64,43 @@
 .user-rating {
     font-size: 14px;
 }
+
+/* Media query for mobile responsiveness */
+@media (max-width: 600px) {
+    .user-preview {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .user-info {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .name-verify, .rating-user {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .name-verify {
+        margin-bottom: 10px;
+    }
+
+    .user-preview-picture {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .username {
+        font-size: 14px;
+    }
+
+    .verify-icon {
+        font-size: 14px;
+    }
+
+    .user-rating {
+        font-size: 12px;
+    }
+}
