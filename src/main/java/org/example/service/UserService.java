@@ -68,6 +68,10 @@ public class UserService {
             throw new IllegalArgumentException("Username must be at least 4 characters long");
         }
 
+        if (username.length() > 15){
+            throw new IllegalArgumentException("Username must be at most 15 characters long");
+        }
+
         if (password.length() < 8){
             throw new IllegalArgumentException("Password must be at least 8 characters long");
         }
