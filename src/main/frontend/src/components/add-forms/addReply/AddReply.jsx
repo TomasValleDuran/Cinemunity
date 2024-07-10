@@ -24,8 +24,6 @@ const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
                         'Authorization': localStorage.getItem('token')
                     }
                 });
-                setCurrentId(response.data.userId);
-                setCurrentUsername(response.data.username);
                 setShowId(response.data.showId);
                 setShowTitle(response.data.title);
             } catch (error) {
@@ -33,6 +31,22 @@ const AddReply = ({ reviewId, userId, onClose, onReplyAdded }) => {
             }
         };
 
+        const fetchCurrentUser = async () => {
+            try {
+                const response = await axios.get('http://localhost:3333/api/user/currentUser', {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+                setCurrentId(response.data.userId);
+                setCurrentUsername(response.data.username);
+            } catch (error) {
+                console.error('Error fetching current user:', error);
+            }
+
+        }
+
+        fetchCurrentUser();
         fetchDataForNotification();
     }, [reviewId]);
 

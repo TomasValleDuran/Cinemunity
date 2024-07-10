@@ -56,7 +56,15 @@ public class Show {
         this.rating = 0.0;
         this.show_desc = movie_desc;
         this.show_type = show_type;
-        this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
+        imageUrl(objectKey);
+    }
+
+    public void imageUrl(String objectKey) {
+        if (!objectKey.startsWith("https://image.tmdb.org/t/p/w300")) {
+            this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
+        } else {
+            this.image = objectKey;
+        }
     }
 
     public Show(String movie_name, String movie_desc, String show_type) {

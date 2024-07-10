@@ -38,7 +38,15 @@ public class Celebrity {
     public Celebrity(String name, String bio, String objectKey) {
         this.name = name;
         this.bio = bio;
-        this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
+        imageUrl(objectKey);
+    }
+
+    public void imageUrl(String objectKey) {
+        if (!objectKey.startsWith("https://image.tmdb.org/t/p/w300")) {
+            this.image = "https://cinemunitybucket.s3.amazonaws.com/" + objectKey;
+        } else {
+            this.image = objectKey;
+        }
     }
 
     public String getName() {

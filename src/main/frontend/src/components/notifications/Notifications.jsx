@@ -71,7 +71,7 @@ const Notifications = () => {
                             notificationId={notification.notificationId}
                             message={notification.message}
                             showId={notification.showId}
-                            userId={notification.userId}
+                            userId={notification.taggerId}
                             isRead={notification.isRead}
                             onChange={toggleChange}
                         />
@@ -82,7 +82,7 @@ const Notifications = () => {
                             notificationId={notification.notificationId}
                             message={notification.message}
                             showId={notification.showId}
-                            userId={notification.userId}
+                            userId={notification.taggerId}
                             isRead={notification.isRead}
                             onChange={toggleChange}
                         />
