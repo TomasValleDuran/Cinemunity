@@ -14,6 +14,8 @@ const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
+    const [validUsername, setValidUsername] = useState(true);
+
 
     const navigate = useNavigate();
 
@@ -55,15 +57,20 @@ const SignUp = () => {
     };
 
     function handleEmailChange(event) {
-        setEmail(event.target.value)
+        setEmail(event.target.value);
     }
 
     function handleUsernameChange(event) {
-        setUsername(event.target.value)
+        setUsername(event.target.value);
+        if (username.length > 15) {
+            setValidUsername(false);
+        } else {
+            setValidUsername(true);
+        }
     }
 
     function handlePasswordChange(event) {
-        setPassword(event.target.value)
+        setPassword(event.target.value);
     }
 
     useEffect(() => {
@@ -114,7 +121,7 @@ const SignUp = () => {
                     }}
                 />
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
-                <Button variant="contained" type="submit" color="primary">
+                <Button variant="contained" type="submit" color="primary" disabled={!validUsername}>
                     Sign Up
                 </Button>
             </form>
