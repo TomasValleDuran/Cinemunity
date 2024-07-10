@@ -90,10 +90,23 @@ const AddMovie = () => {
     };
 
     const uploadImageUrlToS3 = async (url) => {
-        const response = await axios.get(url);
-        const blob = await response.blob();
-        const file = new File([blob], `image-${Date.now()}.jpg`, { type: blob.type });
-        return await uploadFileToS3(file);
+        console.log("url: ", url);
+        const data = {
+            folder: 'Shows/',
+            objectKey: `${url}.jpg`
+        };
+
+        const urlPackage = await axios.post('http://localhost:3333/api/upload', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const presignedUrl = urlPackage.data.url;
+        const fullObjectKey = urlPackage.data.fullObjectKey;
+
+        await axios.put(presignedUrl, previewUrl);
+        console.log('File uploaded successfully');
+        return fullObjectKey;
     };
 
     const resetValues = () => {
@@ -236,8 +249,8 @@ const AddMovie = () => {
         setDescription(showData.overview);
 
         setActorList(showData.credits.cast.map((actor) => actor.name));
-        setPreviewUrl(`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${showData.poster_path}`);
-        setImageUrl(`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${showData.poster_path}`);
+        setPreviewUrl(`https://image.tmdb.org/t/p/w300${showData.poster_path}`);
+        setImageUrl(`${showData.poster_path}`);
 
         if (showType === 'TVShow') {
             setSeasons(showData.number_of_seasons);

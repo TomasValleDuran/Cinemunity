@@ -90,10 +90,23 @@ const AddCelebrity = () => {
     };
 
     const uploadImageUrlToS3 = async (url) => {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        const file = new File([blob], `image-${Date.now()}.jpg`, { type: blob.type });
-        return await uploadFileToS3(file);
+        console.log("url: ", url);
+        const data = {
+            folder: 'Shows/',
+            objectKey: `${url}.jpg`
+        };
+
+        const urlPackage = await axios.post('http://localhost:3333/api/upload', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const presignedUrl = urlPackage.data.url;
+        const fullObjectKey = urlPackage.data.fullObjectKey;
+
+        await axios.put(presignedUrl, previewUrl);
+        console.log('File uploaded successfully');
+        return fullObjectKey;
     };
 
     const handleSubmit = async (event) => {
@@ -182,8 +195,8 @@ const AddCelebrity = () => {
     const handleCelebrityImport = (celebrityData) => {
         setCelebrityName(celebrityData.name);
         setCelebrityBio(celebrityData.biography);
-        setPreviewUrl(`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${celebrityData.profile_path}`);
-        setImageUrl(`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${celebrityData.profile_path}`);
+        setPreviewUrl(`https://image.tmdb.org/t/p/w300${celebrityData.profile_path}`);
+        setImageUrl(`${celebrityData.profile_path}`);
 
         setResults([]);
         setSearchName('');
